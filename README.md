@@ -1,10 +1,9 @@
-## ideas
+# SynapseDiffsion
 
-Distributed data parallel 
+The purpose of this is to utilize MEG and EEG data recorded on a visual stimuli (image for couple seconds) and decode it and resynthesize the image.
 
-+ model parallel??
+## How to Use
 
-Multi-gpu 
-single or multi system
+### Important Files
 
-data in batches -> all datapoints in batch run on separate set of blocks
+## Implementation
