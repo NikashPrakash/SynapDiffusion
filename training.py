@@ -223,7 +223,7 @@ def train(model, optimizer, criterion, train_loader, val_loader, stats, start_ep
     return np.array(stats)[:,1].argmin()
 
 
-def    early_stopping(stats, curr_count_to_patience, global_min_loss):
+def early_stopping(stats, curr_count_to_patience, global_min_loss):
     """Calculate new patience and validation loss.
 
     Increment curr_patience by one if new loss is not less than global_min_loss
