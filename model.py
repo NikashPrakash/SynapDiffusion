@@ -26,3 +26,17 @@ class NeuralGenerator(nn.Module):
         
     def forward(self, input_data):
         return input_data
+    
+class MultiSignalDataset(Dataset):
+    """Dataset class for EEG and MEG visual evoked potentials (VEPs)."""
+
+    def __init__(self, data):
+        super().__init__()
+        self.data = data
+    
+    def __len__(self):
+        return len(self.data['labels'])
+    
+
+    def __getitem__(self, idx):
+        return {key: val[idx].clone().detach() for key, val in self.data.items()}
