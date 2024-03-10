@@ -16,6 +16,8 @@ import os
 import utils
 from utils import config
 from model import *
+import tensorflow as ts
+from tensorflow import keras
 
 
 
@@ -244,10 +246,10 @@ def early_stopping(stats, curr_count_to_patience, global_min_loss):
 
 def main():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    x_train, y_train, x_test, y_test = 1,1,1,1 # TODO: Get data from data streaming - xarray + zarr
+    x_train, y_train, x_test, y_test = 1,1,1,1 
     print("device: ",device)
     y_test = y_test.to(device)
-    
+        
     # for param in model.parameters(): #transfer learning, comment out for fine-tuning
     #     param.requires_grad = False    
     
@@ -283,7 +285,6 @@ def main():
     
     # model, start_epoch, stats = restore_checkpoint(model, config("DistilBert_FineTune.checkpoint"), torch.cuda.is_available())
     # model.to(device)
-    
     criterion = CrossEntropyLoss()
     
     # evaluate_epoch(#axes,

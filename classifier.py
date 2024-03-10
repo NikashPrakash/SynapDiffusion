@@ -23,7 +23,7 @@ def use_svm():
     y_train = [0, 0, 1, 1, 2, 2]
     X_test = [[0.2, 0.2], [0.8, 0.8], [2.2, 2.2], [2.8, 2.8], [4.2, 4], [5, 6]]
     y_test = [0, 0, 1, 1, 2, 2]
-    # X_train, X_test, y_train, y_test = todo
+    # X_train, X_test, y_train, y_test = todo deez nuts
 
     svm_classifier = Svm()
 
