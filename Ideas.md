@@ -11,4 +11,39 @@ single or multi system
 
 data in batches -> all datapoints in batch run on separate set of blocks
 
+https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-loading-a-general-checkpoint-for-inference-and-or-resuming-training
+https://www.reddit.com/r/MachineLearning/comments/kvs1ex/d_here_are_17_ways_of_making_pytorch_training/
+    Use 1,2,4
+PyTorch AMP
+PyTorch AdamW - fused kernel (fused=True)
+Weight-decay explanation: https://www.fast.ai/posts/2018-07-02-adam-weight-decay.html#adamw
+
 ### Model Architecture
+
+#### Metrics
+https://arxiv.org/pdf/2007.15359.pdf
+https://arxiv.org/pdf/2206.10935.pdf
+
+
+No image, just labels with MEG data
+    borrow brain module from speech meg paper, if anything useful also from meta-brain-decoding
+    
+
+    Speech Meg:
+        Contrastive loss to map learned meg encodings with speech encodings and then classify/ get speech sample from meg data
+        brain module:
+            3D-> 2D map of meg channels.
+                Normalize
+                
+
+Questions:
+    For skip-connections do people always just add the input without transformations (y = f(x) + x), are there other formats of skip-connections that don't add the identity?
+    Multi-path feature extraction ex from class: waveform -> conv, logmel -> conv, 2dconv -> wavegram, feature_maps, concat
+    Why concat, in what scenarios is concat good/bad
+        would you want to use another form of aggregation?
+    
+    What would you recommend we do, for training our models.
+        We have 197GB data -> 55GB EEG; 128GB MEG; 14GB Images;How would you recommend we train with the large amount data?
+        To train a small model on a subset, or similar size model how extensive should hyperparamter search be for a small model+subset?
+    
+    
