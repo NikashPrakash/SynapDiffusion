@@ -9,23 +9,22 @@ import torch.nn.functional as F
 import transformers, diffusers
 from torch.nn import CrossEntropyLoss
 from torch.utils.data import DataLoader
-import torch.distributed.elastic as dpe
+
 from sklearn.model_selection import train_test_split
 import pandas as pd
 import os
 import utils
 from utils import config
 from model import *
-import tensorflow as ts
-from tensorflow import keras
 
 
 
-def save_checkpoint(model, epoch, checkpoint_dir, stats, params=None):
+def save_checkpoint(model, optimizer, epoch, checkpoint_dir, stats, params=None):
     """Save a checkpoint file to `checkpoint_dir`."""
     state = {
         "epoch": epoch,
         "state_dict": model.state_dict(),
+        'optimizer': optimizer.state_dict(),
         "stats": stats
     }
     if params:
@@ -173,7 +172,7 @@ def hyper_search(pt_models, tr_loader, val_loader, device):
             best_model = model
             best_stats = stats
             params = lr,drop_rate,w_d
-            save_checkpoint(model, best_epoch, config(".checkpoint"), stats, params)
+            save_checkpoint(model, optimizer, best_epoch, config(".checkpoint"), stats, params)
     return best_performance, best_stats, best_model
 
 
@@ -213,9 +212,9 @@ def train(model, optimizer, criterion, train_loader, val_loader, stats, start_ep
             stats
         )
         if cv:
-            save_checkpoint(model, epoch + 1, config(".checkpoint"), stats)
+            save_checkpoint(model, optimizer, epoch + 1, config(".checkpoint"), stats)
         else:
-            save_checkpoint(model, epoch + 1, config(".checkpoint"), stats)
+            save_checkpoint(model, optimizer, epoch + 1, config(".checkpoint"), stats)
 
         curr_count_to_patience, global_min_loss = early_stopping(
             stats, curr_count_to_patience, global_min_loss
@@ -243,7 +242,6 @@ def early_stopping(stats, curr_count_to_patience, global_min_loss):
     return curr_count_to_patience, global_min_loss
 
 
-
 def main():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     x_train, y_train, x_test, y_test = 1,1,1,1 
@@ -263,6 +261,7 @@ def main():
     train_inputs = 1 # TODO: Any necessary data transformations (if any)... 
     val_inputs = 1   # ^
     test_inputs = 1  # ^^
+    
     
     train_inputs['labels'] = y_train
     train_loader = MultiSignalDataset(train_inputs.to(device))
@@ -285,7 +284,7 @@ def main():
     
     # model, start_epoch, stats = restore_checkpoint(model, config("DistilBert_FineTune.checkpoint"), torch.cuda.is_available())
     # model.to(device)
-    criterion = CrossEntropyLoss()
+    criterion = CrossEntropyLoss() #CHANGE LOSS FUNCTION
     
     # evaluate_epoch(#axes,
     #                train_loader, val_loader, test_loader, model, criterion, stats)
