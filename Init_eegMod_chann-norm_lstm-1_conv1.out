@@ -1,0 +1,617 @@
+/gpfs/accounts/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/utils.py:44: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+  fig, axes = plt.subplots()
+[tensor(1.1085), tensor(1.0913), tensor(1.0978), tensor(1.1067), tensor(1.1056), tensor(1.1102), tensor(1.0962), tensor(1.1042), tensor(1.1103), tensor(1.0961), tensor(1.0999), tensor(1.0933), tensor(1.0794), tensor(1.1032), tensor(1.1013), tensor(1.1009), tensor(1.0846), tensor(1.0815), tensor(1.1053), tensor(1.1047), tensor(1.1004), tensor(1.1048), tensor(1.0947), tensor(1.1025), tensor(1.0895), tensor(1.0911)]
+Epoch 1
+	Epoch Metric  {'train_loss': 1.1002516349156697, 'val_loss': 1.0927679584576533, 'train_accuracy': 0.3229166666666667, 'val_accuracy': 0.3786057692307692} 
+
+Predictions tensor([[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 1, 0, 1, 0, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+         0, 1, 0, 0, 0, 0, 1, 1],
+        [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,
+         0, 1, 0, 0, 0, 0, 0, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(1.0942), tensor(1.0900), tensor(1.0893), tensor(1.0953), tensor(1.0953), tensor(1.0890), tensor(1.0797), tensor(1.0929), tensor(1.0917), tensor(1.0813), tensor(1.0897), tensor(1.0846), tensor(1.0568), tensor(1.1027), tensor(1.0997), tensor(1.1017), tensor(1.0729), tensor(1.0677), tensor(1.1056), tensor(1.1083), tensor(1.1019), tensor(1.0966), tensor(1.0872), tensor(1.0924), tensor(1.0699), tensor(1.0859)]
+Epoch 2
+	Epoch Metric  {'train_loss': 1.0949892203013103, 'val_loss': 1.0807028779616723, 'train_accuracy': 0.3229166666666667, 'val_accuracy': 0.40384615384615385} 
+
+Predictions tensor([[0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0,
+         0, 0, 1, 0, 1, 0, 1, 0],
+        [1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0,
+         0, 1, 0, 0, 1, 1, 1, 1],
+        [1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0,
+         0, 1, 0, 0, 0, 0, 0, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(1.0738), tensor(1.0930), tensor(1.0760), tensor(1.0836), tensor(1.0820), tensor(1.0542), tensor(1.0554), tensor(1.0786), tensor(1.0579), tensor(1.0607), tensor(1.0739), tensor(1.0710), tensor(1.0276), tensor(1.1002), tensor(1.1001), tensor(1.1104), tensor(1.0717), tensor(1.0612), tensor(1.1128), tensor(1.1133), tensor(1.1060), tensor(1.0840), tensor(1.0774), tensor(1.0829), tensor(1.0463), tensor(1.0814)]
+Epoch 3
+	Epoch Metric  {'train_loss': 1.0892842610677083, 'val_loss': 1.0677171487074633, 'train_accuracy': 0.375, 'val_accuracy': 0.44591346153846156} 
+
+Predictions tensor([[0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0,
+         0, 0, 1, 0, 1, 1, 1, 0],
+        [1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+         1, 1, 0, 0, 1, 1, 1, 1],
+        [1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0,
+         0, 1, 0, 0, 0, 0, 0, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(1.0558), tensor(1.0900), tensor(1.0610), tensor(1.0754), tensor(1.0687), tensor(1.0264), tensor(1.0332), tensor(1.0630), tensor(1.0326), tensor(1.0539), tensor(1.0685), tensor(1.0614), tensor(1.0213), tensor(1.0858), tensor(1.0933), tensor(1.1014), tensor(1.0588), tensor(1.0375), tensor(1.1122), tensor(1.1183), tensor(1.0961), tensor(1.0717), tensor(1.0596), tensor(1.0766), tensor(1.0232), tensor(1.0707)]
+Epoch 4
+	Epoch Metric  {'train_loss': 1.0845832029978435, 'val_loss': 1.0531090979392712, 'train_accuracy': 0.3958333333333333, 'val_accuracy': 0.4675480769230769} 
+
+Predictions tensor([[0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0,
+         0, 0, 1, 0, 1, 0, 1, 0],
+        [1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+         1, 1, 0, 0, 1, 1, 1, 1],
+        [1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0,
+         0, 1, 0, 0, 0, 0, 0, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(1.0413), tensor(1.0713), tensor(1.0494), tensor(1.0656), tensor(1.0508), tensor(1.0105), tensor(1.0122), tensor(1.0473), tensor(1.0072), tensor(1.0450), tensor(1.0582), tensor(1.0396), tensor(1.0185), tensor(1.0680), tensor(1.0799), tensor(1.0980), tensor(1.0400), tensor(1.0162), tensor(1.1117), tensor(1.1148), tensor(1.0792), tensor(1.0567), tensor(1.0388), tensor(1.0675), tensor(0.9937), tensor(1.0520)]
+Epoch 5
+	Epoch Metric  {'train_loss': 1.0824581384658813, 'val_loss': 1.0316003079597766, 'train_accuracy': 0.4166666666666667, 'val_accuracy': 0.5180288461538461} 
+
+Predictions tensor([[0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0,
+         0, 0, 1, 0, 1, 0, 1, 1],
+        [1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0,
+         1, 1, 0, 0, 1, 0, 1, 1],
+        [1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1,
+         1, 1, 0, 1, 0, 0, 0, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(1.0159), tensor(1.0437), tensor(1.0295), tensor(1.0515), tensor(1.0273), tensor(0.9866), tensor(0.9903), tensor(1.0332), tensor(0.9830), tensor(1.0352), tensor(1.0400), tensor(0.9972), tensor(0.9904), tensor(1.0464), tensor(1.0572), tensor(1.0863), tensor(1.0082), tensor(1.0010), tensor(1.1013), tensor(1.0803), tensor(1.0517), tensor(1.0330), tensor(1.0229), tensor(1.0547), tensor(0.9533), tensor(1.0256)]
+Epoch 6
+	Epoch Metric  {'train_loss': 1.0841692686080933, 'val_loss': 1.002387842306724, 'train_accuracy': 0.3958333333333333, 'val_accuracy': 0.5492788461538461} 
+
+Predictions tensor([[0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0,
+         0, 0, 1, 0, 1, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0,
+         1, 1, 0, 0, 1, 0, 1, 1],
+        [1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 0, 0, 0, 0, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.9734), tensor(1.0175), tensor(1.0122), tensor(1.0374), tensor(1.0004), tensor(0.9591), tensor(0.9540), tensor(0.9991), tensor(0.9394), tensor(1.0216), tensor(1.0183), tensor(0.9613), tensor(0.9824), tensor(1.0106), tensor(1.0185), tensor(1.0625), tensor(0.9714), tensor(0.9476), tensor(1.0670), tensor(1.0453), tensor(1.0147), tensor(0.9951), tensor(1.0053), tensor(1.0053), tensor(0.9236), tensor(0.9907)]
+Epoch 7
+	Epoch Metric  {'train_loss': 1.0873195330301921, 'val_loss': 0.9609968891510596, 'train_accuracy': 0.3541666666666667, 'val_accuracy': 0.609375} 
+
+Predictions tensor([[0, 0, 1, 1, 1, 1, 1, 2, 1, 2, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0,
+         0, 1, 1, 0, 1, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1,
+         1, 1, 0, 1, 1, 1, 1, 1],
+        [1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 1, 0, 0, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.9162), tensor(0.9907), tensor(1.0007), tensor(1.0247), tensor(0.9687), tensor(0.9380), tensor(0.9384), tensor(0.9776), tensor(0.8984), tensor(1.0008), tensor(0.9732), tensor(0.9046), tensor(0.9393), tensor(0.9749), tensor(0.9734), tensor(1.0295), tensor(0.9488), tensor(0.9284), tensor(1.0358), tensor(1.0029), tensor(0.9779), tensor(0.9749), tensor(0.9805), tensor(0.9640), tensor(0.8748), tensor(0.9464)]
+Epoch 8
+	Epoch Metric  {'train_loss': 1.0952400366465251, 'val_loss': 0.9226455482152792, 'train_accuracy': 0.3958333333333333, 'val_accuracy': 0.6574519230769231} 
+
+Predictions tensor([[0, 0, 1, 1, 2, 1, 1, 2, 1, 2, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0,
+         2, 1, 1, 0, 1, 0, 0, 1],
+        [1, 0, 0, 0, 0, 1, 2, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1,
+         1, 1, 0, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 0, 0, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 0, 1, 0, 1, 1, 1,
+         1, 1, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.8719), tensor(0.9365), tensor(0.9784), tensor(0.9859), tensor(0.9228), tensor(0.8905), tensor(0.8876), tensor(0.9074), tensor(0.8438), tensor(0.9499), tensor(0.9437), tensor(0.8708), tensor(0.8815), tensor(0.9393), tensor(0.9316), tensor(0.9560), tensor(0.8940), tensor(0.8828), tensor(0.9757), tensor(0.9582), tensor(0.9146), tensor(0.9105), tensor(0.9484), tensor(0.9498), tensor(0.8329), tensor(0.9184)]
+Epoch 9
+	Epoch Metric  {'train_loss': 1.1197770436604817, 'val_loss': 0.8832506514512576, 'train_accuracy': 0.3229166666666667, 'val_accuracy': 0.7055288461538461} 
+
+Predictions tensor([[0, 0, 1, 2, 2, 1, 1, 2, 0, 2, 1, 0, 1, 0, 1, 0, 0, 0, 2, 1, 0, 0, 0, 0,
+         2, 1, 2, 0, 1, 0, 2, 1],
+        [1, 0, 0, 0, 0, 0, 2, 0, 1, 0, 1, 1, 2, 0, 0, 0, 0, 1, 2, 0, 1, 0, 0, 1,
+         1, 1, 0, 1, 0, 1, 1, 1],
+        [1, 2, 1, 0, 0, 0, 2, 1, 2, 1, 2, 1, 1, 2, 1, 0, 1, 2, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.8103), tensor(0.9005), tensor(0.9606), tensor(0.9507), tensor(0.8882), tensor(0.8440), tensor(0.8339), tensor(0.8301), tensor(0.7844), tensor(0.9143), tensor(0.9015), tensor(0.8251), tensor(0.8020), tensor(0.8948), tensor(0.9018), tensor(0.9112), tensor(0.8236), tensor(0.8357), tensor(0.9147), tensor(0.9291), tensor(0.8695), tensor(0.8663), tensor(0.9098), tensor(0.8864), tensor(0.8004), tensor(0.8758)]
+Epoch 10
+	Epoch Metric  {'train_loss': 1.1118085384368896, 'val_loss': 0.841674621288593, 'train_accuracy': 0.3645833333333333, 'val_accuracy': 0.75} 
+
+Predictions tensor([[0, 0, 1, 2, 2, 1, 1, 2, 0, 2, 1, 0, 1, 0, 1, 0, 1, 0, 2, 1, 1, 0, 1, 0,
+         2, 1, 2, 0, 1, 0, 2, 1],
+        [1, 0, 1, 0, 0, 0, 2, 0, 1, 0, 2, 1, 2, 0, 0, 0, 1, 1, 2, 1, 1, 0, 0, 1,
+         1, 1, 0, 1, 0, 1, 2, 2],
+        [1, 2, 0, 1, 0, 0, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 2, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.7755), tensor(0.8460), tensor(0.9059), tensor(0.9457), tensor(0.8505), tensor(0.8192), tensor(0.7956), tensor(0.7960), tensor(0.7831), tensor(0.8722), tensor(0.8816), tensor(0.7862), tensor(0.8073), tensor(0.8112), tensor(0.8593), tensor(0.8338), tensor(0.7834), tensor(0.8124), tensor(0.8638), tensor(0.8764), tensor(0.8161), tensor(0.8260), tensor(0.8677), tensor(0.8531), tensor(0.7903), tensor(0.8482)]
+Epoch 11
+	Epoch Metric  {'train_loss': 1.1358600854873657, 'val_loss': 0.7985133757958045, 'train_accuracy': 0.3541666666666667, 'val_accuracy': 0.7956730769230769} 
+
+Predictions tensor([[0, 0, 1, 1, 2, 1, 1, 2, 0, 2, 1, 2, 1, 2, 0, 0, 0, 0, 2, 1, 1, 0, 1, 0,
+         2, 1, 2, 0, 1, 0, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 1, 0, 2, 1, 2, 0, 1, 0, 1, 1, 2, 0, 1, 0, 0, 1,
+         1, 1, 0, 1, 0, 1, 2, 1],
+        [1, 2, 2, 0, 0, 0, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 2, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 0, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.7154), tensor(0.8050), tensor(0.8345), tensor(0.8570), tensor(0.7962), tensor(0.7577), tensor(0.7732), tensor(0.7382), tensor(0.7272), tensor(0.8734), tensor(0.8242), tensor(0.7457), tensor(0.7865), tensor(0.7785), tensor(0.8211), tensor(0.7774), tensor(0.7652), tensor(0.7508), tensor(0.8301), tensor(0.8561), tensor(0.7712), tensor(0.7816), tensor(0.8267), tensor(0.8056), tensor(0.7497), tensor(0.8439)]
+Epoch 12
+	Epoch Metric  {'train_loss': 1.1554990609486897, 'val_loss': 0.7682935549662664, 'train_accuracy': 0.3333333333333333, 'val_accuracy': 0.8137019230769231} 
+
+Predictions tensor([[0, 0, 1, 1, 2, 1, 1, 2, 0, 2, 1, 2, 1, 0, 1, 2, 0, 0, 2, 1, 1, 0, 1, 0,
+         2, 0, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 0, 1, 0, 1, 1, 2, 0, 1, 0, 0, 1,
+         1, 1, 0, 1, 0, 1, 2, 1],
+        [1, 2, 2, 0, 0, 0, 2, 1, 2, 1, 2, 1, 1, 2, 1, 0, 1, 2, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.6795), tensor(0.7851), tensor(0.8113), tensor(0.8058), tensor(0.7863), tensor(0.7521), tensor(0.7488), tensor(0.6978), tensor(0.7096), tensor(0.8676), tensor(0.7914), tensor(0.7417), tensor(0.7794), tensor(0.7931), tensor(0.8138), tensor(0.7947), tensor(0.7560), tensor(0.7413), tensor(0.8061), tensor(0.8022), tensor(0.7463), tensor(0.7576), tensor(0.7867), tensor(0.8449), tensor(0.7788), tensor(0.8481)]
+Epoch 13
+	Epoch Metric  {'train_loss': 1.1495979229609172, 'val_loss': 0.7698389612711393, 'train_accuracy': 0.34375, 'val_accuracy': 0.7992788461538461} 
+
+Predictions tensor([[0, 1, 1, 1, 1, 1, 1, 2, 0, 2, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0,
+         2, 0, 1, 0, 1, 0, 0, 0],
+        [1, 0, 1, 0, 0, 0, 2, 0, 1, 1, 1, 1, 2, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1,
+         1, 1, 1, 1, 0, 1, 1, 1],
+        [1, 1, 0, 0, 0, 0, 2, 1, 2, 1, 2, 0, 1, 2, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 0, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.6612), tensor(0.7643), tensor(0.7816), tensor(0.7922), tensor(0.7493), tensor(0.7869), tensor(0.7488), tensor(0.6778), tensor(0.6783), tensor(0.8126), tensor(0.7739), tensor(0.7095), tensor(0.7201), tensor(0.7484), tensor(0.8611), tensor(0.7620), tensor(0.7459), tensor(0.7108), tensor(0.8121), tensor(0.8631), tensor(0.7289), tensor(0.7437), tensor(0.7724), tensor(0.7900), tensor(0.7210), tensor(0.7848)]
+Epoch 14
+	Epoch Metric  {'train_loss': 1.1657223304112752, 'val_loss': 0.7539761387384855, 'train_accuracy': 0.3229166666666667, 'val_accuracy': 0.8173076923076923} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 1, 1, 1, 1, 2, 0, 0, 1, 1, 0, 1, 1, 0,
+         2, 0, 1, 0, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 2, 0, 1, 1, 1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0,
+         1, 1, 0, 0, 1, 1, 2, 1],
+        [1, 1, 1, 0, 1, 0, 2, 1, 2, 1, 2, 0, 1, 2, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.7238), tensor(0.7202), tensor(0.7714), tensor(0.7650), tensor(0.7546), tensor(0.7347), tensor(0.6966), tensor(0.7280), tensor(0.6442), tensor(0.7749), tensor(0.7629), tensor(0.6912), tensor(0.6924), tensor(0.7227), tensor(0.8210), tensor(0.7595), tensor(0.7037), tensor(0.6900), tensor(0.7998), tensor(0.7507), tensor(0.6770), tensor(0.7153), tensor(0.7764), tensor(0.7981), tensor(0.7160), tensor(0.8155)]
+Epoch 15
+	Epoch Metric  {'train_loss': 1.1480259497960408, 'val_loss': 0.7100772857666016, 'train_accuracy': 0.375, 'val_accuracy': 0.8605769230769231} 
+
+Predictions tensor([[1, 2, 1, 1, 1, 1, 1, 2, 0, 2, 2, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 2,
+         2, 2, 2, 0, 1, 1, 1, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0,
+         1, 1, 0, 1, 1, 1, 2, 1],
+        [1, 1, 1, 2, 1, 0, 2, 1, 2, 1, 2, 1, 1, 0, 1, 2, 1, 1, 0, 1, 0, 1, 1, 1,
+         2, 1, 0, 1, 2, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.6697), tensor(0.7361), tensor(0.6943), tensor(0.7501), tensor(0.7308), tensor(0.7157), tensor(0.6695), tensor(0.6579), tensor(0.6332), tensor(0.7728), tensor(0.7927), tensor(0.6822), tensor(0.6483), tensor(0.6643), tensor(0.7391), tensor(0.6796), tensor(0.7210), tensor(0.6775), tensor(0.7547), tensor(0.7641), tensor(0.6558), tensor(0.7215), tensor(0.7299), tensor(0.7567), tensor(0.6983), tensor(0.7435)]
+Epoch 16
+	Epoch Metric  {'train_loss': 1.166493813196818, 'val_loss': 0.6868740847477546, 'train_accuracy': 0.3229166666666667, 'val_accuracy': 0.8822115384615384} 
+
+Predictions tensor([[1, 0, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 0, 1, 0, 2, 0, 1, 1, 1, 0, 1, 2,
+         2, 2, 1, 1, 1, 0, 1, 2],
+        [0, 0, 1, 0, 0, 0, 2, 0, 1, 1, 1, 1, 2, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1,
+         1, 1, 1, 0, 1, 1, 2, 1],
+        [1, 1, 1, 1, 0, 2, 1, 1, 2, 1, 2, 2, 1, 0, 1, 2, 1, 1, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.6462), tensor(0.6854), tensor(0.6921), tensor(0.7190), tensor(0.7121), tensor(0.6792), tensor(0.6796), tensor(0.6760), tensor(0.6229), tensor(0.7498), tensor(0.7341), tensor(0.7608), tensor(0.6496), tensor(0.6672), tensor(0.7180), tensor(0.6491), tensor(0.6961), tensor(0.6891), tensor(0.7063), tensor(0.7422), tensor(0.6831), tensor(0.6997), tensor(0.7195), tensor(0.7897), tensor(0.6712), tensor(0.7462)]
+Epoch 17
+	Epoch Metric  {'train_loss': 1.1653684377670288, 'val_loss': 0.6817587591134585, 'train_accuracy': 0.3541666666666667, 'val_accuracy': 0.8810096153846154} 
+
+Predictions tensor([[1, 2, 1, 1, 1, 1, 1, 2, 0, 2, 2, 2, 0, 0, 1, 0, 0, 0, 2, 1, 1, 0, 1, 2,
+         2, 2, 2, 0, 0, 1, 0, 2],
+        [0, 0, 1, 0, 0, 0, 2, 0, 2, 0, 2, 0, 2, 0, 0, 0, 0, 1, 2, 0, 1, 0, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 0, 2, 0, 0, 2, 1, 2, 1, 2, 2, 1, 0, 1, 2, 2, 2, 0, 1, 0, 1, 1, 1,
+         2, 0, 0, 2, 2, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.6800), tensor(0.6667), tensor(0.6949), tensor(0.7243), tensor(0.6921), tensor(0.6277), tensor(0.6266), tensor(0.6244), tensor(0.5982), tensor(0.6985), tensor(0.6928), tensor(0.6452), tensor(0.6634), tensor(0.6404), tensor(0.6984), tensor(0.6457), tensor(0.6859), tensor(0.6503), tensor(0.6692), tensor(0.7146), tensor(0.6281), tensor(0.6925), tensor(0.6573), tensor(0.7549), tensor(0.6613), tensor(0.7033)]
+Epoch 18
+	Epoch Metric  {'train_loss': 1.1677568356196086, 'val_loss': 0.6605988213649163, 'train_accuracy': 0.3541666666666667, 'val_accuracy': 0.90625} 
+
+Predictions tensor([[1, 2, 1, 1, 1, 2, 1, 2, 0, 2, 1, 2, 1, 0, 1, 0, 2, 0, 2, 1, 1, 0, 1, 0,
+         2, 2, 2, 1, 1, 1, 0, 1],
+        [0, 0, 1, 0, 0, 0, 2, 1, 2, 0, 2, 1, 2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 0, 2, 1],
+        [1, 2, 0, 2, 0, 2, 2, 1, 2, 1, 2, 0, 1, 0, 1, 0, 2, 2, 0, 1, 0, 1, 1, 1,
+         2, 1, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.6095), tensor(0.6361), tensor(0.6611), tensor(0.7070), tensor(0.7102), tensor(0.6193), tensor(0.6258), tensor(0.5925), tensor(0.5771), tensor(0.7193), tensor(0.6799), tensor(0.6808), tensor(0.6167), tensor(0.6041), tensor(0.6993), tensor(0.6610), tensor(0.7062), tensor(0.6716), tensor(0.6563), tensor(0.6840), tensor(0.6405), tensor(0.6803), tensor(0.6432), tensor(0.7243), tensor(0.6261), tensor(0.6857)]
+Epoch 19
+	Epoch Metric  {'train_loss': 1.1524513959884644, 'val_loss': 0.6575652131667504, 'train_accuracy': 0.375, 'val_accuracy': 0.9038461538461539} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 2, 0, 2, 1, 1, 0, 1, 2,
+         2, 1, 2, 1, 1, 1, 2, 1],
+        [1, 0, 1, 0, 0, 0, 2, 0, 2, 1, 2, 1, 2, 0, 0, 0, 0, 1, 2, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 1, 1, 2, 1],
+        [1, 2, 0, 2, 0, 2, 2, 1, 2, 1, 2, 1, 1, 0, 1, 1, 2, 2, 0, 1, 0, 1, 1, 1,
+         2, 1, 0, 1, 2, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5914), tensor(0.6409), tensor(0.6473), tensor(0.6974), tensor(0.6861), tensor(0.6500), tensor(0.6389), tensor(0.6007), tensor(0.5730), tensor(0.7155), tensor(0.6527), tensor(0.7028), tensor(0.6193), tensor(0.6043), tensor(0.6832), tensor(0.6307), tensor(0.6898), tensor(0.6498), tensor(0.6649), tensor(0.6498), tensor(0.6521), tensor(0.6889), tensor(0.6115), tensor(0.7136), tensor(0.6021), tensor(0.6698)]
+Epoch 20
+	Epoch Metric  {'train_loss': 1.1637440919876099, 'val_loss': 0.637129735488158, 'train_accuracy': 0.34375, 'val_accuracy': 0.9206730769230769} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 1, 1, 0, 2, 0, 2, 1, 1, 0, 1, 2,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 1, 2, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 1, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 2, 1, 2, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1,
+         2, 0, 0, 1, 2, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5889), tensor(0.6260), tensor(0.6085), tensor(0.6736), tensor(0.6766), tensor(0.6270), tensor(0.6273), tensor(0.5880), tensor(0.5961), tensor(0.6832), tensor(0.6415), tensor(0.6276), tensor(0.6297), tensor(0.6072), tensor(0.6723), tensor(0.6279), tensor(0.6734), tensor(0.6218), tensor(0.6806), tensor(0.7167), tensor(0.6484), tensor(0.6847), tensor(0.6102), tensor(0.7156), tensor(0.6093), tensor(0.6600)]
+Epoch 21
+	Epoch Metric  {'train_loss': 1.158937931060791, 'val_loss': 0.6283238255060636, 'train_accuracy': 0.3645833333333333, 'val_accuracy': 0.9302884615384616} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 0, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 1, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 2, 1, 2, 1, 2, 2, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 1, 1, 2, 1],
+        [1, 2, 2, 2, 1, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5918), tensor(0.6195), tensor(0.6068), tensor(0.6533), tensor(0.6695), tensor(0.5943), tensor(0.6208), tensor(0.5814), tensor(0.5619), tensor(0.6768), tensor(0.6293), tensor(0.6311), tensor(0.6157), tensor(0.6089), tensor(0.6758), tensor(0.6086), tensor(0.6650), tensor(0.5897), tensor(0.6578), tensor(0.6369), tensor(0.6246), tensor(0.6768), tensor(0.6111), tensor(0.7085), tensor(0.6307), tensor(0.6684)]
+Epoch 22
+	Epoch Metric  {'train_loss': 1.1545795599619548, 'val_loss': 0.6252041229834924, 'train_accuracy': 0.375, 'val_accuracy': 0.9338942307692307} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 0, 1, 0, 2, 0, 0, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 0, 1, 2, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 2, 0, 2, 0, 0, 2, 1, 2, 1, 2, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         2, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.6048), tensor(0.6384), tensor(0.5907), tensor(0.6466), tensor(0.6607), tensor(0.6029), tensor(0.6196), tensor(0.5644), tensor(0.5813), tensor(0.6485), tensor(0.6361), tensor(0.6207), tensor(0.6169), tensor(0.5929), tensor(0.6501), tensor(0.5973), tensor(0.6806), tensor(0.5883), tensor(0.6511), tensor(0.6079), tensor(0.6205), tensor(0.7022), tensor(0.6215), tensor(0.7465), tensor(0.6053), tensor(0.6582)]
+Epoch 23
+	Epoch Metric  {'train_loss': 1.1481737693150837, 'val_loss': 0.6327069126642667, 'train_accuracy': 0.3854166666666667, 'val_accuracy': 0.9254807692307693} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 0, 2, 0, 0, 1, 1, 1, 1, 2,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [1, 0, 1, 0, 0, 0, 2, 1, 2, 1, 2, 0, 2, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 2, 0, 1, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1,
+         1, 0, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.6074), tensor(0.6199), tensor(0.6090), tensor(0.6876), tensor(0.6494), tensor(0.6207), tensor(0.6264), tensor(0.5713), tensor(0.5570), tensor(0.6526), tensor(0.6132), tensor(0.6216), tensor(0.6196), tensor(0.5886), tensor(0.6436), tensor(0.5897), tensor(0.6586), tensor(0.5872), tensor(0.6471), tensor(0.5979), tensor(0.6271), tensor(0.6780), tensor(0.5945), tensor(0.7077), tensor(0.5902), tensor(0.6484)]
+Epoch 24
+	Epoch Metric  {'train_loss': 1.1570711533228557, 'val_loss': 0.6157711881857652, 'train_accuracy': 0.375, 'val_accuracy': 0.9387019230769231} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 2, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0,
+         1, 1, 2, 0, 0, 1, 2, 1],
+        [1, 2, 0, 2, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5912), tensor(0.6152), tensor(0.5875), tensor(0.6359), tensor(0.6480), tensor(0.6013), tensor(0.6163), tensor(0.5568), tensor(0.5645), tensor(0.6460), tensor(0.6029), tensor(0.6184), tensor(0.6177), tensor(0.6176), tensor(0.6456), tensor(0.5895), tensor(0.6482), tensor(0.5876), tensor(0.6449), tensor(0.5876), tensor(0.6168), tensor(0.6773), tensor(0.5952), tensor(0.7064), tensor(0.5916), tensor(0.6462)]
+Epoch 25
+	Epoch Metric  {'train_loss': 1.1612772941589355, 'val_loss': 0.6167583671899942, 'train_accuracy': 0.3854166666666667, 'val_accuracy': 0.9375} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 1, 1, 0, 2, 0, 0, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 2, 1, 2, 1, 2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 0, 0, 1, 2, 1],
+        [1, 2, 2, 2, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5849), tensor(0.6138), tensor(0.5906), tensor(0.6435), tensor(0.6476), tensor(0.5872), tensor(0.6140), tensor(0.5554), tensor(0.5553), tensor(0.6414), tensor(0.5923), tensor(0.6357), tensor(0.6335), tensor(0.5921), tensor(0.6450), tensor(0.5838), tensor(0.6482), tensor(0.5884), tensor(0.6529), tensor(0.5828), tensor(0.6187), tensor(0.6825), tensor(0.6159), tensor(0.7223), tensor(0.5871), tensor(0.6482)]
+Epoch 26
+	Epoch Metric  {'train_loss': 1.178290883700053, 'val_loss': 0.6205102067727309, 'train_accuracy': 0.34375, 'val_accuracy': 0.9350961538461539} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 0, 2, 0, 0, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 0, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 1, 2, 1, 2, 1, 2, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1,
+         1, 1, 2, 0, 0, 1, 2, 1],
+        [1, 1, 0, 0, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5899), tensor(0.6228), tensor(0.5971), tensor(0.6219), tensor(0.6554), tensor(0.6177), tensor(0.6179), tensor(0.5810), tensor(0.6054), tensor(0.6671), tensor(0.6219), tensor(0.6128), tensor(0.6143), tensor(0.5853), tensor(0.6498), tensor(0.5842), tensor(0.6465), tensor(0.6069), tensor(0.6494), tensor(0.5771), tensor(0.6221), tensor(0.6783), tensor(0.5911), tensor(0.6972), tensor(0.5910), tensor(0.6745)]
+Epoch 27
+	Epoch Metric  {'train_loss': 1.1828713814417522, 'val_loss': 0.6191544532775879, 'train_accuracy': 0.34375, 'val_accuracy': 0.9362980769230769} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 0, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 2, 1, 2, 1, 2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 0, 0, 1, 2, 1],
+        [1, 1, 0, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 2, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.6271), tensor(0.6140), tensor(0.5880), tensor(0.6181), tensor(0.6787), tensor(0.6160), tensor(0.6170), tensor(0.5844), tensor(0.5738), tensor(0.7167), tensor(0.6327), tensor(0.6373), tensor(0.6456), tensor(0.6517), tensor(0.6320), tensor(0.6359), tensor(0.6749), tensor(0.6021), tensor(0.6515), tensor(0.5683), tensor(0.6139), tensor(0.6830), tensor(0.6019), tensor(0.7046), tensor(0.5879), tensor(0.6490)]
+Epoch 28
+	Epoch Metric  {'train_loss': 1.1595064004262288, 'val_loss': 0.614522798703267, 'train_accuracy': 0.375, 'val_accuracy': 0.9423076923076923} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [1, 0, 0, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 1, 1, 2, 1],
+        [1, 1, 2, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5915), tensor(0.6159), tensor(0.5874), tensor(0.6144), tensor(0.6474), tensor(0.5930), tensor(0.6161), tensor(0.5610), tensor(0.5539), tensor(0.6528), tensor(0.5944), tensor(0.6070), tensor(0.6161), tensor(0.6015), tensor(0.6160), tensor(0.5872), tensor(0.6465), tensor(0.5849), tensor(0.6355), tensor(0.5572), tensor(0.6239), tensor(0.7027), tensor(0.6054), tensor(0.7041), tensor(0.5873), tensor(0.6439)]
+Epoch 29
+	Epoch Metric  {'train_loss': 1.1502868334452312, 'val_loss': 0.6069366588042333, 'train_accuracy': 0.40625, 'val_accuracy': 0.9483173076923077} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 0, 2, 0, 0, 1, 1, 1, 1, 0,
+         2, 2, 2, 0, 1, 1, 2, 1],
+        [1, 0, 1, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 2, 2, 2, 0, 0, 2, 1, 1, 0, 2, 1, 1, 0, 1, 1, 1, 2, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5850), tensor(0.6147), tensor(0.5877), tensor(0.6163), tensor(0.6494), tensor(0.5915), tensor(0.6142), tensor(0.5551), tensor(0.5697), tensor(0.6382), tensor(0.5931), tensor(0.6279), tensor(0.6131), tensor(0.5843), tensor(0.6128), tensor(0.5848), tensor(0.6592), tensor(0.6233), tensor(0.6236), tensor(0.5662), tensor(0.6159), tensor(0.6775), tensor(0.5799), tensor(0.6812), tensor(0.5875), tensor(0.6453)]
+Epoch 30
+	Epoch Metric  {'train_loss': 1.1564020713170369, 'val_loss': 0.605665887777622, 'train_accuracy': 0.3645833333333333, 'val_accuracy': 0.9471153846153846} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 1, 2, 1, 0, 1, 2, 2, 0, 2, 1, 1, 2, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [1, 0, 1, 0, 0, 0, 2, 0, 2, 1, 2, 1, 2, 2, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 1, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 2, 2, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 2, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5842), tensor(0.6152), tensor(0.5851), tensor(0.6131), tensor(0.6449), tensor(0.5946), tensor(0.6124), tensor(0.5550), tensor(0.5590), tensor(0.6200), tensor(0.5864), tensor(0.5892), tensor(0.6199), tensor(0.6057), tensor(0.6184), tensor(0.5899), tensor(0.6476), tensor(0.5869), tensor(0.6153), tensor(0.5606), tensor(0.6138), tensor(0.6764), tensor(0.5622), tensor(0.6771), tensor(0.5878), tensor(0.6479)]
+Epoch 31
+	Epoch Metric  {'train_loss': 1.1775769392649333, 'val_loss': 0.60394143141233, 'train_accuracy': 0.34375, 'val_accuracy': 0.9495192307692307} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 2, 2, 1, 1, 1, 0, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 2, 2, 0, 1, 1, 2, 2],
+        [1, 0, 0, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 0, 1, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 2, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 1, 2, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5852), tensor(0.6162), tensor(0.5835), tensor(0.6151), tensor(0.6470), tensor(0.5917), tensor(0.6247), tensor(0.5547), tensor(0.5532), tensor(0.6159), tensor(0.5840), tensor(0.5864), tensor(0.6130), tensor(0.5847), tensor(0.6127), tensor(0.5839), tensor(0.6448), tensor(0.5843), tensor(0.6186), tensor(0.5573), tensor(0.6129), tensor(0.6736), tensor(0.5576), tensor(0.6759), tensor(0.5848), tensor(0.6439)]
+Epoch 32
+	Epoch Metric  {'train_loss': 1.1788050731023152, 'val_loss': 0.6009512887551234, 'train_accuracy': 0.3541666666666667, 'val_accuracy': 0.9507211538461539} 
+
+Predictions tensor([[1, 0, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 1, 1, 0, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [1, 0, 0, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 0, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5850), tensor(0.6127), tensor(0.5829), tensor(0.5913), tensor(0.6451), tensor(0.5848), tensor(0.6125), tensor(0.5534), tensor(0.5528), tensor(0.6154), tensor(0.5822), tensor(0.5852), tensor(0.6122), tensor(0.5903), tensor(0.6102), tensor(0.5838), tensor(0.6431), tensor(0.5843), tensor(0.6140), tensor(0.5538), tensor(0.6127), tensor(0.6728), tensor(0.5544), tensor(0.6727), tensor(0.5847), tensor(0.6466)]
+Epoch 33
+	Epoch Metric  {'train_loss': 1.1723875602086384, 'val_loss': 0.6017492642769446, 'train_accuracy': 0.3645833333333333, 'val_accuracy': 0.9495192307692307} 
+
+Predictions tensor([[1, 0, 1, 1, 1, 1, 1, 2, 0, 2, 1, 1, 1, 1, 1, 0, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [1, 0, 1, 0, 0, 0, 2, 1, 1, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 1, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 1, 2, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5837), tensor(0.6122), tensor(0.5840), tensor(0.5868), tensor(0.6443), tensor(0.5855), tensor(0.6144), tensor(0.5533), tensor(0.5531), tensor(0.6139), tensor(0.5841), tensor(0.5876), tensor(0.6156), tensor(0.5822), tensor(0.6096), tensor(0.5815), tensor(0.6429), tensor(0.5843), tensor(0.6124), tensor(0.5535), tensor(0.6103), tensor(0.6764), tensor(0.5537), tensor(0.6711), tensor(0.5840), tensor(0.6434)]
+Epoch 34
+	Epoch Metric  {'train_loss': 1.1898367404937744, 'val_loss': 0.6003592610359192, 'train_accuracy': 0.3229166666666667, 'val_accuracy': 0.9507211538461539} 
+
+Predictions tensor([[1, 0, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 0, 1, 0, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 0, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5834), tensor(0.6119), tensor(0.5835), tensor(0.5847), tensor(0.6451), tensor(0.5844), tensor(0.6128), tensor(0.5530), tensor(0.5522), tensor(0.6134), tensor(0.5813), tensor(0.5853), tensor(0.6128), tensor(0.5816), tensor(0.6094), tensor(0.5834), tensor(0.6426), tensor(0.5836), tensor(0.6123), tensor(0.5531), tensor(0.6121), tensor(0.6741), tensor(0.5533), tensor(0.6731), tensor(0.5838), tensor(0.6437)]
+Epoch 35
+	Epoch Metric  {'train_loss': 1.171076496442159, 'val_loss': 0.6001125299013578, 'train_accuracy': 0.375, 'val_accuracy': 0.9507211538461539} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 1, 1, 2, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 2, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5833), tensor(0.6118), tensor(0.5816), tensor(0.5845), tensor(0.6432), tensor(0.5832), tensor(0.6145), tensor(0.5528), tensor(0.5524), tensor(0.6135), tensor(0.5831), tensor(0.5833), tensor(0.6123), tensor(0.5813), tensor(0.6092), tensor(0.5834), tensor(0.6423), tensor(0.5834), tensor(0.6121), tensor(0.5529), tensor(0.6119), tensor(0.6738), tensor(0.5531), tensor(0.6719), tensor(0.5837), tensor(0.6444)]
+Epoch 36
+	Epoch Metric  {'train_loss': 1.1813181638717651, 'val_loss': 0.5999525533272669, 'train_accuracy': 0.3541666666666667, 'val_accuracy': 0.9507211538461539} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 1, 1, 0, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 0, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5834), tensor(0.6120), tensor(0.5826), tensor(0.5842), tensor(0.6447), tensor(0.5828), tensor(0.6144), tensor(0.5528), tensor(0.5522), tensor(0.6130), tensor(0.5813), tensor(0.5852), tensor(0.6117), tensor(0.5813), tensor(0.6096), tensor(0.5832), tensor(0.6420), tensor(0.5832), tensor(0.6120), tensor(0.5528), tensor(0.6119), tensor(0.6733), tensor(0.5529), tensor(0.6707), tensor(0.5836), tensor(0.6414)]
+Epoch 37
+	Epoch Metric  {'train_loss': 1.1756003697713215, 'val_loss': 0.5995997328024644, 'train_accuracy': 0.3541666666666667, 'val_accuracy': 0.9507211538461539} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 1, 1, 0, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 0, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5833), tensor(0.6119), tensor(0.5812), tensor(0.5841), tensor(0.6431), tensor(0.5835), tensor(0.6140), tensor(0.5526), tensor(0.5521), tensor(0.6127), tensor(0.5825), tensor(0.5853), tensor(0.6113), tensor(0.5809), tensor(0.6101), tensor(0.5831), tensor(0.6416), tensor(0.5827), tensor(0.6120), tensor(0.5527), tensor(0.6118), tensor(0.6730), tensor(0.5528), tensor(0.6723), tensor(0.5836), tensor(0.6457)]
+Epoch 38
+	Epoch Metric  {'train_loss': 1.18742569287618, 'val_loss': 0.5995117792716393, 'train_accuracy': 0.3229166666666667, 'val_accuracy': 0.9507211538461539} 
+
+Predictions tensor([[1, 0, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 0, 1, 0, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 0, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5832), tensor(0.6117), tensor(0.5819), tensor(0.5842), tensor(0.6440), tensor(0.5818), tensor(0.6122), tensor(0.5526), tensor(0.5521), tensor(0.6128), tensor(0.5813), tensor(0.5848), tensor(0.6116), tensor(0.5810), tensor(0.6093), tensor(0.5826), tensor(0.6375), tensor(0.5826), tensor(0.6118), tensor(0.5525), tensor(0.6117), tensor(0.6739), tensor(0.5527), tensor(0.6695), tensor(0.5836), tensor(0.6429)]
+Epoch 39
+	Epoch Metric  {'train_loss': 1.1776177485783894, 'val_loss': 0.5987926263075608, 'train_accuracy': 0.34375, 'val_accuracy': 0.9519230769230769} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 0, 1, 2, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5833), tensor(0.6117), tensor(0.5827), tensor(0.5840), tensor(0.6452), tensor(0.5836), tensor(0.6147), tensor(0.5530), tensor(0.5540), tensor(0.6138), tensor(0.5832), tensor(0.5845), tensor(0.6123), tensor(0.5815), tensor(0.6090), tensor(0.5807), tensor(0.6149), tensor(0.5828), tensor(0.6118), tensor(0.5525), tensor(0.6116), tensor(0.6723), tensor(0.5527), tensor(0.6702), tensor(0.5835), tensor(0.6434)]
+Epoch 40
+	Epoch Metric  {'train_loss': 1.1784860293070476, 'val_loss': 0.5984750137879298, 'train_accuracy': 0.3333333333333333, 'val_accuracy': 0.9519230769230769} 
+
+Predictions tensor([[1, 0, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 0, 1, 0, 2, 0, 2, 1, 1, 2, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5832), tensor(0.6118), tensor(0.5820), tensor(0.5842), tensor(0.6432), tensor(0.5831), tensor(0.6140), tensor(0.5528), tensor(0.5520), tensor(0.6134), tensor(0.5815), tensor(0.5838), tensor(0.6121), tensor(0.5809), tensor(0.6091), tensor(0.5831), tensor(0.6148), tensor(0.5810), tensor(0.6125), tensor(0.5525), tensor(0.6116), tensor(0.6751), tensor(0.5526), tensor(0.6697), tensor(0.5834), tensor(0.6431)]
+Epoch 41
+	Epoch Metric  {'train_loss': 1.177151044209798, 'val_loss': 0.5981730360251206, 'train_accuracy': 0.34375, 'val_accuracy': 0.9519230769230769} 
+
+Predictions tensor([[1, 0, 1, 1, 1, 1, 1, 2, 0, 2, 1, 1, 1, 0, 1, 0, 2, 0, 2, 1, 1, 2, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5832), tensor(0.6117), tensor(0.5822), tensor(0.5839), tensor(0.6429), tensor(0.5807), tensor(0.6128), tensor(0.5525), tensor(0.5519), tensor(0.6124), tensor(0.5808), tensor(0.5821), tensor(0.6113), tensor(0.5809), tensor(0.6095), tensor(0.5827), tensor(0.6147), tensor(0.5811), tensor(0.6123), tensor(0.5524), tensor(0.6095), tensor(0.6742), tensor(0.5525), tensor(0.6705), tensor(0.5833), tensor(0.6438)]
+Epoch 42
+	Epoch Metric  {'train_loss': 1.1762810150782268, 'val_loss': 0.5982074714623965, 'train_accuracy': 0.34375, 'val_accuracy': 0.9519230769230769} 
+
+Predictions tensor([[1, 0, 1, 1, 1, 1, 1, 2, 0, 2, 1, 1, 1, 0, 1, 0, 2, 0, 2, 1, 1, 2, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 1, 0, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5835), tensor(0.6116), tensor(0.5815), tensor(0.5837), tensor(0.6429), tensor(0.5818), tensor(0.6139), tensor(0.5526), tensor(0.5518), tensor(0.6123), tensor(0.5816), tensor(0.5830), tensor(0.6117), tensor(0.5815), tensor(0.6091), tensor(0.5819), tensor(0.6146), tensor(0.5818), tensor(0.6117), tensor(0.5524), tensor(0.6112), tensor(0.6733), tensor(0.5525), tensor(0.6708), tensor(0.5833), tensor(0.6453)]
+Epoch 43
+	Epoch Metric  {'train_loss': 1.1702361106872559, 'val_loss': 0.5982558108293093, 'train_accuracy': 0.34375, 'val_accuracy': 0.9519230769230769} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 1, 1, 2, 2, 0, 2, 1, 1, 2, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 0, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5832), tensor(0.6116), tensor(0.5816), tensor(0.5838), tensor(0.6439), tensor(0.5831), tensor(0.6114), tensor(0.5523), tensor(0.5519), tensor(0.6138), tensor(0.5820), tensor(0.5816), tensor(0.6124), tensor(0.5809), tensor(0.6081), tensor(0.5821), tensor(0.6140), tensor(0.5803), tensor(0.6118), tensor(0.5523), tensor(0.6106), tensor(0.6738), tensor(0.5523), tensor(0.6709), tensor(0.5833), tensor(0.6421)]
+Epoch 44
+	Epoch Metric  {'train_loss': 1.1674613157908122, 'val_loss': 0.5973646870026221, 'train_accuracy': 0.3645833333333333, 'val_accuracy': 0.9519230769230769} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 1, 1, 1, 1, 2, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 1, 1, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5833), tensor(0.6120), tensor(0.5807), tensor(0.5836), tensor(0.6443), tensor(0.5831), tensor(0.6126), tensor(0.5524), tensor(0.5518), tensor(0.6120), tensor(0.5805), tensor(0.5820), tensor(0.6114), tensor(0.5808), tensor(0.6080), tensor(0.5807), tensor(0.6117), tensor(0.5802), tensor(0.6121), tensor(0.5522), tensor(0.5849), tensor(0.6744), tensor(0.5522), tensor(0.6700), tensor(0.5833), tensor(0.6419)]
+Epoch 45
+	Epoch Metric  {'train_loss': 1.1723137299219768, 'val_loss': 0.5967539915671716, 'train_accuracy': 0.3541666666666667, 'val_accuracy': 0.953125} 
+
+Predictions tensor([[1, 2, 1, 1, 1, 1, 1, 2, 0, 2, 1, 1, 1, 1, 1, 2, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [1, 0, 1, 0, 0, 0, 2, 1, 1, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5833), tensor(0.6118), tensor(0.5816), tensor(0.5836), tensor(0.6429), tensor(0.5834), tensor(0.6123), tensor(0.5524), tensor(0.5520), tensor(0.6122), tensor(0.5826), tensor(0.5821), tensor(0.6118), tensor(0.5804), tensor(0.6072), tensor(0.5830), tensor(0.6145), tensor(0.5827), tensor(0.6120), tensor(0.5521), tensor(0.5817), tensor(0.6714), tensor(0.5522), tensor(0.6721), tensor(0.5832), tensor(0.6427)]
+Epoch 46
+	Epoch Metric  {'train_loss': 1.1574383576711018, 'val_loss': 0.5967227518558502, 'train_accuracy': 0.3645833333333333, 'val_accuracy': 0.953125} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 1, 1, 1, 1, 0, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [1, 0, 1, 0, 0, 0, 2, 1, 2, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5833), tensor(0.6122), tensor(0.5811), tensor(0.5838), tensor(0.6428), tensor(0.5827), tensor(0.6132), tensor(0.5522), tensor(0.5520), tensor(0.6133), tensor(0.5812), tensor(0.5810), tensor(0.6134), tensor(0.5803), tensor(0.6011), tensor(0.5816), tensor(0.6143), tensor(0.5802), tensor(0.6130), tensor(0.5524), tensor(0.5803), tensor(0.6739), tensor(0.5522), tensor(0.6734), tensor(0.5831), tensor(0.6453)]
+Epoch 47
+	Epoch Metric  {'train_loss': 1.166310707728068, 'val_loss': 0.5962203397200658, 'train_accuracy': 0.3541666666666667, 'val_accuracy': 0.9543269230769231} 
+
+Predictions tensor([[1, 0, 1, 1, 1, 1, 1, 2, 0, 2, 1, 1, 1, 0, 1, 0, 2, 0, 0, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 2, 0, 2, 0, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 0, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5834), tensor(0.6138), tensor(0.5811), tensor(0.5840), tensor(0.6429), tensor(0.5828), tensor(0.6129), tensor(0.5523), tensor(0.5518), tensor(0.6117), tensor(0.5816), tensor(0.5822), tensor(0.6115), tensor(0.5806), tensor(0.5821), tensor(0.5813), tensor(0.6140), tensor(0.5806), tensor(0.6127), tensor(0.5523), tensor(0.5803), tensor(0.6740), tensor(0.5521), tensor(0.6711), tensor(0.5831), tensor(0.6428)]
+Epoch 48
+	Epoch Metric  {'train_loss': 1.1757067441940308, 'val_loss': 0.5959462661009568, 'train_accuracy': 0.34375, 'val_accuracy': 0.9543269230769231} 
+
+Predictions tensor([[1, 0, 1, 1, 1, 1, 1, 2, 0, 2, 1, 1, 1, 1, 1, 0, 2, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 1, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5832), tensor(0.6118), tensor(0.5818), tensor(0.5834), tensor(0.6432), tensor(0.5828), tensor(0.6137), tensor(0.5521), tensor(0.5519), tensor(0.6119), tensor(0.5803), tensor(0.5830), tensor(0.6128), tensor(0.5817), tensor(0.5816), tensor(0.5809), tensor(0.6147), tensor(0.5804), tensor(0.6127), tensor(0.5522), tensor(0.5810), tensor(0.6722), tensor(0.5520), tensor(0.6708), tensor(0.5831), tensor(0.6432)]
+Epoch 49
+	Epoch Metric  {'train_loss': 1.1736914316813152, 'val_loss': 0.5955265256074759, 'train_accuracy': 0.3229166666666667, 'val_accuracy': 0.9543269230769231} 
+
+Predictions tensor([[1, 0, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 0, 1, 0, 2, 0, 0, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 0, 0, 0, 0, 2, 0, 2, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5831), tensor(0.6115), tensor(0.5816), tensor(0.5837), tensor(0.6437), tensor(0.5804), tensor(0.6113), tensor(0.5521), tensor(0.5519), tensor(0.6121), tensor(0.5805), tensor(0.5810), tensor(0.6130), tensor(0.5808), tensor(0.5816), tensor(0.5806), tensor(0.6146), tensor(0.5809), tensor(0.6132), tensor(0.5520), tensor(0.5817), tensor(0.6733), tensor(0.5520), tensor(0.6668), tensor(0.5831), tensor(0.6434)]
+Epoch 50
+	Epoch Metric  {'train_loss': 1.155670444170634, 'val_loss': 0.5955356107308314, 'train_accuracy': 0.375, 'val_accuracy': 0.9555288461538461} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 1, 1, 0, 1, 0, 2, 0, 0, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [1, 0, 1, 0, 0, 0, 2, 0, 2, 1, 2, 0, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 1, 2, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5833), tensor(0.6117), tensor(0.5821), tensor(0.5837), tensor(0.6445), tensor(0.5826), tensor(0.6113), tensor(0.5526), tensor(0.5518), tensor(0.6139), tensor(0.5813), tensor(0.5824), tensor(0.6119), tensor(0.5812), tensor(0.5810), tensor(0.5802), tensor(0.6163), tensor(0.5814), tensor(0.6121), tensor(0.5521), tensor(0.5806), tensor(0.6719), tensor(0.5519), tensor(0.6479), tensor(0.5830), tensor(0.6424)]
+Epoch 51
+	Epoch Metric  {'train_loss': 1.1818957328796387, 'val_loss': 0.5946846054150507, 'train_accuracy': 0.34375, 'val_accuracy': 0.9555288461538461} 
+
+Predictions tensor([[1, 0, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 1, 1, 0, 0, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 0, 0, 0, 0, 2, 0, 2, 1, 2, 1, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [2, 1, 0, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5830), tensor(0.6123), tensor(0.5823), tensor(0.5838), tensor(0.6432), tensor(0.5824), tensor(0.6115), tensor(0.5521), tensor(0.5518), tensor(0.6117), tensor(0.5812), tensor(0.5821), tensor(0.6126), tensor(0.5794), tensor(0.5812), tensor(0.5806), tensor(0.6149), tensor(0.5806), tensor(0.6133), tensor(0.5520), tensor(0.5816), tensor(0.6746), tensor(0.5519), tensor(0.6431), tensor(0.5830), tensor(0.6425)]
+Epoch 52
+	Epoch Metric  {'train_loss': 1.1705087423324585, 'val_loss': 0.5946326691370744, 'train_accuracy': 0.3541666666666667, 'val_accuracy': 0.9555288461538461} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 1, 1, 0, 1, 0, 2, 0, 0, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 1, 0, 1, 2, 0, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [1, 1, 0, 2, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5832), tensor(0.6121), tensor(0.5807), tensor(0.5838), tensor(0.6436), tensor(0.5816), tensor(0.6137), tensor(0.5521), tensor(0.5518), tensor(0.6128), tensor(0.5803), tensor(0.5807), tensor(0.6113), tensor(0.5773), tensor(0.5818), tensor(0.5831), tensor(0.6147), tensor(0.5821), tensor(0.6100), tensor(0.5520), tensor(0.5809), tensor(0.6727), tensor(0.5519), tensor(0.6459), tensor(0.5830), tensor(0.6448)]
+Epoch 53
+	Epoch Metric  {'train_loss': 1.1878851652145386, 'val_loss': 0.594383968756749, 'train_accuracy': 0.3333333333333333, 'val_accuracy': 0.9567307692307693} 
+
+Predictions tensor([[1, 0, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 0, 1, 0, 0, 0, 2, 1, 1, 1, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 2, 0, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [2, 1, 0, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5832), tensor(0.6121), tensor(0.5817), tensor(0.5838), tensor(0.6411), tensor(0.5833), tensor(0.6131), tensor(0.5522), tensor(0.5518), tensor(0.6109), tensor(0.5803), tensor(0.5806), tensor(0.6113), tensor(0.5659), tensor(0.5813), tensor(0.5829), tensor(0.6150), tensor(0.5802), tensor(0.6111), tensor(0.5520), tensor(0.5818), tensor(0.6730), tensor(0.5523), tensor(0.6428), tensor(0.5827), tensor(0.6436)]
+Epoch 54
+	Epoch Metric  {'train_loss': 1.161955992380778, 'val_loss': 0.5943253590510442, 'train_accuracy': 0.3645833333333333, 'val_accuracy': 0.9567307692307693} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 1, 2, 1, 0, 1, 0, 2, 0, 0, 1, 1, 1, 1, 0,
+         2, 1, 2, 1, 1, 1, 2, 1],
+        [1, 0, 1, 0, 0, 0, 2, 1, 0, 1, 2, 0, 2, 2, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 0],
+        [0, 2, 0, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5838), tensor(0.6116), tensor(0.5852), tensor(0.6065), tensor(0.6431), tensor(0.5830), tensor(0.6140), tensor(0.5522), tensor(0.5520), tensor(0.6148), tensor(0.5815), tensor(0.5819), tensor(0.6412), tensor(0.6086), tensor(0.5994), tensor(0.5828), tensor(0.6162), tensor(0.5802), tensor(0.6084), tensor(0.5523), tensor(0.5813), tensor(0.6728), tensor(0.5521), tensor(0.6448), tensor(0.5813), tensor(0.6436)]
+Epoch 55
+	Epoch Metric  {'train_loss': 1.160452961921692, 'val_loss': 0.597731902049138, 'train_accuracy': 0.375, 'val_accuracy': 0.9507211538461539} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 2, 2, 1, 0, 1, 0, 2, 0, 0, 1, 1, 1, 1, 0,
+         2, 2, 2, 0, 1, 1, 2, 1],
+        [1, 0, 0, 0, 0, 0, 2, 1, 0, 1, 2, 1, 2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [2, 2, 0, 2, 0, 0, 2, 1, 1, 1, 2, 1, 0, 0, 1, 1, 2, 2, 0, 1, 0, 2, 1, 1,
+         0, 1, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5836), tensor(0.6143), tensor(0.6006), tensor(0.6129), tensor(0.6416), tensor(0.5840), tensor(0.6140), tensor(0.5534), tensor(0.5540), tensor(0.6268), tensor(0.5853), tensor(0.5979), tensor(0.6346), tensor(0.5532), tensor(0.5829), tensor(0.5876), tensor(0.7022), tensor(0.5819), tensor(0.6149), tensor(0.5914), tensor(0.5937), tensor(0.7533), tensor(0.5951), tensor(0.6454), tensor(0.5594), tensor(0.6483)]
+Epoch 56
+	Epoch Metric  {'train_loss': 1.162062366803487, 'val_loss': 0.6060406359342428, 'train_accuracy': 0.3958333333333333, 'val_accuracy': 0.9483173076923077} 
+
+Predictions tensor([[1, 1, 1, 2, 1, 1, 1, 2, 0, 2, 2, 2, 0, 0, 1, 0, 2, 0, 0, 1, 1, 1, 1, 0,
+         1, 2, 2, 0, 1, 1, 2, 1],
+        [0, 0, 1, 0, 0, 0, 2, 0, 0, 1, 2, 1, 2, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [2, 2, 1, 1, 0, 1, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 2, 2, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 0, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5994), tensor(0.6174), tensor(0.6008), tensor(0.6144), tensor(0.6458), tensor(0.6260), tensor(0.6193), tensor(0.5838), tensor(0.5573), tensor(0.6143), tensor(0.6118), tensor(0.5921), tensor(0.6190), tensor(0.5765), tensor(0.6113), tensor(0.6192), tensor(0.6383), tensor(0.6400), tensor(0.6594), tensor(0.6184), tensor(0.6346), tensor(0.6786), tensor(0.5656), tensor(0.7056), tensor(0.6161), tensor(0.7326)]
+Epoch 57
+	Epoch Metric  {'train_loss': 1.1906911134719849, 'val_loss': 0.6325242381829482, 'train_accuracy': 0.3125, 'val_accuracy': 0.9254807692307693} 
+
+Predictions tensor([[1, 1, 1, 1, 0, 0, 1, 2, 1, 2, 2, 1, 1, 0, 1, 0, 1, 0, 0, 1, 2, 1, 1, 0,
+         2, 2, 1, 1, 1, 1, 0, 1],
+        [1, 0, 0, 0, 0, 0, 2, 1, 0, 1, 2, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 2,
+         1, 1, 2, 1, 1, 1, 2, 0],
+        [0, 2, 0, 2, 0, 2, 2, 1, 1, 2, 2, 1, 1, 0, 1, 0, 2, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 2, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.6222), tensor(0.6821), tensor(0.6273), tensor(0.6873), tensor(0.6993), tensor(0.6670), tensor(0.6622), tensor(0.5914), tensor(0.6374), tensor(0.6344), tensor(0.6637), tensor(0.6501), tensor(0.6195), tensor(0.6058), tensor(0.5927), tensor(0.5884), tensor(0.6885), tensor(0.6745), tensor(0.6501), tensor(0.6095), tensor(0.5876), tensor(0.6922), tensor(0.6159), tensor(0.7440), tensor(0.5825), tensor(0.6676)]
+Epoch 58
+	Epoch Metric  {'train_loss': 1.1540851195653279, 'val_loss': 0.6256548762321472, 'train_accuracy': 0.3958333333333333, 'val_accuracy': 0.9266826923076923} 
+
+Predictions tensor([[1, 1, 1, 1, 1, 1, 1, 2, 0, 2, 2, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0,
+         2, 2, 2, 1, 1, 1, 1, 1],
+        [0, 0, 1, 0, 0, 0, 2, 1, 1, 1, 2, 1, 2, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 0, 1, 2, 1],
+        [2, 2, 1, 2, 1, 1, 2, 1, 2, 1, 2, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1,
+         2, 0, 0, 1, 2, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.6202), tensor(0.6893), tensor(0.6791), tensor(0.7232), tensor(0.6621), tensor(0.6786), tensor(0.6534), tensor(0.6452), tensor(0.6103), tensor(0.6120), tensor(0.6165), tensor(0.6002), tensor(0.6273), tensor(0.6032), tensor(0.6298), tensor(0.5841), tensor(0.6333), tensor(0.5972), tensor(0.6547), tensor(0.6223), tensor(0.6510), tensor(0.7167), tensor(0.6161), tensor(0.7210), tensor(0.5604), tensor(0.6545)]
+Epoch 59
+	Epoch Metric  {'train_loss': 1.1638598044713337, 'val_loss': 0.6353949996141287, 'train_accuracy': 0.3645833333333333, 'val_accuracy': 0.9206730769230769} 
+
+Predictions tensor([[1, 1, 1, 2, 1, 1, 1, 2, 0, 2, 0, 2, 1, 0, 1, 2, 1, 0, 0, 1, 0, 2, 1, 0,
+         2, 1, 2, 0, 1, 1, 2, 1],
+        [1, 0, 0, 0, 0, 0, 2, 1, 1, 1, 2, 1, 2, 0, 0, 0, 1, 1, 2, 1, 1, 1, 0, 1,
+         1, 1, 2, 1, 1, 1, 2, 1],
+        [2, 1, 1, 1, 0, 0, 2, 1, 2, 1, 2, 1, 1, 0, 1, 0, 2, 2, 0, 1, 0, 1, 1, 1,
+         0, 1, 0, 0, 0, 1, 1, 0]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5996), tensor(0.6826), tensor(0.6725), tensor(0.6006), tensor(0.6824), tensor(0.6535), tensor(0.6163), tensor(0.5843), tensor(0.5653), tensor(0.6281), tensor(0.6202), tensor(0.6543), tensor(0.6591), tensor(0.5692), tensor(0.6740), tensor(0.5979), tensor(0.6175), tensor(0.6054), tensor(0.6238), tensor(0.5737), tensor(0.6484), tensor(0.6997), tensor(0.6107), tensor(0.7233), tensor(0.5851), tensor(0.6457)]
+Epoch 60
+	Epoch Metric  {'train_loss': 1.188177227973938, 'val_loss': 0.6162834625977737, 'train_accuracy': 0.3541666666666667, 'val_accuracy': 0.9387019230769231} 
+
+Predictions tensor([[0, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 0, 1, 2, 1, 0, 0, 1, 1, 0, 1, 0,
+         1, 1, 2, 0, 1, 1, 2, 1],
+        [1, 0, 1, 0, 0, 0, 2, 1, 1, 1, 2, 1, 2, 1, 1, 0, 1, 1, 2, 1, 1, 1, 0, 1,
+         1, 1, 1, 1, 1, 1, 1, 1],
+        [0, 1, 1, 1, 0, 0, 2, 1, 1, 1, 2, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1,
+         0, 0, 0, 1, 2, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+[tensor(0.5871), tensor(0.6629), tensor(0.6639), tensor(0.6375), tensor(0.6795), tensor(0.6449), tensor(0.5895), tensor(0.6091), tensor(0.5607), tensor(0.6107), tensor(0.5883), tensor(0.6509), tensor(0.6485), tensor(0.6126), tensor(0.6161), tensor(0.6038), tensor(0.6516), tensor(0.6023), tensor(0.6530), tensor(0.5715), tensor(0.5864), tensor(0.6838), tensor(0.6159), tensor(0.6699), tensor(0.5581), tensor(0.6454)]
+Epoch 61
+	Epoch Metric  {'train_loss': 1.1796207825342815, 'val_loss': 0.6061989596256843, 'train_accuracy': 0.3645833333333333, 'val_accuracy': 0.9471153846153846} 
+
+Predictions tensor([[0, 1, 1, 2, 1, 1, 0, 2, 0, 2, 2, 2, 1, 1, 2, 2, 2, 0, 0, 1, 1, 0, 1, 2,
+         2, 2, 2, 0, 1, 1, 0, 2],
+        [1, 0, 1, 0, 0, 0, 2, 1, 1, 1, 2, 1, 2, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 1, 2, 1, 1, 1, 2, 1],
+        [0, 1, 1, 2, 0, 0, 2, 1, 2, 1, 2, 2, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 2, 1,
+         0, 0, 0, 2, 2, 1, 1, 2]], device='cuda:0', dtype=torch.int32)
+Loading from checkpoint ./checkpoints/eeg_e/epoch=54.checkpoint.pth.tar?
+=> Successfully restored checkpoint (trained for 54 epochs)
+Global min val loss  0.5943253590510442 
+
+test_acc 0.390625, test_loss 1.1325929537415504
