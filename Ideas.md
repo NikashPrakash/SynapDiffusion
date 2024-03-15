@@ -10,6 +10,7 @@ Multi-gpu
 single or multi system
 
 data in batches -> all datapoints in batch run on separate set of blocks
+https://d2l.ai/chapter_computational-performance/multiple-gpus.html
 
 https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-loading-a-general-checkpoint-for-inference-and-or-resuming-training
 https://www.reddit.com/r/MachineLearning/comments/kvs1ex/d_here_are_17_ways_of_making_pytorch_training/
@@ -18,7 +19,24 @@ PyTorch AMP
 PyTorch AdamW - fused kernel (fused=True)
 Weight-decay explanation: https://www.fast.ai/posts/2018-07-02-adam-weight-decay.html#adamw
 
+#### Related work
+https://www.cs.cmu.edu/~afluo/
+
 ### Model Architecture
+https://www.frontiersin.org/articles/10.3389/fnhum.2023.1169949/full
+https://www.reddit.com/r/MachineLearning/comments/18bd0lw/d_what_is_the_latest_with_multimodal/
+
+#### Structure
+STGATE (Spatial-Temporal Graph Attention Net): https://www.frontiersin.org/articles/10.3389/fnhum.2023.1169949/full
+    Transformer encoder
+
+EEG:
+Graph Attention Network + FC
+CNN + Transfomer, Transformer + CNN
+CNN + Graph Attention Network
+Transformer + Graph Attention network
+CNN (s) + Transformer (t) + Graph Attention Network
+
 
 #### Metrics
 https://arxiv.org/pdf/2007.15359.pdf
@@ -46,4 +64,4 @@ Questions:
         We have 197GB data -> 55GB EEG; 128GB MEG; 14GB Images;How would you recommend we train with the large amount data?
         To train a small model on a subset, or similar size model how extensive should hyperparamter search be for a small model+subset?
     
-    
+    create user group from local 

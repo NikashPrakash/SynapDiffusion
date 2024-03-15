@@ -1,6 +1,9 @@
 EEG_data*
 Things_Images*
 ds003825-1.2.0.sh
-.venv/
+env/
 MEG_e*
 MEG_da*
+__pycache__*
+slurm*
+checkpoints*
