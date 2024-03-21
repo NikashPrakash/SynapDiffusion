@@ -26,6 +26,10 @@ https://www.cs.cmu.edu/~afluo/
 https://www.frontiersin.org/articles/10.3389/fnhum.2023.1169949/full
 https://www.reddit.com/r/MachineLearning/comments/18bd0lw/d_what_is_the_latest_with_multimodal/
 
+New meg model:
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6609925/
+
+
 #### Structure
 STGATE (Spatial-Temporal Graph Attention Net): https://www.frontiersin.org/articles/10.3389/fnhum.2023.1169949/full
     Transformer encoder
