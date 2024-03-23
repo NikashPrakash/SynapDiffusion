@@ -18,9 +18,30 @@ https://www.reddit.com/r/MachineLearning/comments/kvs1ex/d_here_are_17_ways_of_m
 PyTorch AMP
 PyTorch AdamW - fused kernel (fused=True)
 Weight-decay explanation: https://www.fast.ai/posts/2018-07-02-adam-weight-decay.html#adamw
+https://towardsdatascience.com/how-to-solve-data-loading-bottlenecks-in-your-deep-learning-training-1ddfcc24449b
 
 #### Related work
 https://www.cs.cmu.edu/~afluo/
+
+EEG BCI literature review
+https://www.sciencedirect.com/science/article/pii/S2665917423001599
+
+fMRI decoding
+https://web.eecs.umich.edu/~weimerw/p/weimer-icse2017-preprint.pdf
+    root ^: https://web.eecs.umich.edu/~weimerw/fmri.html
+
+Object tracking:
+https://arxiv.org/pdf/2103.17154.pdf
+
+Spatiotemporal transformer analysis for attention estimation with eeg:
+https://arxiv.org/pdf/2204.07162v1.pdf
+
+things-initiative MEG:
+https://elifesciences.org/articles/82580#s4
+
+#### Resources
+https://github.com/analyticalmonk/awesome-neuroscience?tab=readme-ov-file
+
 
 ### Model Architecture
 https://www.frontiersin.org/articles/10.3389/fnhum.2023.1169949/full
@@ -28,6 +49,9 @@ https://www.reddit.com/r/MachineLearning/comments/18bd0lw/d_what_is_the_latest_w
 
 New meg model:
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6609925/
+
+#### Data
+https://vscode.dev/github.com/ViCCo-Group/THINGS-data
 
 
 #### Structure
