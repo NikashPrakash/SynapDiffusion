@@ -2,6 +2,7 @@
 
 ### Training Considerations
 Distributed data parallel 
+for hyperparameter search. so it would be diff hyperparams for model/optim with a copy of the data
 
 + model parallel?
 + Other optimaizations
@@ -35,6 +36,9 @@ https://arxiv.org/pdf/2103.17154.pdf
 
 Spatiotemporal transformer analysis for attention estimation with eeg:
 https://arxiv.org/pdf/2204.07162v1.pdf
+
+EEG connectivity analysis:
+https://www.mdpi.com/2306-5354/10/3/372s
 
 things-initiative MEG:
 https://elifesciences.org/articles/82580#s4

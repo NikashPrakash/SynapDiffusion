@@ -185,9 +185,9 @@ def train_chunk(model, trainDat, trainLabels, optimizer, criterion):
         trainStats.append(loss.cpu().detach())
     return trainStats
 
-def train(model, optimizer, criterion, trainDat, trainLabels, valDat, valLabels):
+def train(model, optimizer, criterion, trainDat, trainLabels, valDat, valLabels, chunkNum):
     trainStats = train_chunk(model,trainDat, trainLabels, optimizer, criterion)
-    make_minibatch_training_plot(trainStats,"Chunk-1")
+    make_minibatch_training_plot(trainStats,f"Chunk-{chunkNum}")
     stats,y_pred = evaluate_chunk(
         trainDat,
         trainLabels,
@@ -224,7 +224,7 @@ def main():
     #criterion= nn.BCEWithLogitsLoss()
     criterion= nn.CrossEntropyLoss()
     optimizer=torch.optim.AdamW(model.parameters(),lr=0.001) # TODO choose weight/lr - in hyperparam search
-    totBatches = mapping.shape[0] #TODO should be mapping.shape[0] * batches_per_chunk or something
+    totBatches = mapping.shape[0] #So after loadBatches its 1833 batches.  should be mapping.shape[0] * batches_per_chunk or something
     numChunks = 1 #TODO just use mapping file for this once we have multiple files
     
     X = np.arange(0, totBatches) #THIS WILL NOT WORK FOR >1 CHUNK!
@@ -251,27 +251,29 @@ def main():
             'val_accuracy': 0
         }
         currBatch = 0
-        for i in range(numChunks):  #TRAINING LOOP- PER CHUNK: (train function should be run on each CHUNK)
-            currSub = "sub-0" + str(i+1) #TODO fix case where participant number >9 lol
-            eegdata = torch.load(fpath + '/EEG_data/chunks/' + currSub + ".pt",map_location=device)  #load chunk
-            # numBatches = eegdata.shape[0] #num batches in  file
-            #idxs = tr_idx[np.where((tr_idx >= currBatch) & (tr_idx < (currBatch + numBatches)))] #TODO check bounds MAKE WORK FOR MULTIPLE CHUNKS
-            #print(idxs)            
-            tr_eeg  = eegdata[tr_idx - currBatch, :, :].to(device) #makes index wrt current chunk
-            tr_labels  = mapping[tr_idx, :, :] #Any necessary data transformations (if any)... 
-            val_eeg = eegdata[val_idx - currBatch, :, :].to(device) #makes index wrt current chunk 
-            val_labels = mapping[val_idx, :, :] #Any necessary data transformations (if any)... 
-            
-            out,y_pred = train(model, optimizer, criterion, tr_eeg, tr_labels, val_eeg, val_labels)
-            chunk_metrics['train_loss'] = out[1]
-            chunk_metrics['train_accuracy'] = out[0]
-            chunk_metrics['val_loss'] = out[3]
-            chunk_metrics['val_accuracy'] = out[2]
+        # for i in range(numChunks):  #TRAINING LOOP- PER CHUNK: (train function should be run on each CHUNK)
+        currSub = "sub-0" + str(i+1) #TODO fix case where participant number >9 lol
+        eegdata = torch.load(fpath + '/EEG_data/chunks/' + currSub + ".pt",map_location=device)  #load chunk
+        # numBatches = eegdata.shape[0] #num batches in file
+        #idxs = tr_idx[np.where((tr_idx >= currBatch) & (tr_idx < (currBatch + numBatches)))] #TODO check bounds MAKE WORK FOR MULTIPLE CHUNKS
+        #print(idxs)         
+        tr_eeg  = eegdata[tr_idx - currBatch, :, :].to(device) #makes index wrt current chunk
+        tr_labels  = mapping[tr_idx, :, :] #Any necessary data transformations (if any)... 
+        val_eeg = eegdata[val_idx - currBatch, :, :].to(device) #makes index wrt current chunk 
+        val_labels = mapping[val_idx, :, :] #Any necessary data transformations (if any)... 
+        
+        out,y_pred = train(model, optimizer, criterion, tr_eeg, tr_labels, val_eeg, val_labels, i)
+        chunk_metrics['train_loss'] = out[1]
+        chunk_metrics['train_accuracy'] = out[0]
+        chunk_metrics['val_loss'] = out[3]
+        chunk_metrics['val_accuracy'] = out[2]
             #currBatch = currBatch + numBatches
         epoch += 1
         print("Epoch " + str(epoch))
         print("\tEpoch Metric ",chunk_metrics,"\n")
         print(f"Predictions {y_pred.flatten(start_dim=1)}")
+        print(f"True labels: {val_labels.flatten(start_dim=1)}")
+        
         global_metrics.append(chunk_metrics) #TODO GLOBAL STATS SHOULD BE AVERAGE OF CHUNK STATS WHEN WE HAVE >1 CHUNK 
         save_checkpoint(model, optimizer, epoch, config("EEG-Encoder.checkpoint"), global_metrics)
         curr_count_to_patience, global_min_loss = early_stopping(
@@ -286,7 +288,7 @@ def main():
     test_acc, test_loss, test_pred =  _get_metrics(model, criterion, test_eeg, test_labels)
 
 
-        # for i in range(numChunks):  #TESTING LOOP- PER CHUNK: (train function should be run on each CHUNK)
+        # for i in range(numChunks):  #TESTING LOOP - PER CHUNK: (train function should be run on each CHUNK)
         # trdat = {}
         # valdat = {}
             # with torch.no_grad():

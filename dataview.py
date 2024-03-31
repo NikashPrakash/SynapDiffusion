@@ -1,11 +1,10 @@
-# import mne 
-# import h5py
 import numpy as np
 import scipy.io
 import os
 import torch
 import pandas as pd
 import math
+from model import EEGDecoder
 # import matplotlib as plt
 
 # datareader = mne.io.read_raw_brainvision("Data\sub-01_task-rsvp_eeg.vhdr",preload=True)
@@ -25,10 +24,15 @@ meg_file_template = 'preprocessed_P1-epo-1.fif'
 tsv_file = fpath + 'sub-01/eeg/sub-01_task-rsvp_events.tsv'
 out_path_eeg = fpath + 'chunks/sub-01.pt' 
 out_path_mapping = fpath + 'chunks/mapping.pt' #MAPPING IS ONLY ONE FILE-- FOR ALL CHUNKS
-
+model = EEGDecoder(63, 63, 3).to(torch.device('cuda')) 
 eeg_dat = torch.load(out_path_eeg)
 print(eeg_dat.shape)
-
+labels = torch.load(out_path_mapping)
+breakpoint()
+li = os.listdir(fpath+"chunks")
+for f in li:
+    if f[0:3] == 'sub':
+        eeg_dat = torch.stack((eeg_dat, torch.load(f)))
 
 # raw = mne.io.read_raw_fif("MEG_data/preprocessed_P1-epo-1.fif")
 # for fname in os.listdir(fpath):

@@ -127,6 +127,7 @@ class EEGDecoder(nn.Module):
         output = self.fc(convOutput)
         output = self.softmax(output)
         return output
+
     # def forward(self, input_data):
     #     print("Input shape:", input_data.shape)
     #     lstmOutput, _ = self.lstm(input_data)
