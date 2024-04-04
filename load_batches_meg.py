@@ -9,87 +9,80 @@ import math
 
 #TODO LOOP THROUGH ALL SUBJECTS + SAVE TO ONE FILE
 #TODO write interface for creating graphs of each 100ms segment
-fpath = '/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/MEG_data/'
-out_path_mapping = fpath + "chunks/mapping.pt"
-batchSize = 32
-#DOUBLE CHECK IF MAPPING CODE NEEDS TO BE DIFFERENT FOR MEG
-obj_map = torch.tensor(pd.read_csv("/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/Things_Images/THINGS/27 higher-level categories/category_mat_manual.tsv",delimiter="\t").values)
 
-meg_file = fpath + f"preprocessed_P{1}-epo-{1}.fif"
+fpath = '/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/MEG_data/'
+out_path_mapping = fpath + "mapping.pt"
+batchSize = 32
+
+print("hii")
+obj_map = torch.tensor(pd.read_csv("/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/Things_Images/THINGS/27 higher-level categories/category_mat_manual.tsv",delimiter="\t").values)
+pic_map = torch.tensor(pd.read_csv("/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/Things_Images/THINGS/Metadata/Concept-specific/image_concept_index.csv",delimiter="\t").values)
+
+meg_file = fpath + f"preprocessed_P{1}-epo.fif"
 
 raw = mne.read_epochs(meg_file,preload=True)
 
-print(raw.info)
+# Get all data points from Epochs object
+all_data_points = raw.get_data()
 
-def normalize_tensor(inp):
-    inp = (inp - torch.mean(inp,1,keepdim=True)) / torch.std(inp,1,keepdim=True) #spatial
-    return (inp - torch.mean(inp,0,keepdim=True)) / torch.std(inp,0,keepdim=True) #temporal
+# Dimensions of the data array
+n_epochs, n_channels, n_time_points = all_data_points.shape
+
+print(f"Number of epochs: {n_epochs}")
+print(f"Number of channels: {n_channels}")
+print(f"Number of time points per epoch: {n_time_points}")
+
+event_id_mapping = raw.event_id  # Mapping of event IDs to event descriptions
+
+# Get labels for each epoch
+epoch_labels = [event_id_mapping[str(event_id)] for event_id in raw.events[:, 2]]
 
 labels = []
-'''for i in range(1, 51): #TODO CHANGE TO 51
-    sub_id = f"0{i}" if i < 10 else i
-    eeg_file = fpath + f"sub-{sub_id}/eeg/sub-{sub_id}_task-rsvp_eeg.vhdr"
-    tsv_file = fpath + f"sub-{sub_id}/eeg/sub-{sub_id}_task-rsvp_events.tsv"
-    out_path_eeg = fpath + f"chunks/sub-{sub_id}.pt"
-    
+j = 0
 
-    raw = mne.io.read_raw_brainvision(eeg_file,preload=True)
-
-    sfreq = raw.info['sfreq']
-
-    segment_duration = 0.1  # 100 ms
-
-    segment_samples = int(sfreq * segment_duration)
-
-    total_samples = raw.n_times
-
+for i in range(0, 4):
+    out_path_meg = fpath + f"chunk-{i}.pt"
     tensor_array = []
     tensors = []
     labels_array = []
-    unlabeled = []
-    skipped = []
-    task_f = pd.read_csv(tsv_file, delimiter="\t")
-    objects_classes = task_f["objectnumber"]
-    startTimes = task_f["onset"]
-    startTimes = startTimes.values
-    objects_classes = objects_classes.values
-    j = 0 #note: full path given for debug purposes
     k = 0
-    for i in startTimes:
-        start = math.floor(i*sfreq)
-        segment_data, _ = raw[:, start:start+segment_samples]  #type(segement_data) = ,
-        segment_tensor = torch.tensor(segment_data,dtype=torch.float32)
-        start += segment_samples
-        classification = obj_map[objects_classes[j]][[10,11,16]] #selecting cols 11, 12, 17
-        if torch.sum(classification) == 1:
-            if (k < batchSize):
-                tensor_array.append(normalize_tensor(segment_tensor))
-                labels_array.append(classification) #one hot vector of label for each object (image) 
-                k += 1
-            if (k == batchSize):
-                tensor_array = torch.stack(tensor_array)
-                labels_array = torch.stack(labels_array)
-                tensors.append(tensor_array)
-                labels.append(labels_array)
-                k = 0
-                tensor_array = []
-                labels_array = []
-        else:
-            if (torch.sum(classification) == 0):
-                unlabeled.append(j)
+    unlabeled = 0
+    skipped = 0
+    for j in range(0, int(int(n_epochs)/4)):
+        if epoch_labels[j] != 999999:
+            segment_tensor = torch.tensor(all_data_points[j],dtype=torch.float32)
+            classification = obj_map[pic_map[epoch_labels[j] - 1] - 1][[2,10]] #double check these offsets
+            # TODO disinclude 999999 event ids
+            if torch.sum(classification) == 1:
+                if (k < batchSize):
+                    tensor_array.append(segment_tensor)
+                    labels_array.append(classification) #one hot vector of label for each object (image) 
+                    k += 1
+                if (k == batchSize):
+                    tensor_array = torch.stack(tensor_array)
+                    labels_array = torch.stack(labels_array)
+                    tensors.append(tensor_array)
+                    labels.append(labels_array)
+                    k = 0
+                    tensor_array = []
+                    labels_array = []
             else:
-                skipped.append(j)
+                if (torch.sum(classification) == 0):
+                    unlabeled += 1
+                else:
+                    skipped += 1
         j += 1
-
-    tensors = torch.stack(tensors).permute(0,1,3,2) #CURRENT IMPLEMENTATION OF CODE JUST GETS RID OF SAMPLES THAT DONT FIT INTO BATCHES OF SIZE BATCHSIZE
-    print("Shape of EEG tensor array:", tensors.shape)
+    tensors = torch.stack(tensors).permute(0,1,2,3)
+    print("Shape of MEG tensor array:", tensors.shape)
     print(f"Shape of Label tensor array: {len(labels), len(labels[0]), len(labels[0][0])}")
-    torch.save(tensors, out_path_eeg)
-    print("EEG Tensor Saved to " + out_path_eeg)
+    torch.save(tensors, out_path_meg)
+    print("MEG Tensor Saved to " + out_path_meg)
     print("Label tensor Saved to " + out_path_mapping)
-    print("Skipped " + str(len(unlabeled)) + " unlabeled samples")
-    print("Skipped " + str(len(skipped)) + " multilabeled samples")
+    print("Skipped ", unlabeled, " unlabeled samples")
+    print("Skipped ", skipped, " multilabeled samples")
+
 labels = torch.stack(labels)
 torch.save(labels, out_path_mapping)
 print(labels.shape)
-#TODO DOUBLE CHECK DATA'''
+
+#TODO DOUBLE CHECK DATA

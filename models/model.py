@@ -113,35 +113,26 @@ class EEGDecoder(nn.Module):
         self.lstm = nn.LSTM(input_size, hidden_size, batch_first=True,num_layers=1) # USE TEMPORAL ATTENTION INSTEAD OF LSTM, transformer or custom impl.
         self.conv1 = nn.Conv1d(in_channels=hidden_size, out_channels=63, kernel_size=3, padding=1)
         self.conv2 = nn.Conv1d(in_channels=63, out_channels=math.ceil(hidden_size/2), kernel_size=3, padding=1)
-        self.relu = nn.ReLU()
         self.fc = nn.Linear(32, output_size)
         self.softmax = nn.Softmax(dim=1)
 
     def forward(self, input_data):
         lstmOutput, (h_t,c_t) = self.lstm(input_data) #TODO DOES THIS FIX ISSUE WITH INPUT SIZE???? #
-        lstmOutput = h_t.permute(1,2,0) # Dont forget this change  
-        convOutput = self.relu(self.conv1(lstmOutput)) #TODO GET OTHER HYPERPARAMS FROM PAPER
-        convOutput = self.relu(self.conv2(convOutput))
+        lstmOutput = h_t.permute(1,2,0) # Dont forget this change
+        convOutput = nn.functional.leaky_relu(self.conv1(lstmOutput)) #TODO GET OTHER HYPERPARAMS FROM PAPER
+        convOutput = nn.functional.leaky_relu(self.conv2(convOutput))
         convOutput = convOutput.flatten(start_dim=1)
         #convOutput = torch.max(convOutput, dim=2)[0]
         output = self.fc(convOutput)
         output = self.softmax(output)
         return output
 
-    # def forward(self, input_data):
-    #     print("Input shape:", input_data.shape)
-    #     lstmOutput, _ = self.lstm(input_data)
-    #     print("LSTM output shape:", lstmOutput.shape)
-    #     lstmOutput = lstmOutput.permute(0, 2, 1)
-    #     print("Permuted LSTM output shape:", lstmOutput.shape)
-    #     convOutput = self.conv1(input_data)
-    #     convOutput = self.relu(convOutput)
-    #     convOutput = torch.max(convOutput, dim=2)[0]
-    #     print("Conv output shape after max:", convOutput.shape)
-    #     output = self.fc(convOutput)
-    #     output = self.softmax(output)
-    #     print("Final output shape:", output.shape)
-    #     return output
+class EEGModule(nn.Module):
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__()
+        
+    def forward(self, input_data):
+        pass
 
     
 class NeuralGenerator(nn.Module):
