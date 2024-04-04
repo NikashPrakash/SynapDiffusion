@@ -2,12 +2,16 @@
 # The interpreter used to execute the script
 
 
-#SBATCH --job-name=EEGNeuralDecoding
-#SBATCH --nodes=1
-#SBATCH --time=10:00
+#SBATCH --job-name=EEGBatchLoading
 #SBATCH --account=eecs448w24_class
-#SBATCH --cpus-per-task=1
-#SBATCH --mem-per-cpu=2g
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=6g
 
 source env/bin/activate 
-python loadBatches.py
+
+if [ "$1" == "eeg" ]; then
+    python load_batches_eeg.py
+else
+    python load_batches_meg.py
+fi
