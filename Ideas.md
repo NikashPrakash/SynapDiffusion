@@ -45,6 +45,7 @@ https://elifesciences.org/articles/82580#s4
 
 #### Resources
 https://github.com/analyticalmonk/awesome-neuroscience?tab=readme-ov-file
+https://github.com/vlawhern/arl-eegmodels
 
 
 ### Model Architecture
@@ -53,6 +54,9 @@ https://www.reddit.com/r/MachineLearning/comments/18bd0lw/d_what_is_the_latest_w
 
 New meg model:
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6609925/
+
+generation module:
+GATv2Optim Θ_n^+ 
 
 #### Data
 https://vscode.dev/github.com/ViCCo-Group/THINGS-data
@@ -68,7 +72,11 @@ CNN + Transfomer, Transformer + CNN
 CNN + Graph Attention Network
 Transformer + Graph Attention network
 CNN (s) + Transformer (t) + Graph Attention Network
+#### Reference
+GATv2Conv analysis = https://arxiv.org/pdf/2305.16196.pdf
 
+#### Future
+Need to consider doing causal embedding/attention to allow for real time decoding
 
 #### Metrics
 https://arxiv.org/pdf/2007.15359.pdf
