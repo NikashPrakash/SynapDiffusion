@@ -5,7 +5,7 @@
         "batch_size": 32
     },
     "MEG-Encoder": {
-        "checkpoint": "./checkpoints/meg_e/",
+        "checkpoint": "./checkpoints/meg_e_t/",
         "learning_rate": 1e-3,
         "batch_size": 32
     },
