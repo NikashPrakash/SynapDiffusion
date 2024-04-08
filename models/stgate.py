@@ -1,7 +1,7 @@
 import torch
 from torch import nn, Tensor
 import torch.nn.functional as F
-from gat_optim_conv import GAToptConv
+from models.gat_optim_conv import GAToptConv
 from typing import Optional, Tuple, Union
 from torch_geometric.typing import (
     Adj,
@@ -25,21 +25,21 @@ if typing.TYPE_CHECKING:
 class MultiKernelConvBlock(nn.Module):
     def __init__(self, in_channels, out_channels_list):
         super(MultiKernelConvBlock, self).__init__()
-        self.convs = nn.ModuleList()
-        for out_channels in out_channels_list:
-            self.convs.append(nn.Sequential(
-                nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1),
-                nn.BatchNorm2d(out_channels),
+        self.convs = nn.Sequential(
+                nn.Conv2d(in_channels, out_channels_list[0], kernel_size=1, padding='same'),
+                nn.BatchNorm2d(out_channels_list[0]),
                 nn.ReLU(),
-                nn.Conv2d(out_channels, out_channels, kernel_size=1),
-                nn.BatchNorm2d(out_channels),
-                nn.ReLU()
-            ))
-        self.output_dim = sum(out_channels_list)
+                nn.Conv2d(out_channels_list[0], out_channels_list[1], kernel_size=3,padding='same'),
+                nn.BatchNorm2d(out_channels_list[1]),
+                nn.ReLU(),
+                nn.Conv2d(out_channels_list[1],out_channels_list[2],3,padding='same'),
+                nn.BatchNorm2d(out_channels_list[2]),
+                nn.ReLU(),
+            )
 
     def forward(self, x):
         # Apply each convolutional set and concatenate the outputs
-        x = torch.cat([conv(x) for conv in self.convs], dim=1)
+        x = self.convs(x.unsqueeze(-1))
         return x
 
 class TransformerLearningBlock(nn.Module):
@@ -47,15 +47,15 @@ class TransformerLearningBlock(nn.Module):
         super(TransformerLearningBlock, self).__init__()
         self.conv_block = MultiKernelConvBlock(input_dim, model_dim)
         
-        self.positional_embedding = nn.Parameter(torch.randn(1, sum(model_dim), 1))
+        self.positional_embedding = nn.Parameter(torch.randn(1, 128, 1))
         
-        encoder_layers = nn.TransformerEncoderLayer(d_model=sum(model_dim), nhead=num_heads, dropout=dropout)
+        encoder_layers = nn.TransformerEncoderLayer(128, nhead=num_heads, dropout=dropout,batch_first=True)
         self.transformer_encoder = nn.TransformerEncoder(encoder_layers, num_layers=num_layers)
 
     def forward(self, x):
-        x = self.conv_block(x)
+        x = self.conv_block(x).squeeze(-1)
         x += self.positional_embedding
-        x = x.permute(2, 0, 1)  # Reshape for the transformer (seq_len, batch, features)
+        x = x.permute(0, 2, 1)  # Reshape for the transformer (batch, seq_len, features)
         x = self.transformer_encoder(x)
         return x
     
@@ -87,9 +87,8 @@ class TemporalAttention(nn.Module):
         return T_normalized
 
 class STGATE(nn.Module):
-    def __init__(self, input_dim=63, model_dim=[32, 64, 128], num_heads=8, num_layers=2, T_r=100, C=224, N=63, top_k=10, dropout=0.1):
+    def __init__(self, input_dim=63, model_dim=[32, 64, 128], num_heads=8, num_layers=2, T_r=100, C=128, N=63, top_k=10, dropout=0.1):
         super(STGATE, self).__init__()
-        
         # Transformer Learning Block (adapt the input/output dimensions as needed)
         self.transformer_learning_block = TransformerLearningBlock(input_dim,  model_dim, num_heads, num_layers, dropout)
         
@@ -98,20 +97,18 @@ class STGATE(nn.Module):
         self.temporal_attention = TemporalAttention(T_r, C, N)
         self.top_k = top_k
 
-        # Graph Convolution Network or any other GNN layer should be added here if needed
-        #GATv2: attention for two nodes could result in a similar score, especially if a node has a edge to itself, one way to resolve is fix attention score of query node i to 1
-        # Subtraction not possible so instead of orig update func, use a different transform for query node i, original update for all nodes but i: h′i = b + Θ_n h˜i + SUM_{j∈N_i,i̸=j} α_ij Θ_L h˜_j
-        #   Another way is to use the Θ_r (starts in scoreing function), in the update equation (5) instead of Θ_n
-        #   then if update func is only 0 if h_i = 0
-        #   worth testing Θ_n^+, Θ_r^+ for classification
-            # Θ_n^+ for regression (generation)
+        # Xh ∈ RB×N×C×Tr 
+        # V, bs ∈ RN×N, W1 ∈ RTr , and W2 ∈ RC×N
+        # W3 ∈ RTr and W4 ∈ RC×N
+        #T = Tr * BxNxCxTr * CxN
+        self.gcn = GAToptConv(C, C) # C,C?
         
-        self.gcn = GAToptConv(self.transformer_learning_block.output_dim, C)
-        
-        # Final fully connected layer for emotion prediction
         num_classes = 3 # for the 3 high level object classes
         self.fc = nn.Linear(C, num_classes)
-
+        
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.to(self.device)
+        
     def forward(self, x):
         # Pass input through the transformer learning block
         transformer_out = self.transformer_learning_block(x)
@@ -120,12 +117,13 @@ class STGATE(nn.Module):
         # This may involve reshaping or selecting features to match expected input dimensions
         
         # Apply spatial attention
-        A = self.spatial_attention(x)
+        A = self.spatial_attention(transformer_out)
         A_topk = torch.topk(A, self.top_k, dim=2).values
         A = torch.where(A >= A_topk, A, torch.zeros_like(A))
         # Apply temporal attention
-        T_hat = self.temporal_attention(x)
-        X_h_hat = T_hat * x
+        T_hat = self.temporal_attention(transformer_out)
+        X_h_hat = T_hat * transformer_out
+        print(X_h_hat.shape)
         
         # Graph Convolution operation
         gcn_out = self.gcn(X_h_hat, A)  # Uncomment and adjust if using a GNN layer
