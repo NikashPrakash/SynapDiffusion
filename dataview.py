@@ -4,7 +4,7 @@ import os
 import torch
 import pandas as pd
 import math
-from model import EEGDecoder
+from models.model import EEGDecoder
 # import matplotlib as plt
 
 # datareader = mne.io.read_raw_brainvision("Data\sub-01_task-rsvp_eeg.vhdr",preload=True)

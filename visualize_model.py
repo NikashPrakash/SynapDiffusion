@@ -1,4 +1,4 @@
-from model import MEGDecoder
+from models.model import MEGDecoder
 # from torchviz import make_dot
 import torch
 import dataclasses
