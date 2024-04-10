@@ -45,12 +45,10 @@ class ConvLayer(nn.Module):
         return conv_[...,0].permute(0, 2, 1)
 
 class MEGDecoder(nn.Module):
-    def __init__(self, h_params=None, params=None, savepath=''):
+    def __init__(self, h_params=None, params=None):
         super().__init__()
-        self.h_params = h_params
-        self.params = params
-        self.savepath = savepath
-                
+        self.l1lambda = h_params['l1pen']
+        
         if h_params['architecture'] == 'lf-cnn':
             self.conv = ConvLayer(n_ls=params['n_ls'], 
                                   filter_length=params['filter_length'],
@@ -69,9 +67,6 @@ class MEGDecoder(nn.Module):
                             out_feat=h_params['n_classes'], 
                             nonlin=params['nonlin_out'],
                             dropout=params['dropout'])
-        
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        self.to(self.device)
 
     def forward(self, x):
         return self.fin_fc(self.conv(x))
