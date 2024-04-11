@@ -13,7 +13,6 @@ from torch.distributed.fsdp import (
     MixedPrecision,
     ShardingStrategy,
 )
-
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
@@ -24,6 +23,8 @@ from models.model import *
 from models.stgate import *
 from dataset import DDPDataset
 import pandas as pd
+import pdb; pdb.set_trace()
+
 
 from training import Trainer, clear_checkpoint
 
@@ -83,7 +84,7 @@ def main(retrain, local_rank, rank):
     min_loss = 1000
     train_args = (patience, 
                   curr_count_to_patience,
-                  config("EEG-Encoder.checkpoint"),
+                  "EEG-Encoder.checkpoint",
                   min_loss, 
                   best_epoch
                   )

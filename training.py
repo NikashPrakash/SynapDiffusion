@@ -54,9 +54,9 @@ class Trainer:
     
     def decode(self, preds, top):
         if top == 1:
-            out = torch.argsort(preds, axis=1)[:, 0]
+            out = torch.argmax(preds.softmax(dim=1), dim=1)
         else:
-            out = torch.argsort(preds, axis=1)[:, -(top-1):]
+            out = torch.argsort(preds, dim=1)[:, -(top-1):]
         return out.float()
     
     def _get_metrics(self, loader, inner_pbar: None):
@@ -69,9 +69,9 @@ class Trainer:
                 predicted = self.decode(output, 1)
                 running_loss[1] += y.shape[0]
                 running_loss[0] += self.criterion(output, y).item()
-                # for i in range(y.shape[0]): top-5 acc #     correct += (y[i] in predicted[i])
+                
                 y = y.argmax(1)
-                correct += (predicted == y).sum().item() #only for top-1 acc
+                correct += (predicted == y).sum().item() #only for top-1 acc, # for i in range(y.shape[0]): top-5 acc correct += (y[i] in predicted[i])
                 y_pred = torch.cat((y_pred, predicted),dim=0) # TODO: is supposed to be arg?
                 y_true = torch.cat((y_true, y),dim=0)
             if self.rank == 0:
@@ -96,7 +96,7 @@ class Trainer:
         train_acc, train_loss, _, _ = self._get_metrics(self.tr_loader, inner_pbar)
         val_acc, val_loss, y_pred, y_true = self._get_metrics(self.val_loader, inner_pbar)
         
-        self.scheduler.step(val_loss, epoch=self.epoch)
+        self.scheduler.step(val_loss)
         
         stats = dict(train_loss=train_loss,train_accuracy=train_acc,val_loss=val_loss,val_accuracy=val_acc)
         return stats, y_pred, y_true
