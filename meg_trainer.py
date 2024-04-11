@@ -136,7 +136,7 @@ def main(retrain, local_rank, rank):
 
     train_args = (patience, 
                   curr_count_to_patience,
-                  "MEG-Encoder.checkpoint",
+                  config("MEG-Encoder.checkpoint"),
                   min_loss, 
                   best_epoch,
                   regulaizer

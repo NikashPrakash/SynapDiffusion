@@ -10,7 +10,6 @@ from torch.distributed.fsdp import (
 )
 
 import os, tqdm
-from utils import config
 from models.model import *
 
 class Trainer:
@@ -172,7 +171,7 @@ class Trainer:
             self.epoch += 1
             
             if self.rank == 0:
-                self.save_checkpoint(config(self.checkpoint_path))
+                self.save_checkpoint(self.checkpoint_path)
             
             self.early_stopping()
             if self.curr_count_to_patience == self.patience:

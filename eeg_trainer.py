@@ -84,7 +84,7 @@ def main(retrain, local_rank, rank):
     min_loss = 1000
     train_args = (patience, 
                   curr_count_to_patience,
-                  "EEG-Encoder.checkpoint",
+                  config("EEG-Encoder.checkpoint"),
                   min_loss, 
                   best_epoch
                   )
