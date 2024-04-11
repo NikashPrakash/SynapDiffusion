@@ -6,14 +6,14 @@ import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.nn import CrossEntropyLoss
 import torch.distributed as dist
-from torch.utils.data import DataLoader, Subset
+from torch.utils.data import DataLoader, Subset, RandomSampler
 from torch.utils.data.distributed import DistributedSampler
-from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.distributed.fsdp import (
     FullyShardedDataParallel as FSDP,
     MixedPrecision,
     ShardingStrategy,
 )
+from torch.distributed.elastic.multiprocessing.errors import record
 # from torch.distributed.fsdp.wrap import (
 #     size_based_auto_wrap_policy,
 #     enable_wrap,
@@ -30,9 +30,9 @@ from dataset import DDPDataset
 
 
 def setup(local_rank):
-    dist.init_process_group("nccl")
-    torch.cuda.set_device(local_rank)
-    torch.cuda.manual_seed_all(448)
+    # dist.init_process_group("nccl")
+    # torch.cuda.set_device(local_rank)
+    # torch.cuda.manual_seed_all(448)
     torch.manual_seed(448)
     np.random.seed(448)
     
@@ -47,17 +47,8 @@ class MEGTrainer(Trainer):
         self.checkpoint_path = args[2]
         self.min_loss = args[3]
         self.best_epoch = args[4]
-        
-    def restart_training(self):
-        if self.rank != 0:
-            return
-        filename = self.checkpoint_path + os.listdir(self.checkpoint_path)[-1]
-        checkpoint = torch.load(filename)
-        self.model.load_state_dict(checkpoint['state_dict'])
-        self.optimizer.load_state_dict(checkpoint['optimizer'])
-        self.metrics = checkpoint['stats']
-        self.epoch = checkpoint['epoch']
-            
+        self.regulaizer = args[5]
+        self.is_regulaizer = True
     """def hyper_search(self, tr_loader, val_loader): 
         params = {
             # TODO: Use other hyperparams if needed
@@ -92,7 +83,7 @@ class MEGTrainer(Trainer):
                 self.save_checkpoint(model, optimizer, best_epoch, config(".checkpoint"), stats, params)
         return best_performance, best_stats, best_model  """
 
-
+@record
 def main(retrain, local_rank, rank):
     setup(local_rank)
     #if you need local_rank device= torch.cuda.current_device()
@@ -101,14 +92,14 @@ def main(retrain, local_rank, rank):
     # print("device: ",device)
 
     #args use yaml file
-    hyper_params = dict(architecture = 'var-cnn', n_classes = 2, l1pen = 3e-4)
+    hyper_params = dict(architecture = 'var-cnn', n_classes = 2)
     params = dict(n_ls = 32, learn_rate = 3e-4, dropout = 0.5,
                   nonlin_in = nn.Identity, nonlin_hid = nn.ReLU,
                   nonlin_out = nn.Identity, filter_length = 7,
                   pooling = 2, stride = 1)
     # pdb.set_trace()
     
-    dataset = DDPDataset(fpath+"meg_data.h5",('meg_data','labels'))
+    dataset = DDPDataset(fpath+"meg_data.hdf5",('meg_data','labels'))
 
     tr_idx, test_idx = train_test_split(range(len(dataset)),test_size=0.2, shuffle=True)
     tr_idx, val_idx = train_test_split(tr_idx, test_size=0.1875, shuffle=True)
@@ -116,15 +107,22 @@ def main(retrain, local_rank, rank):
     train_dataset = Subset(dataset, tr_idx)
     val_dataset = Subset(dataset, val_idx)
     test_dataset = Subset(dataset, test_idx)
+    gen = torch.Generator()
+    gen.manual_seed(448)
+    # tr_samp = DistributedSampler(train_dataset, rank=rank, shuffle=False)
+    # val_samp =  DistributedSampler(val_dataset, rank=rank, shuffle=False)
+    # te_samp = DistributedSampler(test_dataset, rank=rank, shuffle=False)
+    tr_samp = RandomSampler(train_dataset, generator=gen)
+    val_samp =  RandomSampler(val_dataset, generator=gen) 
+    te_samp = RandomSampler(test_dataset, generator=gen)
 
-    train_kwargs = {'batch_size': 32, 'sampler': DistributedSampler(train_dataset, rank=rank)}
-    val_kwargs = {'batch_size': 32, 'sampler': DistributedSampler(val_dataset, rank=rank, shuffle=False)}
-    test_kwargs = {'batch_size': 32, 'sampler': DistributedSampler(test_dataset, rank=rank, shuffle=False)}
-    cuda_kwargs = {'num_workers': 2, 'pin_memory': True, 'shuffle': False}
-    train_kwargs.update(cuda_kwargs)
-    val_kwargs.update(cuda_kwargs)
-    test_kwargs.update(cuda_kwargs)
-    pdb.set_trace()
+    train_kwargs = {'batch_size': 32, 'sampler': tr_samp}
+    val_kwargs = {'batch_size': 32, 'sampler': val_samp}
+    test_kwargs = {'batch_size': 32, 'sampler':te_samp }
+    # cuda_kwargs = {'num_workers': 2, 'pin_memory': True, 'shuffle': False}
+    # train_kwargs.update(cuda_kwargs)
+    # val_kwargs.update(cuda_kwargs)
+    # test_kwargs.update(cuda_kwargs)
     train_loader = DataLoader(train_dataset, **train_kwargs)
     val_loader = DataLoader(val_dataset, **val_kwargs)
     test_loader = DataLoader(test_dataset, **test_kwargs)
@@ -134,26 +132,31 @@ def main(retrain, local_rank, rank):
     patience = 7
     curr_count_to_patience = 0
     min_loss = 1000
+    regulaizer = lambda loss, params: loss + 3e-4 * sum(p.abs().sum() for p in params)
+
     train_args = (patience, 
                   curr_count_to_patience,
                   config("MEG-Encoder.checkpoint"),
                   min_loss, 
-                  best_epoch
+                  best_epoch,
+                  regulaizer
                   )
     
+    model = MEGDecoder(hyper_params, params)
+
     sharding_strategy: ShardingStrategy = ShardingStrategy.NO_SHARD
-    amp = None
-    if torch.cuda.is_bf16_supported():
-        amp = MixedPrecision(
-            param_dtype=torch.half,
-            reduce_dtype=torch.half,
-            buffer_dtype=torch.half
-            )
-    model = FSDP(MEGDecoder(hyper_params, params), 
-                 device_id=torch.cuda.current_device(),
-                 sharding_strategy=sharding_strategy,
-                 mixed_precision=amp
-                 )
+    amp = MixedPrecision(
+        param_dtype=torch.half,
+        reduce_dtype=torch.half,
+        buffer_dtype=torch.half
+        )
+    # model = FSDP(model, 
+    #              device_id=torch.cuda.current_device(),
+    #              sharding_strategy=sharding_strategy,
+    #              mixed_precision=amp
+    #              )
+    model = nn.utils.convert_conv2d_weight_memory_format(model, torch.channels_last)
+
     optimizer = optim.Adam(model.parameters(), weight_decay=.03, lr=0.003) #Tune
     scheduler = ReduceLROnPlateau(optimizer, 'min',factor=0.4,patience=4,min_lr=5e-9) #Tune
     
@@ -163,6 +166,7 @@ def main(retrain, local_rank, rank):
     if rank == 0:
         if retrain:
             trainer.restore_model('restart')
+            # dist.barrier()
         else:
             clear_checkpoint(config("MEG-Encoder.checkpoint"))
 
@@ -170,10 +174,12 @@ def main(retrain, local_rank, rank):
     trainer.train(epoch)
     if rank == 0:
         model, bestStats = trainer.restore_model('best')
+        # dist.barrier()
+
     test_acc, test_loss, test_pred, test_true =  trainer._get_metrics(test_loader)
+    # dist.barrier()
     
-    dist.barrier()
-    cleanup()
+    # cleanup()
     
     import pandas as pd
     print("Stats at best epoch: ", pd.DataFrame(bestStats[-1]))
@@ -191,11 +197,11 @@ def main(retrain, local_rank, rank):
     
 if __name__ == "__main__":
     retrain = False
-    local_rank = int(os.environ["LOCAL_RANK"])
-    rank = int(os.environ["RANK"])
-    world_size = int(os.environ['WORLD_SIZE'])
-    print(f"rank={rank}, world_size={world_size}\n")
-    main(retrain, local_rank, rank)
+    # local_rank = int(os.environ["LOCAL_RANK"])
+    # rank = int(os.environ["RANK"])
+    # world_size = int(os.environ['WORLD_SIZE'])
+    # print(f"rank={rank}, world_size={world_size}\n")
+    main(retrain, 0,0)#local_rank, rank)
 
 
 """

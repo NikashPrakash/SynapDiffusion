@@ -3,6 +3,7 @@
 ### Training Considerations
 Distributed data parallel 
 for hyperparameter search. so it would be diff hyperparams for model/optim with a copy of the data
+https://vscode.dev/github/pytorch/examples/blob/main/distributed/FSDP/T5_training.py
 
 + model parallel?
 + Other optimaizations
@@ -57,6 +58,14 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6609925/
 
 generation module:
 GATv2Optim Θ_n^+ 
+pass through classifier models and both in embedded space? and make eeg and meg CLIP shaped (dim of last dense layer before output)
+then concat or add? if concat then make last dense dim half of clip size?
+do embeddding space alignment with clip space:
+    Use CLIP model to tokenize/embed the original image
+    use simple model or cosine sim or something to align the meg+eeg space to clip via the true output of that image in CLIP
+pass to generative model and finetune
+
+
 
 #### Data
 https://vscode.dev/github.com/ViCCo-Group/THINGS-data

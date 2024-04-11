@@ -1,5 +1,5 @@
 #training.py
-import torch
+import torch, pdb
 import torch.distributed as dist
 from torch.utils.data import DataLoader
 from torch.distributed.fsdp import (
@@ -16,7 +16,7 @@ from models.model import *
 class Trainer:
     def __init__(self, model: torch.nn.Module, tr_loader: DataLoader, val_loader: DataLoader, criterion,
                  optimizer: torch.optim.Optimizer, scheduler: torch.optim.lr_scheduler.ReduceLROnPlateau):
-        self.rank = int(os.environ["RANK"])
+        self.rank = int(os.environ.get("RANK",0))
         self.tr_loader = tr_loader
         self.val_loader = val_loader
         self.criterion = criterion
@@ -26,50 +26,58 @@ class Trainer:
         self.y_pred, self.y_true = torch.tensor([]), torch.tensor([])
         self.metrics = []
     
-    def train_chunk(self, inner_pbar: None, secondary_reg = lambda x: x):
+    def train_chunk(self, inner_pbar: None, secondary_reg = lambda x, y: x):
         self.model.train()
-        fsdp_loss = torch.zeros(2).cuda()
+        fsdp_loss = torch.zeros(2)#.cuda()
         for x, y in self.tr_loader:
             self.optimizer.zero_grad()
+            # pdb.set_trace()
+            # print(x, y)
+            # y = y.to(torch.cuda.current_device())
             pred = self.model(x)
+            # print(pred)
             loss = self.criterion(pred, y)
-            loss = secondary_reg(loss)
+            loss = secondary_reg(loss, self.model.parameters())
             loss.backward()
             self.optimizer.step()
             fsdp_loss[0] += loss.item()
-            fsdp_loss[1] += x.size[0]
+            fsdp_loss[1] += x.shape[0]
             if self.rank == 0:
                 inner_pbar.update(1)
-                
-        dist.all_reduce(fsdp_loss, op=dist.ReduceOp.SUM)
-        tr_acc = fsdp_loss[0]/fsdp_loss[1]
+        if dist.is_initialized():
+            dist.all_reduce(fsdp_loss, op=dist.ReduceOp.SUM)
+        tr_loss = fsdp_loss[0]/fsdp_loss[1]
         
         if self.rank == 0:
             inner_pbar.close()
-            print(f"Train Epoch: \t{self.epoch}, Loss: \t{fsdp_loss[0]/fsdp_loss[1]:.4f}")
-        return tr_acc
+            print(f"Train Epoch: \t{self.epoch}, Loss: \t{tr_loss:.4f}")
     
-    def decode(preds, top):
-        out =  torch.argsort(preds, axis=1)[:, -top:]
+    def decode(self, preds, top):
+        if top == 1:
+            out = torch.argsort(preds, axis=1)[:, 0]
+        else:
+            out = torch.argsort(preds, axis=1)[:, -(top-1):]
         return out.float()
     
     def _get_metrics(self, loader, inner_pbar: None):
-        y_true, y_pred = torch.tensor([]).cuda(), torch.tensor([]).cuda()
+        y_true, y_pred = torch.tensor([]),torch.tensor([])#.cuda(), torch.tensor([]).cuda()
         correct = 0
-        running_loss = torch.zeros(2).cuda()
+        running_loss = torch.zeros(2)#.cuda()
         with torch.no_grad():
             for x, y in loader:
                 output = self.model(x) 
-                predicted = self.decode(output,1)
-                # for i in range(y.shape[0]): top-5 acc #     correct += (y[i] in predicted[i])
-                correct += (predicted[:,0] == y).sum().item() #only for top-1 acc
-                running_loss[1] += y.size(0)
+                predicted = self.decode(output, 1)
+                running_loss[1] += y.shape[0]
                 running_loss[0] += self.criterion(output, y).item()
-                y_pred = torch.cat((y_pred, predicted),dim=0)
+                # for i in range(y.shape[0]): top-5 acc #     correct += (y[i] in predicted[i])
+                y = y.argmax(1)
+                correct += (predicted == y).sum().item() #only for top-1 acc
+                y_pred = torch.cat((y_pred, predicted),dim=0) # TODO: is supposed to be arg?
                 y_true = torch.cat((y_true, y),dim=0)
             if self.rank == 0:
                 inner_pbar.update(1)
-        dist.all_reduce(running_loss, op=dist.ReduceOp.SUM)
+        if dist.is_initialized():
+            dist.all_reduce(running_loss, op=dist.ReduceOp.SUM)
         loss = running_loss[0] / running_loss[1]
         if self.rank == 0:
             inner_pbar.close()
@@ -77,35 +85,45 @@ class Trainer:
         v_acc = correct/running_loss[1]
         return v_acc, loss, y_pred, y_true
 
-    def evaluate_chunk(self, tr_loader, val_loader, model, criterion):
+    def evaluate_chunk(self):
         """Evaluate the `model` on the train and validation set."""
-        model.eval()
+        self.model.eval()
+        inner_pbar = None
         if self.rank == 0:
             inner_pbar = tqdm.tqdm(
-                range(len(val_loader)), colour="green", desc="Validation Epoch"
+                range(len(self.val_loader)), colour="green", desc="Validation Epoch"
             )
-        train_acc, train_loss, _, _ = self._get_metrics(model, criterion, tr_loader)
-        val_acc, val_loss, y_pred, y_true = self._get_metrics(model, criterion, val_loader,inner_pbar)
+        train_acc, train_loss, _, _ = self._get_metrics(self.tr_loader, inner_pbar)
+        val_acc, val_loss, y_pred, y_true = self._get_metrics(self.val_loader, inner_pbar)
         
-        self.scheduler.step(val_loss,epoch=self.epoch)
+        self.scheduler.step(val_loss, epoch=self.epoch)
         
         stats = dict(train_loss=train_loss,train_accuracy=train_acc,val_loss=val_loss,val_accuracy=val_acc)
         return stats, y_pred, y_true
-
+    
     def save_checkpoint(self, checkpoint_dir):
         """Save a checkpoint file to `checkpoint_dir`."""
-        with FSDP.state_dict_type(self.model,
-                                    StateDictType.FULL_STATE_DICT,
-                                    FullStateDictConfig(True),
-                                    FullOptimStateDictConfig()
-                                    ):
+        if dist.is_initialized():
+            with FSDP.state_dict_type(self.model,
+                                        StateDictType.FULL_STATE_DICT,
+                                        FullStateDictConfig(True),
+                                        FullOptimStateDictConfig()
+                                        ):
+                state = {
+                    "epoch": self.epoch,
+                    "state_dict": self.model.state_dict(),
+                    'optimizer': self.optimizer.state_dict(),
+                    "scheduler": self.scheduler.state_dict(),
+                    "stats": self.metrics
+                }
+        else:
             state = {
-                "epoch": self.epoch,
-                "state_dict": self.model.state_dict(),
-                'optimizer': self.optimizer.state_dict(),
-                "scheduler": self.scheduler.state_dict(),
-                "stats": self.metrics
-            }
+                    "epoch": self.epoch,
+                    "state_dict": self.model.state_dict(),
+                    'optimizer': self.optimizer.state_dict(),
+                    "scheduler": self.scheduler.state_dict(),
+                    "stats": self.metrics
+                }
 
         filename = os.path.join(checkpoint_dir, f"epoch={self.epoch}.checkpoint.pt")
         torch.save(state, filename)
@@ -131,16 +149,22 @@ class Trainer:
     def train(self, start_epoch):       
         self.epoch = start_epoch
         while self.curr_count_to_patience < self.patience:
+            inner_pbar = None
             if self.rank == 0:
                 inner_pbar = tqdm.tqdm(
                     range(len(self.tr_loader)), colour="blue", desc="r0 Training Epoch"
                 )
+            if dist.is_initialized():
+                self.tr_loader.sampler.set_epoch(self.epoch)
+                self.val_loader.sampler.set_epoch(self.epoch)
+                dist.barrier()
 
-            self.tr_loader.sampler.set_epoch(self.epoch)
-            tr_acc = self.train_chunk(inner_pbar,self.model.)
+            if self.is_regulaizer:
+                self.train_chunk(inner_pbar, self.regulaizer)
+            else:
+                self.train_chunk(inner_pbar)
             
-            self.val_loader.sampler.set_epoch(self.epoch)
-            stats, y_pred, y_true = self.evaluate_chunk(self.tr_loader, self.val_loader, self.model, self.criterion)
+            stats, y_pred, y_true = self.evaluate_chunk()
             
             self.y_pred = torch.cat((self.y_pred,y_pred))
             self.y_true = torch.cat((self.y_true,y_true))
@@ -163,7 +187,7 @@ class Trainer:
         cp_files = os.listdir(self.checkpoint_path)
         if not cp_files:
             os.makedirs(self.checkpoint_path)
-
+            return
         if best_or_restart == 'best':
             filename = self.checkpoint_path + f"epoch={self.best_epoch}.checkpoint.pt"
         else:
@@ -178,7 +202,7 @@ class Trainer:
             self.epoch = checkpoint['epoch']
             if best_or_restart == "restart":
                 self.optimizer.load_state_dict(checkpoint['optimizer'])
-            print(f"=> Successfully restored checkpoint (trained for {checkpoint["epoch"]} epochs)")
+            print(f"=> Successfully restored checkpoint (trained for {checkpoint['epoch']} epochs)")
         except:
             print("=> Checkpoint not successfully restored")
             raise

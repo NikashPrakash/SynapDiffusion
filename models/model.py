@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-import math
+import math, pdb
 import torch.nn.functional as F
 from torch.utils.data import Dataset
 
@@ -14,7 +14,7 @@ class Dense(nn.Module):
     def forward(self, x: torch.Tensor):
         x = x.view(x.size(0), -1)  # Flatten the input if necessary
         x = self.dropout(x)
-        x = self.nonlin(self.dense(x))
+        x = self.nonlin()(self.dense(x))
         return x
 
 class ConvLayer(nn.Module):
@@ -24,31 +24,28 @@ class ConvLayer(nn.Module):
         self.nonlin_in = nonlin_in
         self.nonlin_out = nonlin_out
         self.conv_type = conv_type
-        self.pool = pool
-
-        self.reducer = Dense(271*281,n_ls,0,nonlin_in)
+        self.pool = nn.MaxPool2d(kernel_size=(pool, 1), stride=(filter_length // 3, 1),ceil_mode=True)
+        self.weights = nn.Parameter(torch.randn(271, n_ls))
+        
         if conv_type == 'var':
-            self.conv = nn.Conv1d(n_ls, n_ls, kernel_size=filter_length, stride=stride)
+            self.conv = nn.Conv1d(n_ls, n_ls, kernel_size=filter_length, stride=stride,padding='same')
         elif conv_type == 'lf':
-            self.conv = nn.Conv2d(1, n_ls, kernel_size=(filter_length, 1), stride=(stride, 1))
+            self.conv = nn.Conv2d(1, n_ls, kernel_size=(filter_length, 1), stride=(stride, 1),padding='same')
 
     def forward(self, x: torch.Tensor):
-        x_reduced = self.reducer(x)
+        x_reduced = torch.einsum('bct,cs->bst', x, self.weights)
         if 'var' == self.conv_type:
-            conv_ = self.nonlin_out(self.conv(x_reduced))
-            conv_ = conv_.unsqueeze(-1)
+            conv_ = self.nonlin_out()(self.conv(x_reduced))
+            conv_ = torch.unsqueeze(conv_,-1)
         elif 'lf' == self.conv_type:
             x_reduced = x_reduced.unsqueeze(-2)
-            conv_ = self.nonlin_out(self.conv(x_reduced)).permute(0, 1, 3, 2)
-        conv_ = F.max_pool2d(conv_, kernel_size=(self.pool, 1), stride=(self.filter_length // 3, 1))
-
-        return conv_[...,0].permute(0, 2, 1)
+            conv_ = self.nonlin_out()(self.conv(x_reduced)).permute(0, 1, 3, 2) #check if want to use
+        conv_ = self.pool(conv_)
+        return conv_[...,0]
 
 class MEGDecoder(nn.Module):
     def __init__(self, h_params=None, params=None):
         super().__init__()
-        self.l1lambda = h_params['l1pen']
-        
         if h_params['architecture'] == 'lf-cnn':
             self.conv = ConvLayer(n_ls=params['n_ls'], 
                                   filter_length=params['filter_length'],
@@ -63,7 +60,7 @@ class MEGDecoder(nn.Module):
                                   nonlin_in=params['nonlin_in'],
                                   nonlin_out=params['nonlin_hid'],
                                   conv_type='var')
-        self.fin_fc = Dense(271*281,
+        self.fin_fc = Dense(params['n_ls']*141,
                             out_feat=h_params['n_classes'], 
                             nonlin=params['nonlin_out'],
                             dropout=params['dropout'])

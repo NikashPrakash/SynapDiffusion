@@ -1,26 +1,7 @@
 import torch
-from torch import nn, Tensor
-import torch.nn.functional as F
+from torch import nn
 from models.gat_optim_conv import GAToptConv
-from typing import Optional, Tuple, Union
-from torch_geometric.typing import (
-    Adj,
-    NoneType,
-    OptTensor,
-    PairTensor,
-    SparseTensor,
-    torch_sparse
-)
-from torch_geometric.utils import (
-    add_self_loops,
-    is_torch_sparse_tensor,
-    remove_self_loops,
-    softmax
-)
-from torch_geometric.utils.sparse import set_sparse_value
-import typing
-if typing.TYPE_CHECKING:
-    from typing import overload
+
     
 class MultiKernelConvBlock(nn.Module):
     def __init__(self, in_channels, out_channels_list):
@@ -39,7 +20,7 @@ class MultiKernelConvBlock(nn.Module):
 
     def forward(self, x):
         # Apply each convolutional set and concatenate the outputs
-        x = self.convs(x.unsqueeze(-1))
+        x = self.convs(x)
         return x
 
 class TransformerLearningBlock(nn.Module):
@@ -111,7 +92,7 @@ class STGATE(nn.Module):
         
     def forward(self, x):
         # Pass input through the transformer learning block
-        transformer_out = self.transformer_learning_block(x)
+        transformer_out = self.transformer_learning_block(x.unsqueeze(1))
         
         # Prepare the output of the transformer block for the graph attention network
         # This may involve reshaping or selecting features to match expected input dimensions
