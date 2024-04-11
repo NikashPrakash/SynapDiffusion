@@ -74,8 +74,8 @@ class Trainer:
                 correct += (predicted == y).sum().item() #only for top-1 acc, # for i in range(y.shape[0]): top-5 acc correct += (y[i] in predicted[i])
                 y_pred = torch.cat((y_pred, predicted),dim=0) # TODO: is supposed to be arg?
                 y_true = torch.cat((y_true, y),dim=0)
-            if self.rank == 0:
-                inner_pbar.update(1)
+                if self.rank == 0:
+                    inner_pbar.update(1)
         if dist.is_initialized():
             dist.all_reduce(running_loss, op=dist.ReduceOp.SUM)
         loss = running_loss[0] / running_loss[1]
@@ -138,13 +138,13 @@ class Trainer:
 
         Returns: new values of curr_patience and global_min_loss
         """
-        if self.metrics[-1]['val_loss'] >= self.global_min_loss:
+        if self.metrics[-1]['val_loss'] >= self.min_loss:
             self.curr_count_to_patience += 1
         else:
-            self.global_min_loss = self.metrics[-1]['val_loss']
+            self.min_loss = self.metrics[-1]['val_loss']
             self.curr_count_to_patience = 0
             if self.rank==0:
-                print(f"New Val Loss: {self.global_min_loss}")
+                print(f"New Val Loss: {self.min_loss}")
 
     def train(self, start_epoch):       
         self.epoch = start_epoch
