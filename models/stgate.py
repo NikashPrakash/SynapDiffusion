@@ -7,7 +7,7 @@ class MultiKernelConvBlock(nn.Module):
     def __init__(self, in_channels, out_channels_list):
         super(MultiKernelConvBlock, self).__init__()
         self.convs = nn.Sequential(
-                nn.Conv2d(in_channels, out_channels_list[0], kernel_size=1, padding='same'),
+                nn.Conv2d(in_channels, out_channels_list[0], kernel_size=1, padding='same'), 
                 nn.BatchNorm2d(out_channels_list[0]),
                 nn.ReLU(),
                 nn.Conv2d(out_channels_list[0], out_channels_list[1], kernel_size=3,padding='same'),
@@ -68,7 +68,7 @@ class TemporalAttention(nn.Module):
         return T_normalized
 
 class STGATE(nn.Module):
-    def __init__(self, input_dim=63, model_dim=[32, 64, 128], num_heads=8, num_layers=2, T_r=100, C=128, N=63, top_k=10, dropout=0.1):
+    def __init__(self, input_dim=1, model_dim=[16, 32, 64], num_heads=8, num_layers=2, T_r=100, C=64, N=63, top_k=10, dropout=0.1):
         super(STGATE, self).__init__()
         # Transformer Learning Block (adapt the input/output dimensions as needed)
         self.transformer_learning_block = TransformerLearningBlock(input_dim,  model_dim, num_heads, num_layers, dropout)

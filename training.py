@@ -58,10 +58,14 @@ class Trainer:
             out = torch.argsort(preds, dim=1)[:, -(top-1):]
         return out.float()
     
-    def _get_metrics(self, loader, inner_pbar: None):
+    def _get_metrics(self, loader, inner_pbar_n, load_type):
         y_true, y_pred = torch.tensor([]),torch.tensor([])#.cuda(), torch.tensor([]).cuda()
         correct = 0
         running_loss = torch.zeros(2)#.cuda()
+        if self.rank == 0:
+            inner_pbar = tqdm.tqdm(
+                range(len(loader)), colour="green", desc=inner_pbar_n
+            )
         with torch.no_grad():
             for x, y in loader:
                 output = self.model(x) 
@@ -75,25 +79,24 @@ class Trainer:
                 y_true = torch.cat((y_true, y),dim=0)
                 if self.rank == 0:
                     inner_pbar.update(1)
+
         if dist.is_initialized():
             dist.all_reduce(running_loss, op=dist.ReduceOp.SUM)
         loss = running_loss[0] / running_loss[1]
+        
         if self.rank == 0:
             inner_pbar.close()
-            print(f"Validation Loss: {loss:.4f}")
+            print(f"{load_type} Loss: {loss:.4f}")
+            
         v_acc = correct/running_loss[1]
         return v_acc, loss, y_pred, y_true
 
     def evaluate_chunk(self):
         """Evaluate the `model` on the train and validation set."""
         self.model.eval()
-        inner_pbar = None
-        if self.rank == 0:
-            inner_pbar = tqdm.tqdm(
-                range(len(self.val_loader)), colour="green", desc="Validation Epoch"
-            )
-        train_acc, train_loss, _, _ = self._get_metrics(self.tr_loader, inner_pbar)
-        val_acc, val_loss, y_pred, y_true = self._get_metrics(self.val_loader, inner_pbar)
+
+        train_acc, train_loss, _, _ = self._get_metrics(self.tr_loader, "Training Metrics", 'tr')
+        val_acc, val_loss, y_pred, y_true = self._get_metrics(self.val_loader, 'Validation Epoch', 'val')
         
         self.scheduler.step(val_loss)
         

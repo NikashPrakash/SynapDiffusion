@@ -21,7 +21,7 @@ from torch.distributed.elastic.multiprocessing.errors import record
 # )
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt, tqdm
 import seaborn as sns
 from utils import config
 from training import Trainer, clear_checkpoint
@@ -175,8 +175,8 @@ def main(retrain, local_rank, rank):
     if rank == 0:
         model, bestStats = trainer.restore_model('best')
         # dist.barrier()
-
-    test_acc, test_loss, test_pred, test_true =  trainer._get_metrics(test_loader)
+    pbar = tqdm.tqdm(range(len(test_loader)), colour="green", desc="Inference on Test Set")
+    test_acc, test_loss, test_pred, test_true =  trainer._get_metrics(test_loader,pbar,'te')
     # dist.barrier()
     
     # cleanup()
