@@ -19,12 +19,11 @@ import matplotlib.pyplot as plt
 from utils import *
 import seaborn as sns
 from utils import config
-from models.model import *
-from models.stgate import *
+from models.MEGDecoder import *
+from models.EEGDecoder import *
+from models.DWTDecoder import *
 from dataset import DDPDataset
 import pandas as pd
-import pdb; pdb.set_trace()
-
 
 from training import Trainer, clear_checkpoint
 
@@ -38,15 +37,6 @@ def setup(local_rank):
 def cleanup():
     dist.destroy_process_group()
 
-class EEGTrainer(Trainer):
-    def __init__(self, args, **kwargs):
-        super().__init__(**kwargs)
-        self.patience = args[0]
-        self.curr_count_to_patience = args[1]
-        self.checkpoint_path = args[2]
-        self.min_loss = args[3]
-        self.best_epoch = args[4]
-        self.is_regulaizer = False
 # @record
 def main(retrain, local_rank, rank):
     setup(local_rank)
@@ -86,7 +76,8 @@ def main(retrain, local_rank, rank):
                   curr_count_to_patience,
                   config("EEG-Encoder.checkpoint"),
                   min_loss, 
-                  best_epoch
+                  best_epoch,
+                  None
                   )
     
     sharding_strategy: ShardingStrategy = ShardingStrategy.NO_SHARD
@@ -96,8 +87,9 @@ def main(retrain, local_rank, rank):
         reduce_dtype=torch.half,
         buffer_dtype=torch.half
         )
-    model = STGATE()
-    model = nn.utils.convert_conv2d_weight_memory_format(model, torch.channels_last)
+    #model = STGATE()
+    #model = nn.utils.convert_conv2d_weight_memory_format(model, torch.channels_last)
+    model = WaveletCNN()
     # model = FSDP(STGATE(),
     #              device_id=torch.cuda.current_device(),
     #              sharding_strategy=sharding_strategy,
@@ -107,7 +99,7 @@ def main(retrain, local_rank, rank):
     scheduler = ReduceLROnPlateau(optimizer, 'min',factor=0.4,patience=4,min_lr=5e-9) #Tune
     
     criterion = CrossEntropyLoss()
-    trainer = EEGTrainer(train_args, model=model, tr_loader=train_loader, optimizer=optimizer,
+    trainer = Trainer(train_args, model=model, tr_loader=train_loader, optimizer=optimizer,
                          criterion=criterion, val_loader=val_loader, scheduler=scheduler)
     if rank == 0:
         if retrain:

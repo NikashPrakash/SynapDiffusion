@@ -8,23 +8,30 @@ from torch.distributed.fsdp import (
     FullOptimStateDictConfig,
     StateDictType
 )
-
 import os, tqdm
-from models.model import *
 
 class Trainer:
-    def __init__(self, model: torch.nn.Module, tr_loader: DataLoader, val_loader: DataLoader, criterion,
+    def __init__(self, args, model: torch.nn.Module, tr_loader: DataLoader, val_loader: DataLoader, criterion,
                  optimizer: torch.optim.Optimizer, scheduler: torch.optim.lr_scheduler.ReduceLROnPlateau):
         self.rank = int(os.environ.get("RANK",0))
+        self.patience = args[0]
+        self.curr_count_to_patience = args[1]
+        self.checkpoint_path = args[2]
+        
         self.tr_loader = tr_loader
         self.val_loader = val_loader
+        
+        self.regulaizer = args[5]
         self.criterion = criterion
         self.optimizer = optimizer
         self.model = model
         self.scheduler = scheduler
-        self.y_pred, self.y_true = torch.tensor([]), torch.tensor([])
+        
+        self.min_loss = args[3]
+        self.best_epoch = args[4]
         self.metrics = []
-    
+        self.y_pred, self.y_true = torch.tensor([]), torch.tensor([])
+
     def train_chunk(self, inner_pbar: None, secondary_reg = lambda x, y: x):
         self.model.train()
         fsdp_loss = torch.zeros(2)#.cuda()
@@ -161,7 +168,7 @@ class Trainer:
                 self.val_loader.sampler.set_epoch(self.epoch)
                 dist.barrier()
 
-            if self.is_regulaizer:
+            if self.regulaizer:
                 self.train_chunk(inner_pbar, self.regulaizer)
             else:
                 self.train_chunk(inner_pbar)
