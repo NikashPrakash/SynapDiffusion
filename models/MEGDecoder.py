@@ -1,8 +1,6 @@
 import torch
 from torch import nn
-import math, pdb
-import torch.nn.functional as F
-from torch.utils.data import Dataset
+# import pdb
 
 class Dense(nn.Module):
     def __init__(self, in_features, out_feat, dropout=0.5, nonlin=nn.Identity()):
@@ -67,34 +65,3 @@ class MEGDecoder(nn.Module):
 
     def forward(self, x):
         return self.fin_fc(self.conv(x))
-
-class EEGDecoder(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size): #
-        super(EEGDecoder, self).__init__()        
-        self.lstm = nn.LSTM(input_size, hidden_size, batch_first=True,num_layers=1) # USE TEMPORAL ATTENTION INSTEAD OF LSTM, transformer or custom impl.
-        self.conv1 = nn.Conv1d(in_channels=hidden_size, out_channels=63, kernel_size=3, padding=1)
-        self.conv2 = nn.Conv1d(in_channels=63, out_channels=math.ceil(hidden_size/2), kernel_size=3, padding=1)
-        self.fc = nn.Linear(32, output_size)
-        self.softmax = nn.Softmax(dim=1)
-
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        self.to(self.device)
-        
-    def forward(self, input_data):
-        lstmOutput, (h_t,c_t) = self.lstm(input_data) #TODO DOES THIS FIX ISSUE WITH INPUT SIZE???? #
-        lstmOutput = h_t.permute(1,2,0) # Dont forget this change
-        convOutput = nn.functional.leaky_relu(self.conv1(lstmOutput)) #TODO GET OTHER HYPERPARAMS FROM PAPER
-        convOutput = nn.functional.leaky_relu(self.conv2(convOutput))
-        convOutput = convOutput.flatten(start_dim=1)
-        #convOutput = torch.max(convOutput, dim=2)[0]
-        output = self.fc(convOutput)
-        output = self.softmax(output)
-        return output
-
-    
-class NeuralGenerator(nn.Module):
-    def __init__(self):
-        super().__init__()
-
-    def forward(self, input_data):
-        return input_data

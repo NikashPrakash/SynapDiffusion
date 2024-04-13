@@ -1,4 +1,4 @@
-import torch
+import torch, math
 from torch import nn
 from models.gat_optim_conv import GAToptConv
 
@@ -13,7 +13,7 @@ class MultiKernelConvBlock(nn.Module):
                 nn.Conv2d(out_channels_list[0], out_channels_list[1], kernel_size=3,padding='same'),
                 nn.BatchNorm2d(out_channels_list[1]),
                 nn.ReLU(),
-                nn.Conv2d(out_channels_list[1],out_channels_list[2],3,padding='same'),
+                nn.Conv2d(out_channels_list[1],out_channels_list[2], 3, padding='same'),
                 nn.BatchNorm2d(out_channels_list[2]),
                 nn.ReLU(),
             )
@@ -28,15 +28,15 @@ class TransformerLearningBlock(nn.Module):
         super(TransformerLearningBlock, self).__init__()
         self.conv_block = MultiKernelConvBlock(input_dim, model_dim)
         
-        self.positional_embedding = nn.Parameter(torch.randn(1, 128, 1))
+        self.positional_embedding = nn.Parameter([1,64,1])
         
-        encoder_layers = nn.TransformerEncoderLayer(128, nhead=num_heads, dropout=dropout,batch_first=True)
+        encoder_layers = nn.TransformerEncoderLayer(64, nhead=num_heads, dropout=dropout,batch_first=True)
         self.transformer_encoder = nn.TransformerEncoder(encoder_layers, num_layers=num_layers)
 
     def forward(self, x):
         x = self.conv_block(x).squeeze(-1)
         x += self.positional_embedding
-        x = x.permute(0, 2, 1)  # Reshape for the transformer (batch, seq_len, features)
+        x = x.permute(0, 2, 1)  # Reshape for the transformer (batch, seq_len, features: 64 x 63)
         x = self.transformer_encoder(x)
         return x
     
@@ -114,3 +114,26 @@ class STGATE(nn.Module):
         emotion_prediction = self.fc(flattened_out)
 
         return emotion_prediction
+    
+class LSTM_CNN(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size): #
+        super(LSTM_CNN, self).__init__()        
+        self.lstm = nn.LSTM(input_size, hidden_size, batch_first=True,num_layers=1) # USE TEMPORAL ATTENTION INSTEAD OF LSTM, transformer or custom impl.
+        self.conv1 = nn.Conv1d(in_channels=hidden_size, out_channels=63, kernel_size=3, padding=1)
+        self.conv2 = nn.Conv1d(in_channels=63, out_channels=math.ceil(hidden_size/2), kernel_size=3, padding=1)
+        self.fc = nn.Linear(32, output_size)
+        self.softmax = nn.Softmax(dim=1)
+
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.to(self.device)
+        
+    def forward(self, input_data):
+        lstmOutput, (h_t,c_t) = self.lstm(input_data) #TODO DOES THIS FIX ISSUE WITH INPUT SIZE???? #
+        lstmOutput = h_t.permute(1,2,0) # Dont forget this change
+        convOutput = nn.functional.leaky_relu(self.conv1(lstmOutput)) #TODO GET OTHER HYPERPARAMS FROM PAPER
+        convOutput = nn.functional.leaky_relu(self.conv2(convOutput))
+        convOutput = convOutput.flatten(start_dim=1)
+        #convOutput = torch.max(convOutput, dim=2)[0]
+        output = self.fc(convOutput)
+        output = self.softmax(output)
+        return output
