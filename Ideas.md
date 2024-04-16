@@ -77,6 +77,30 @@ pass to generative model that can use clip and finetune
 
 There could be better other aligned spaces other than CLIP
 
+### COMBINING MEG & EEG MODELS
+
+Merging Neural Networks
+https://arxiv.org/pdf/2204.09973.pdf
+- meant for 2 neural nets trained for same task, with same dimension
+- layer-wise concatenate the 2 neural nets' linear layers together
+- one gate for every feature in the concatenated layer, learned to be 0 or 1
+- loss function contains original error loss and an auxiliary loss that incentizes only opening gates for half of the nodes
+
+An Empirical Study of Multimodal Model Merging
+https://arxiv.org/pdf/2304.14933.pdf
+- merging vision and language transformers for vision / language / both tasks
+    - maybe think about how this can be extended to our neural nets
+- goes over 3 types of merging
+- can work if we only put in eeg or only put in meg -- depends on how we want our model to be used
+
+If model will always receive both eeg & meg
+
+- early fusion: channels for meg and eeg, both fed into one cnn
+- non learning fusion:
+- 
+
+
+
 #### Structure
 STGATE (Spatial-Temporal Graph Attention Net): https://www.frontiersin.org/articles/10.3389/fnhum.2023.1169949/full
     Transformer encoder
@@ -101,12 +125,12 @@ https://vscode.dev/github.com/ViCCo-Group/THINGS-data
 EEG: Using Matlab (R2020b) and the EEGlab (v14.0.0b) toolbox22, data were filtered using a Hamming windowed FIR filter with 0.1 Hz highpass and 100 Hz lowpass filters, re-referenced to the average reference, and downsampled to 250 Hz. Epochs were created for each individual stimulus presentation ranging from [−100 to 1000 ms] relative to stimulus onset. 
 
 
-#### Metrics
+### Metrics
 https://arxiv.org/pdf/2007.15359.pdf
 https://arxiv.org/pdf/2206.10935.pdf
 
-##### Q's
-No image, just labels with MEG data
+#### Q's
+    No image, just labels with MEG data
     borrow brain module from speech meg paper, if anything useful also from meta-brain-decoding
     
 
@@ -117,7 +141,7 @@ No image, just labels with MEG data
                 Normalize
                 
 
-Questions:
+    
     For skip-connections do people always just add the input without transformations (y = f(x) + x), are there other formats of skip-connections that don't add the identity?
     Multi-path feature extraction ex from class: waveform -> conv, logmel -> conv, 2dconv -> wavegram, feature_maps, concat
     Why concat, in what scenarios is concat good/bad
