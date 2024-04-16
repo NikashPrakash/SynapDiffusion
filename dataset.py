@@ -4,7 +4,7 @@ from torch.utils.data import Dataset
 from torch import float32
 
 
-class DDPDataset(Dataset):
+class HDF5Dataset(Dataset):
     def __init__(self, hdf5_filename, dataset_names=("meg_data","labels")):
         """
         Args:
@@ -30,3 +30,8 @@ class DDPDataset(Dataset):
         # data_sample = torch.from_numpy(self.data[idx].astype('float32'))
         # label_sample = torch.from_numpy(self.labels[idx].astype('int'))
         return self.data[idx], self.labels[idx]
+
+    def to_cuda_naive(self):
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.data = self.data.to(device)
+        self.labels = self.labels.to(device)

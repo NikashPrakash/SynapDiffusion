@@ -13,7 +13,7 @@ import pandas as pd
 import os
 import utils
 from utils import config
-from models.model import *
+from models.MEGDecoder import *
 
 
 

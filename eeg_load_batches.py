@@ -30,7 +30,7 @@ import pdb; #pdb.set_trace()
 #               for channel in range(eeg_data.shape[0])]
 
 fpath = '/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/EEG_data/'
-hdf5_path = fpath + "eeg_data.h5"
+hdf5_path = fpath + "eeg_data.hdf5"
 
 obj_map = pd.read_csv("/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/Things_Images/THINGS/27 higher-level categories/category_mat_manual.tsv",delimiter="\t").values
 

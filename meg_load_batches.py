@@ -8,7 +8,7 @@ import h5py
 #participant was shown. This should only be run once assuming no changes to data/preprocessing
 
 fpath = '/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/MEG_data/'
-hdf5_path = fpath + "meg_data.h5"
+hdf5_path = fpath + "meg_data.hdf5"
 
 obj_map = torch.tensor(pd.read_csv("/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/Things_Images/THINGS/27 higher-level categories/category_mat_manual.tsv",delimiter="\t").values)
 pic_map = torch.tensor(pd.read_csv("/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/Things_Images/THINGS/Metadata/Concept-specific/image_concept_index.csv").values)
