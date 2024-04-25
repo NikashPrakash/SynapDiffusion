@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt, tqdm
 import seaborn as sns
 from utils import config
 from training import Trainer, clear_checkpoint
-from models.model import *
+from models.MEGDecoder import *
 from dataset import DDPDataset
 
 
