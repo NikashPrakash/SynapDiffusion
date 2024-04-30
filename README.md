@@ -30,8 +30,10 @@ These are used to start training on HPC cluster GreatLakes
 #### [Trainer](training.py) Class
 - Common code in training pipeline
 
+Confusion matricies below are of order validation, test.
+
 #### [EEG Decoder](./eeg_trainer.py)
-Confusion matricies:
+
 - [3 Class](EEG_Test_and_Val_CM's_c10,11,16.png): Fruit, Furniture, and Medical equipment
 - [2 Class](EEG_Test_and_Val_CM's_c10,11.png): Fruit, Furniture
 
