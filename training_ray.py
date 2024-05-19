@@ -1,5 +1,9 @@
-#training.py
+#training_ray.py
+from models import MEGDecoder
 import torch#, pdb
+import torch.optim as optim
+from torch.optim.lr_scheduler import ReduceLROnPlateau
+from torch.nn import CrossEntropyLoss
 import os
 import tempfile
 from torch.distributed.fsdp import (
@@ -12,25 +16,28 @@ from torch.distributed.fsdp import (
 from ray import train
 from ray.train.torch import get_device, prepare_model, prepare_optimizer, TorchCheckpoint
 from utils import config
-class Trainer:
-    def setup(self, config, args, model: torch.nn.Module, tr_data, val_data, criterion,
-                 optimizer, scheduler: torch.optim.lr_scheduler.ReduceLROnPlateau):
 
+class Trainer:
+    def setup(self, config):
         self.rank = int(os.environ.get("RANK",0))
-        self.patience = args[0]
-        self.curr_count_to_patience = args[1]
-        self.checkpoint_path = args[2]
+        self.patience = config['patience']
+        self.curr_count_to_patience = 0
         
         self.batch_size = config['batch_size'] // train.get_context().get_world_size()
+        total_steps_cyc = config['dataset_size'] // config['batch_size']
+
+        self.regulaizer = config['regulaizer']
+        self.criterion = CrossEntropyLoss()
+        if config['model_class'] == isinstance(MEGDecoder):
+            self.model = config['model_class'](config['hparams'],config['params'])
         
-        self.regulaizer = args[5]
-        self.criterion = criterion
-        self.optimizer = optimizer
-        self.model = model
-        self.scheduler = scheduler
-        
-        self.min_loss = args[3]
-        self.best_epoch = args[4]
+        self.model = prepare_model(self.model, parallel_strategy='fsdp', parallel_strategy_kwargs=config['parallel_setup'])
+        self.optimizer = optim.Adam(self.model.parameters(), config['lr'], betas=(0.9,0.95), weight_decay=config['weight_decay'], fused=True)
+        self.optimizer = prepare_optimizer(self.optimizer)
+        self.scheduler = ReduceLROnPlateau(self.optimizer, 'min', factor=config['lr_factor'], patience=config['lr_patience'], min_lr=5e-9)
+        self.cycler = optim.lr_scheduler.OneCycleLR(self.optimizer,max_lr=75e-4,total_steps=total_steps_cyc)
+        self.min_loss = 1000
+        self.best_epoch = 0
         self.metrics = []
         #self.y_pred, self.y_true = torch.tensor([]).cuda(), torch.tensor([]).cuda()
         self.y_pred, self.y_true = [], []
@@ -39,7 +46,6 @@ class Trainer:
         self.setup(config)
         self.epoch = 0
         while self.curr_count_to_patience < self.patience:
-            self.model = prepare_model(self.model, parallel_strategy='fsdp',parallel_strategy_kwargs=config['parallel_setup'])
             
             if self.regulaizer:
                 self.train_chunk(train.get_dataset_shard('train'), self.regulaizer)
@@ -50,7 +56,6 @@ class Trainer:
             
             self.metrics.append(stats)
             self.epoch += 1
-            
 
             self.save_checkpoint()
             
@@ -58,16 +63,18 @@ class Trainer:
             if self.curr_count_to_patience == self.patience:
                 self.best_epoch = self.epoch - self.patience
 
-    def train_chunk(self, ds, secondary_reg = lambda x, y: x):
+    def train_chunk(self, loader, secondary_reg = lambda x, y: x):
         self.model.train()
         running_loss = 0.0
-        for i, x, y in enumerate(ds.iter_torch_batches(self.batch_size)):
+        #check iter output/form
+        for i, x, y in enumerate(loader.iter_torch_batches(self.batch_size)):
             self.optimizer.zero_grad()
             pred = self.model(x)
             loss = self.criterion(pred, y)
             loss = secondary_reg(loss, self.model.parameters())
             loss.backward()
             self.optimizer.step()
+            self.cycler.step()
             running_loss += (loss.detach().item() - running_loss)/(i+1)
         return running_loss
     
@@ -82,7 +89,8 @@ class Trainer:
         y_true, y_pred = torch.tensor([]), torch.tensor([])
         running_acc = 0
         running_loss = 0.0
-        for i, x, y in enumerate(loader):
+        #check iter output/form
+        for i, x, y in enumerate(loader.iter_torch_batches(self.batch_size)):
             output = self.model(x) 
             predicted = self.decode(output, 1)
             running_loss += (self.criterion(output, y).detach().item() - running_loss)/(i+1)

@@ -1,5 +1,5 @@
-EEG wavelet preprocessing add to eeg data preprocessor
-    already done?: decorrelation
-Finish EEG trainer: copy meg trainer
+EEG decorrelation check
+Ray data iter in loop check
 Almost there: Eventually generalize the training pipeline so you can run diff tasks (i.e binary classification, simple multiclass, MEG vs EEG vs Generation)
 Implement generative model
+Learn how to do visual debugger on compute node: port forwarding?

@@ -9,6 +9,9 @@
         "learning_rate": 1e-3,
         "batch_size": 32
     },
+    "MEG-Hyper":{
+        "checkpoint":"/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/checkpoints/meg_h/checkpoints/"
+    },
     "Synaptic-Diffusion": {
         "checkpoint": "./checkpoints/syn_d/",
         "learning_rate": 1e-3,

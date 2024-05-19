@@ -1,6 +1,6 @@
 import torch, math
 from torch import nn
-from models.gat_optim_conv import GAToptConv
+# from models.gat_optim_conv import GAToptConv
 
     
 class MultiKernelConvBlock(nn.Module):
@@ -67,53 +67,53 @@ class TemporalAttention(nn.Module):
         T_normalized = (T - torch.mean(T, dim=0)) / torch.sqrt(torch.var(T, dim=0, unbiased=False) + 1e-5)
         return T_normalized
 
-class STGATE(nn.Module):
-    def __init__(self, input_dim=1, model_dim=[16, 32, 64], num_heads=8, num_layers=2, T_r=100, C=64, N=63, top_k=10, dropout=0.1):
-        super(STGATE, self).__init__()
-        # Transformer Learning Block (adapt the input/output dimensions as needed)
-        self.transformer_learning_block = TransformerLearningBlock(input_dim,  model_dim, num_heads, num_layers, dropout)
+# class STGATE(nn.Module):
+#     def __init__(self, input_dim=1, model_dim=[16, 32, 64], num_heads=8, num_layers=2, T_r=100, C=64, N=63, top_k=10, dropout=0.1):
+#         super(STGATE, self).__init__()
+#         # Transformer Learning Block (adapt the input/output dimensions as needed)
+#         self.transformer_learning_block = TransformerLearningBlock(input_dim,  model_dim, num_heads, num_layers, dropout)
         
-        # Spatial-Temporal Graph Attention
-        self.spatial_attention = SpatialAttention(T_r, C, N)
-        self.temporal_attention = TemporalAttention(T_r, C, N)
-        self.top_k = top_k
+#         # Spatial-Temporal Graph Attention
+#         self.spatial_attention = SpatialAttention(T_r, C, N)
+#         self.temporal_attention = TemporalAttention(T_r, C, N)
+#         self.top_k = top_k
 
-        # Xh ∈ RB×N×C×Tr 
-        # V, bs ∈ RN×N, W1 ∈ RTr , and W2 ∈ RC×N
-        # W3 ∈ RTr and W4 ∈ RC×N
-        #T = Tr * BxNxCxTr * CxN
-        self.gcn = GAToptConv(C, C) # C,C?
+#         # Xh ∈ RB×N×C×Tr 
+#         # V, bs ∈ RN×N, W1 ∈ RTr , and W2 ∈ RC×N
+#         # W3 ∈ RTr and W4 ∈ RC×N
+#         #T = Tr * BxNxCxTr * CxN
+#         self.gcn = GAToptConv(C, C) # C,C?
         
-        num_classes = 3 # for the 3 high level object classes
-        self.fc = nn.Linear(C, num_classes)
+#         num_classes = 3 # for the 3 high level object classes
+#         self.fc = nn.Linear(C, num_classes)
         
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        self.to(self.device)
+#         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+#         self.to(self.device)
         
-    def forward(self, x):
-        # Pass input through the transformer learning block
-        transformer_out = self.transformer_learning_block(x.unsqueeze(1))
+#     def forward(self, x):
+#         # Pass input through the transformer learning block
+#         transformer_out = self.transformer_learning_block(x.unsqueeze(1))
         
-        # Prepare the output of the transformer block for the graph attention network
-        # This may involve reshaping or selecting features to match expected input dimensions
+#         # Prepare the output of the transformer block for the graph attention network
+#         # This may involve reshaping or selecting features to match expected input dimensions
         
-        # Apply spatial attention
-        A = self.spatial_attention(transformer_out)
-        A_topk = torch.topk(A, self.top_k, dim=2).values
-        A = torch.where(A >= A_topk, A, torch.zeros_like(A))
-        # Apply temporal attention
-        T_hat = self.temporal_attention(transformer_out)
-        X_h_hat = T_hat * transformer_out
-        print(X_h_hat.shape)
+#         # Apply spatial attention
+#         A = self.spatial_attention(transformer_out)
+#         A_topk = torch.topk(A, self.top_k, dim=2).values
+#         A = torch.where(A >= A_topk, A, torch.zeros_like(A))
+#         # Apply temporal attention
+#         T_hat = self.temporal_attention(transformer_out)
+#         X_h_hat = T_hat * transformer_out
+#         print(X_h_hat.shape)
         
-        # Graph Convolution operation
-        gcn_out = self.gcn(X_h_hat, A)  # Uncomment and adjust if using a GNN layer
+#         # Graph Convolution operation
+#         gcn_out = self.gcn(X_h_hat, A)  # Uncomment and adjust if using a GNN layer
         
-        # Flatten the output and pass it through the final FC layer for emotion prediction
-        flattened_out = torch.flatten(gcn_out, start_dim=1)
-        emotion_prediction = self.fc(flattened_out)
+#         # Flatten the output and pass it through the final FC layer for emotion prediction
+#         flattened_out = torch.flatten(gcn_out, start_dim=1)
+#         emotion_prediction = self.fc(flattened_out)
 
-        return emotion_prediction
+#         return emotion_prediction
     
 class LSTM_CNN(nn.Module):
     def __init__(self, input_size, hidden_size, output_size): #

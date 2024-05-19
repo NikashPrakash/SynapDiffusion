@@ -121,6 +121,12 @@ Need to consider doing causal embedding/attention to allow for real time decodin
 ### Data
 https://vscode.dev/github.com/ViCCo-Group/THINGS-data
 
+#### Database/Data Storage
+https://danmackinlay.name/notebook/data_formats.html
+tsaug: https://www.arundo.com/articles/tsaug-an-open-source-python-package-for-time-series-augmentation
+ts-feature-extraction: https://tsfresh.readthedocs.io/en/latest/
+https://www.timescale.com/blog/how-to-work-with-time-series-in-python/
+
 #### Preprocessing
 EEG: Using Matlab (R2020b) and the EEGlab (v14.0.0b) toolbox22, data were filtered using a Hamming windowed FIR filter with 0.1 Hz highpass and 100 Hz lowpass filters, re-referenced to the average reference, and downsampled to 250 Hz. Epochs were created for each individual stimulus presentation ranging from [−100 to 1000 ms] relative to stimulus onset. 
 
