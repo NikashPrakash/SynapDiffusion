@@ -1,34 +1,26 @@
 #meg_ray.py
 # import argparse
-import torch, pdb#, os
+import torch#, pdb, os
+import pandas as pd
 import numpy as np
 from torch import nn
-import torch.optim as optim
-from torch.optim.lr_scheduler import ReduceLROnPlateau
-from torch.nn import CrossEntropyLoss
-# import torch.distributed as dist
-from torch.utils.data import DataLoader, Subset, SequentialSampler
-from torch.utils.data.distributed import DistributedSampler
 from torch.distributed.fsdp import (
     MixedPrecision,
     ShardingStrategy,
 )
-from torch.distributed.elastic.multiprocessing.errors import record
 # from torch.distributed.fsdp.wrap import (
 #     size_based_auto_wrap_policy,
 #     enable_wrap,
 #     wrap,
 # )
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
-import matplotlib.pyplot as plt, tqdm
+import matplotlib.pyplot as plt#, tqdm
 import seaborn as sns
 
 # from filelock import FileLock
 import ray
-from ray import tune, train
-from ray.data import from_torch
-from ray.train import FailureConfig, RunConfig, ScalingConfig, CheckpointConfig, DataConfig
+from ray import tune, train, data
+from ray.train import FailureConfig, RunConfig, ScalingConfig, CheckpointConfig
 from ray.train.torch import TorchTrainer
 from ray.tune.schedulers.hb_bohb import HyperBandForBOHB
 from ray.tune.search.bohb import TuneBOHB
@@ -36,8 +28,8 @@ from ray.tune.tune_config import TuneConfig
 from ray.tune.tuner import Tuner
 from utils import config
 from training_ray import Trainer, clear_checkpoint
-from models.MEGDecoder import MEGDecoder
-from dataset import HDF5Dataset
+from models import MEGDecoder
+from dataset import HDF5Dataset, ray_dataset
 
 
 def set_seed():
@@ -45,37 +37,22 @@ def set_seed():
     torch.manual_seed(448)
     np.random.seed(448)
 
-# class TuneTrainable(tune.Trainable):
-#     def setup(self, config):
-#         # self.trainer = Trainer()
-#         pass
 
-
-@record
 def main(retrain, rank):
-    # set_seed()
-    #if you need local_rank device= torch.cuda.current_device()
-    # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    # print("device: ",device)
-    # pdb.set_trace()
-    
-    ray.init()
+    set_seed()
+    ray.init() #Temp Results Dir used by Ray
 
-    fpath = '/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/MEG_data/'
-    dataset = HDF5Dataset(fpath+"meg_data.hdf5",('meg_data','labels'))
-    
-    tr_idx, test_idx = train_test_split(range(len(dataset)), test_size=0.2, shuffle=True)
-    tr_idx, val_idx = train_test_split(tr_idx, test_size=0.1875, shuffle=True) #TODO: don't shuffle cause fsdp/ddp + ray does already?
-    
     #TODO: Optimize data storage and loading
-    train_dataset = from_torch(Subset(dataset, tr_idx))
-    breakpoint()
-    val_dataset = from_torch(Subset(dataset, val_idx))
-    test_dataset = from_torch(Subset(dataset, test_idx))
+    fpath = '/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/MEG_data/'
+    dataset_base = HDF5Dataset(fpath+"meg_data.hdf5",('meg_data','labels'))
+    dataset = ray_dataset(dataset_base)
     
-    ctx = ray.data.DataContext.get_current()
+    train_dataset, test_dataset = dataset.train_test_split(0.2)
+    train_dataset, val_dataset = train_dataset.train_test_split(0.1875)
+    # pdb.set_trace()
+    ctx = data.DataContext.get_current()
     ctx.execution_options.preserve_order = True
-    #args eventaully use yaml file instead
+
     regulaizer = lambda loss, params: loss + 3e-4 * sum(p.abs().sum() for p in params) #tune the 3e-4?
     
     #Trainer class, boiler plate code
@@ -90,26 +67,28 @@ def main(retrain, rank):
     )
     config_params = {
         "train_loop_config":{
-            "dataset_size":len(train_dataset),
+            "dataset_size":train_dataset.count(),
             "model_class": MEGDecoder,
+            "batch_size":tune.choice([64,128,256]),
             "hparams": {'architecture':tune.choice(['var-cnn','lf-cnn']), 'n_classes':2},
-            "params": dict(n_ls = tune.choice([32,16,64]), dropout = tune.choice([0.1,0.25,0.375,0.5]), 
-                           filter_length = 7, nonlin_in = tune.choice([nn.Identity,nn.LeakyReLU]), 
-                           nonlin_hid = tune.choice([nn.ReLU,nn.LeakyReLU]), pooling = 2, stride = 1,
-                           nonlin_out = tune.choice([nn.Identity,nn.LeakyReLU])),
+            "lr": tune.uniform(1e-5,5e-3),
+            "lr_factor":tune.choice([0.1,0.25,0.3,0.4]), 
+            "lr_patience":tune.randint(1,6),
+            "params": dict(dropout = tune.choice([0.1,0.25,0.375,0.5]), filter_length = tune.choice([3,5,7,9,11]),
+                           n_ls = tune.choice([32,16,64]), nonlin_hid = tune.choice([nn.ReLU,nn.LeakyReLU]),
+                           nonlin_in = tune.choice([nn.Identity,nn.LeakyReLU]), nonlin_out = tune.choice([nn.Identity,nn.LeakyReLU]),
+                           pooling = 2, stride = 1
+                           ),
             "patience": tune.choice([5,8,11]),
             "parallel_setup":{
                 "sharding_strategy":sharding_strategy,
                 "mixed_precision":amp
             },
-            "weight_decay":tune.uniform(1e-4,1e-2),
-            "lr_patience":tune.randint(1,6),
-            "lr_factor":tune.choice([0.1,0.25,0.3,0.4]), 
-            "lr": tune.uniform(1e-5,5e-3),
-            "batch_size":tune.choice([32,64,128]),
+            "weight_decay":tune.uniform(1e-4,1e-2),    
             'regulaizer':regulaizer
         }
     }
+    
     class CustomStopper(tune.Stopper):
         def __init__(self):
             self.should_stop = False
@@ -127,12 +106,9 @@ def main(retrain, rank):
     #Trainable for Ray Tune
     ray_trainer = TorchTrainer(
         train_loop_per_worker=trainer.train,
-        scaling_config=ScalingConfig(num_workers=1,use_gpu=True,resources_per_worker={"GPU": 0.5}),
-        run_config=RunConfig(checkpoint_config=CheckpointConfig(1,checkpoint_score_attribute="mean_accuracy"),stop=stopper),
+        # scaling_config=ScalingConfig(num_workers=1,use_gpu=True,resources_per_worker={"GPU": 0.5}),
         datasets={"train": train_dataset,"val":val_dataset},
     )
-    
-    #Temp Results Dir used by Ray
     
     #Hyperparam Search Algo: https://arxiv.org/abs/1807.01774
     bohb_hb = HyperBandForBOHB(
@@ -143,7 +119,7 @@ def main(retrain, rank):
         stop_last_trials=False
     )
     
-    searchBoHB = TuneBOHB(config_params, metric='val_loss', mode='min')
+    searchBoHB = TuneBOHB(metric='val_loss', mode='min')
     
     tuner = Tuner(
         ray_trainer,
@@ -153,12 +129,14 @@ def main(retrain, rank):
             failure_config=FailureConfig(
                 fail_fast=True,
             ),
-            storage_path=config("MEG-Hyper.checkpoint")
+            storage_path=config("MEG-Hyper.checkpoint"),
+            checkpoint_config=CheckpointConfig(1,checkpoint_score_attribute="mean_accuracy"),
+            stop=stopper
         ),
         tune_config=TuneConfig(
             scheduler=bohb_hb,
             search_alg=searchBoHB,
-            num_samples=40,
+            num_samples=400,
             reuse_actors=True,
             max_concurrent_trials=4
         ),
@@ -173,16 +151,8 @@ def main(retrain, rank):
     results = tuner.fit()
     best_result = results.get_best_result("val_loss", "min")
     trainer.restore_model('best',best_result.get_best_checkpoint('val_loss','min'))
-
     
-    # te_samp = DistributedSampler(test_dataset, rank=rank, shuffle=False)
-    # test_kwargs = {'batch_size': 32, 'sampler': te_samp,'num_workers': 2,
-    #                'pin_memory': True, 'shuffle': False}
-    # test_loader = DataLoader(test_dataset, **test_kwargs)
-    test_acc, test_loss, test_pred, test_true = trainer.get_metrics(test_dataset.iterator())
-    
-    
-    import pandas as pd
+    test_acc, test_loss, test_pred, test_true = trainer.get_metrics(test_dataset)
     print("Stats at best epoch: ", pd.DataFrame(trainer.metrics[-1], index=[0]))
     print(f"Global min val loss {trainer.min_loss}")
     print(f"test_acc {test_acc}, test_loss {test_loss}")

@@ -2,6 +2,13 @@
 import torch, h5py
 from torch.utils.data import Dataset
 from torch import float32
+from ray import data
+
+def ray_dataset(dataset_base):
+    dataset = data.from_numpy(dataset_base.data.numpy()) #2d data
+    dataset = dataset.to_pandas()
+    dataset['labels'] = list(dataset_base.labels.numpy()) #2d set of labels
+    return data.from_pandas(dataset)
 
 class HDF5Dataset(Dataset):
     def __init__(self, hdf5_filename, dataset_names=("meg_data","labels")):

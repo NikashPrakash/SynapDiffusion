@@ -22,7 +22,7 @@ class ConvLayer(nn.Module):
         self.nonlin_in = nonlin_in
         self.nonlin_out = nonlin_out
         self.conv_type = conv_type
-        self.pool = nn.MaxPool2d(kernel_size=(pool, 1), stride=(filter_length // 3, 1),ceil_mode=True)
+        self.pool = nn.MaxPool2d(kernel_size=(pool, 1), stride=(pool, 1),ceil_mode=True)
         self.weights = nn.Parameter(torch.randn(271, n_ls))
         
         if conv_type == 'var':

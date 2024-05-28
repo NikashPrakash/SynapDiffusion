@@ -19,6 +19,21 @@ from utils import config
 
 class Trainer:
     def setup(self, config):
+        """
+        config = {
+            'dataset_size': 2743, 'model_class': <MEGDecoder>, 'batch_size': 32, 
+            'hparams': {'architecture': 'var-cnn', 'n_classes': 2},
+            'lr': 0.0007512123221743854, 'lr_factor': 0.1, 'lr_patience': 2, 
+            'params': {'dropout': 0.5, 'filter_length': 7, 'n_ls': 32, 
+            'nonlin_hid': <ReLU>, 'nonlin_in': <Identity>, 'nonlin_out': <Identity>,
+            'pooling': 2, 'stride': 1},
+            'patience': 8, 
+            'parallel_setup': {'sharding_strategy': <ShardingStrategy.NO_SHARD: 3>, 'mixed_precision':torch.half, 
+            'weight_decay': 0.006964722130250569,
+            'regulaizer': <function main.<locals>.<lambda> at 0x14c234049fc0>
+        }
+        """
+        
         self.rank = int(os.environ.get("RANK",0))
         self.patience = config['patience']
         self.curr_count_to_patience = 0
@@ -28,14 +43,13 @@ class Trainer:
 
         self.regulaizer = config['regulaizer']
         self.criterion = CrossEntropyLoss()
-        if config['model_class'] == isinstance(MEGDecoder):
-            self.model = config['model_class'](config['hparams'],config['params'])
-        
+        if issubclass(config['model_class'], MEGDecoder):
+            self.model = MEGDecoder(config['hparams'], config['params'])
         self.model = prepare_model(self.model, parallel_strategy='fsdp', parallel_strategy_kwargs=config['parallel_setup'])
-        self.optimizer = optim.Adam(self.model.parameters(), config['lr'], betas=(0.9,0.95), weight_decay=config['weight_decay'], fused=True)
+        self.optimizer = optim.Adam(self.model.parameters(), config['lr'], betas=(0.9,0.95), weight_decay=config['weight_decay'])#, fused=True)
         self.optimizer = prepare_optimizer(self.optimizer)
         self.scheduler = ReduceLROnPlateau(self.optimizer, 'min', factor=config['lr_factor'], patience=config['lr_patience'], min_lr=5e-9)
-        self.cycler = optim.lr_scheduler.OneCycleLR(self.optimizer,max_lr=75e-4,total_steps=total_steps_cyc)
+        self.cycler = optim.lr_scheduler.OneCycleLR(self.optimizer, max_lr=75e-4, total_steps=total_steps_cyc)
         self.min_loss = 1000
         self.best_epoch = 0
         self.metrics = []
@@ -46,7 +60,6 @@ class Trainer:
         self.setup(config)
         self.epoch = 0
         while self.curr_count_to_patience < self.patience:
-            
             if self.regulaizer:
                 self.train_chunk(train.get_dataset_shard('train'), self.regulaizer)
             else:
@@ -58,16 +71,19 @@ class Trainer:
             self.epoch += 1
 
             self.save_checkpoint()
-            
+            break
             self.early_stopping()
             if self.curr_count_to_patience == self.patience:
                 self.best_epoch = self.epoch - self.patience
+                
 
     def train_chunk(self, loader, secondary_reg = lambda x, y: x):
         self.model.train()
         running_loss = 0.0
         #check iter output/form
-        for i, x, y in enumerate(loader.iter_torch_batches(self.batch_size)):
+        for i, batch in enumerate(loader.iter_batches(batch_size=self.batch_size, prefetch_batches=10)):
+            x = batch['data']
+            y = batch['labels']
             self.optimizer.zero_grad()
             pred = self.model(x)
             loss = self.criterion(pred, y)
@@ -76,6 +92,7 @@ class Trainer:
             self.optimizer.step()
             self.cycler.step()
             running_loss += (loss.detach().item() - running_loss)/(i+1)
+            break
         return running_loss
     
     def decode(self, preds, top):
@@ -90,7 +107,9 @@ class Trainer:
         running_acc = 0
         running_loss = 0.0
         #check iter output/form
-        for i, x, y in enumerate(loader.iter_torch_batches(self.batch_size)):
+        for i, batch in enumerate(loader.iter_batches(batch_size=self.batch_size, prefetch_batches=10)):
+            x = batch['data']
+            y = batch['labels']
             output = self.model(x) 
             predicted = self.decode(output, 1)
             running_loss += (self.criterion(output, y).detach().item() - running_loss)/(i+1)
@@ -98,6 +117,7 @@ class Trainer:
             y_pred = torch.cat((y_pred, predicted.cpu()), dim=0)
             y_true = torch.cat((y_true, y.cpu()), dim=0)
             running_acc += (predicted == y).sum().item() #only for top-1 acc, # for i in range(y.shape[0]): top-5 acc correct += (y[i] in predicted[i])
+            break
         # v_acc = correct/len(y_true)
         return running_acc, running_loss, y_pred, y_true
 
