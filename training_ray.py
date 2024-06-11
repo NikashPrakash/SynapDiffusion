@@ -28,12 +28,11 @@ class Trainer:
             'nonlin_hid': <ReLU>, 'nonlin_in': <Identity>, 'nonlin_out': <Identity>,
             'pooling': 2, 'stride': 1},
             'patience': 8, 
-            'parallel_setup': {'sharding_strategy': <ShardingStrategy.NO_SHARD: 3>, 'mixed_precision':torch.half, 
+            'parallel_setup': {'sharding_strategy': <ShardingStrategy.NO_SHARD: 3>, 'mixed_precision':torch.half..., 
             'weight_decay': 0.006964722130250569,
             'regulaizer': <function main.<locals>.<lambda> at 0x14c234049fc0>
         }
         """
-        
         self.rank = int(os.environ.get("RANK",0))
         self.patience = config['patience']
         self.curr_count_to_patience = 0
@@ -46,11 +45,12 @@ class Trainer:
         if issubclass(config['model_class'], MEGDecoder):
             self.model = MEGDecoder(config['hparams'], config['params'])
         self.model = prepare_model(self.model, parallel_strategy='fsdp', parallel_strategy_kwargs=config['parallel_setup'])
-        self.optimizer = optim.Adam(self.model.parameters(), config['lr'], betas=(0.9,0.95), weight_decay=config['weight_decay'])#, fused=True)
+        self.model = torch.nn.utils.convert_conv2d_weight_memory_format(self.model, torch.channels_last)
+        self.optimizer = optim.Adam(self.model.parameters(), config['lr'], betas=(0.9,0.95), weight_decay=config['weight_decay'], fused=True)
         self.optimizer = prepare_optimizer(self.optimizer)
         self.scheduler = ReduceLROnPlateau(self.optimizer, 'min', factor=config['lr_factor'], patience=config['lr_patience'], min_lr=5e-9)
         self.cycler = optim.lr_scheduler.OneCycleLR(self.optimizer, max_lr=75e-4, total_steps=total_steps_cyc)
-        self.min_loss = 1000
+        self.min_val_loss = 4e6
         self.best_epoch = 0
         self.metrics = []
         #self.y_pred, self.y_true = torch.tensor([]).cuda(), torch.tensor([]).cuda()
@@ -65,14 +65,13 @@ class Trainer:
             else:
                 self.train_chunk(train.get_dataset_shard('train'))
             
-            stats, _, _ = self.evaluate_chunk()
-            
+            stats = self.evaluate_chunk()
             self.metrics.append(stats)
-            self.epoch += 1
 
-            self.save_checkpoint()
-            break
+            self.epoch += 1
+            
             self.early_stopping()
+            self.save_checkpoint()
             if self.curr_count_to_patience == self.patience:
                 self.best_epoch = self.epoch - self.patience
                 
@@ -81,7 +80,7 @@ class Trainer:
         self.model.train()
         running_loss = 0.0
         #check iter output/form
-        for i, batch in enumerate(loader.iter_batches(batch_size=self.batch_size, prefetch_batches=10)):
+        for i, batch in enumerate(loader.iter_torch_batches(batch_size=self.batch_size, prefetch_batches=10)):
             x = batch['data']
             y = batch['labels']
             self.optimizer.zero_grad()
@@ -107,7 +106,7 @@ class Trainer:
         running_acc = 0
         running_loss = 0.0
         #check iter output/form
-        for i, batch in enumerate(loader.iter_batches(batch_size=self.batch_size, prefetch_batches=10)):
+        for i, batch in enumerate(loader.iter_torch_batches(batch_size=self.batch_size, prefetch_batches=10)):
             x = batch['data']
             y = batch['labels']
             output = self.model(x) 
@@ -143,34 +142,34 @@ class Trainer:
 
         Returns: new values of curr_patience and global_min_loss
         """
-        if self.metrics[-1]['val_loss'] >= self.min_loss:
+        if self.metrics[-1]['val_loss'] >= self.min_val_loss:
             self.curr_count_to_patience += 1
         else:
-            self.min_loss = self.metrics[-1]['val_loss']
+            self.min_val_loss = self.metrics[-1]['val_loss']
             self.curr_count_to_patience = 0
             if self.rank==0:
-                print(f"New Val Loss: {self.min_loss}")
+                print(f"New Val Loss: {self.min_val_loss}")
 
     def save_checkpoint(self):
         """Save a checkpoint file to `checkpoint_dir`."""
         with tempfile.TemporaryDirectory() as temp_checkpoint_dir:
             if isinstance(self.model, FSDP) and self.model.sharding_strategy != ShardingStrategy.NO_SHARD:
                 rank = train.get_context().get_world_rank()
-                torch.save((self.model.module.state_dict(),self.optimizer.state_dict(), self.scheduler.state_dict()),
+                torch.save((self.model.module.state_dict(),self.optimizer.state_dict(), self.scheduler.state_dict(), self.cycler.state_dict()),
                            os.path.join(temp_checkpoint_dir, f"model-rank={rank}.pt"),
                            )
                 checkpoint = TorchCheckpoint.from_directory(temp_checkpoint_dir)
-                train.report(self.metrics, checkpoint=checkpoint)
+                train.report(metrics={'val_loss':self.min_val_loss}, checkpoint=checkpoint)
             else:
                 try:
                     if train.get_context().get_world_rank() == 0:
-                        torch.save((self.model.module.state_dict(),self.optimizer.state_dict(), self.scheduler.state_dict()),
+                        torch.save((self.model.module.state_dict(),self.optimizer.state_dict(), self.scheduler.state_dict(), self.cycler.state_dict()),
                             os.path.join(temp_checkpoint_dir, "model.pt"))
                         checkpoint = TorchCheckpoint.from_directory(temp_checkpoint_dir)
-                        train.report(self.metrics, checkpoint=checkpoint)
+                        train.report(metrics={'val_loss':self.min_val_loss}, checkpoint=checkpoint)
                 except Exception as e:
                     print("no session active / distributed process")
-                    torch.save((self.model.state_dict(),self.optimizer.state_dict(), self.scheduler.state_dict()),
+                    torch.save((self.model.state_dict(),self.optimizer.state_dict(), self.scheduler.state_dict(), self.cycler.state_dict()),
                             os.path.join(config('MEG-Hyper.checkpoint'), "model.pt"))
                 
 
@@ -181,13 +180,14 @@ class Trainer:
         
         print(f"Loading from checkpoint {filename}.")
 
-        model_dict, opt_dict, scheduler_dict = torch.load(filename)
+        model_dict, opt_dict, scheduler_dict, cycler_dict = torch.load(filename)
 
         try:
             self.model.module.load_state_dict(model_dict)
             if best_or_restart == "restart":
                 self.optimizer.load_state_dict(opt_dict)
                 self.scheduler.load_state_dict(scheduler_dict)
+                self.cycler.load_state_dict(cycler_dict)
                 # train.report(metrics, checkpoint=checkpoint)
             # print(f"=> Successfully restored checkpoint (trained for {checkpoint['epoch']} epochs)")
         except Exception as e:

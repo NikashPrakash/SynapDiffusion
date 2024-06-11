@@ -25,8 +25,8 @@ import matplotlib.pyplot as plt, tqdm
 import seaborn as sns
 from utils import config
 from training import Trainer, clear_checkpoint
-from models.MEGDecoder import *
-from dataset import DDPDataset
+from models import MEGDecoder
+from dataset import HDF5Dataset
 
 
 def setup(local_rank):
@@ -41,7 +41,7 @@ def cleanup():
 
 class MEGTrainer(Trainer):
     def __init__(self, args, **kwargs):
-        super().__init__(**kwargs)
+        super().__init__(args, **kwargs)
         self.patience = args[0]
         self.curr_count_to_patience = args[1]
         self.checkpoint_path = args[2]
@@ -93,13 +93,13 @@ def main(retrain, local_rank, rank):
 
     #args use yaml file
     hyper_params = dict(architecture = 'var-cnn', n_classes = 2)
-    params = dict(n_ls = 32, learn_rate = 3e-4, dropout = 0.5,
+    params = dict(n_ls = 16, learn_rate = 3e-4, dropout = 0.5,
                   nonlin_in = nn.Identity, nonlin_hid = nn.ReLU,
-                  nonlin_out = nn.Identity, filter_length = 7,
+                  nonlin_out = nn.Identity, filter_length = 5,
                   pooling = 2, stride = 1)
     # pdb.set_trace()
     
-    dataset = DDPDataset(fpath+"meg_data.hdf5",('meg_data','labels'))
+    dataset = HDF5Dataset(fpath+"meg_data.hdf5",('meg_data','labels'))
 
     tr_idx, test_idx = train_test_split(range(len(dataset)),test_size=0.2, shuffle=True)
     tr_idx, val_idx = train_test_split(tr_idx, test_size=0.1875, shuffle=True)
@@ -116,9 +116,9 @@ def main(retrain, local_rank, rank):
     val_samp =  RandomSampler(val_dataset, generator=gen) 
     te_samp = RandomSampler(test_dataset, generator=gen)
 
-    train_kwargs = {'batch_size': 32, 'sampler': tr_samp}
-    val_kwargs = {'batch_size': 32, 'sampler': val_samp}
-    test_kwargs = {'batch_size': 32, 'sampler':te_samp }
+    train_kwargs = {'batch_size': 256, 'sampler': tr_samp}
+    val_kwargs = {'batch_size': 256, 'sampler': val_samp}
+    test_kwargs = {'batch_size': 256, 'sampler':te_samp }
     # cuda_kwargs = {'num_workers': 2, 'pin_memory': True, 'shuffle': False}
     # train_kwargs.update(cuda_kwargs)
     # val_kwargs.update(cuda_kwargs)

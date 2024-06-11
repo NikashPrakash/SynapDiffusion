@@ -9,7 +9,7 @@ def config(attr):
     config file on first call.
     """
     if not hasattr(config, "config"):
-        with open("config.json") as f:
+        with open("/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/config.json") as f:
             config.config = eval(f.read())
     node = config.config
     for part in attr.split("."):
