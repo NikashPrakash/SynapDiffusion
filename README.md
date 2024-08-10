@@ -56,3 +56,8 @@ Using Ray[Train,Tune] for automated hyperparameter selection
 #### Ray Compatible [Trainer](training_ray.py) Class
 - TODO: complete config and setup
 - TODO: add automated toggle for single gpu or distributed depended on available system
+
+## Data
+Current MEG Data Source -> THINGS MEG1: https://openneuro.org/datasets/ds004212 \
+Current EEG Data Source -> THINGS EEG: https://openneuro.org/datasets/ds003825/versions/1.2.0
+- Things MEG1, from [THINGS](https://things-initiative.org): A global initiative bringing together researchers using the same image database to collect and share behavioral and neuroscience data in object recognition and understanding.

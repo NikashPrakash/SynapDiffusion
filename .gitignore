@@ -9,4 +9,6 @@ slurm*
 checkpoints*
 .vscode
 TODO
-# Combined_data*
+.DS_Store
+Combined_data*
+data/

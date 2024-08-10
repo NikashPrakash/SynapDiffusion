@@ -1,15 +1,9 @@
 ## ideas
 
 ### Training Considerations
-Distributed data parallel 
-for hyperparameter search. so it would be diff hyperparams for model/optim with a copy of the data
-https://www.anyscale.com/blog/deep-dive-data-ingest-in-a-third-generation-ml-architecture
-
-+ model parallel?
-+ Other optimaizations
-
-Multi-gpu 
-single or multi system
++ Other optimaizations?
+    Multi-gpu 
+    single or multi system
 
 
 
@@ -18,17 +12,12 @@ https://d2l.ai/chapter_computational-performance/multiple-gpus.html
 
 https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-loading-a-general-checkpoint-for-inference-and-or-resuming-training
 https://www.reddit.com/r/MachineLearning/comments/kvs1ex/d_here_are_17_ways_of_making_pytorch_training/
-    Use 1,2,4
-PyTorch AMP
-PyTorch AdamW - fused kernel (fused=True)
+-  Use 1,2,4
 Weight-decay explanation: https://www.fast.ai/posts/2018-07-02-adam-weight-decay.html#adamw
 https://towardsdatascience.com/how-to-solve-data-loading-bottlenecks-in-your-deep-learning-training-1ddfcc24449b
 
-
-https://github.com/pytorch/examples/blob/main/distributed/FSDP/T5_training.py
-
 ### Related work
-https://www.cs.cmu.edu/~afluo/
+Andrew Luo has related research: https://www.cs.cmu.edu/~afluo/
 
 EEG BCI literature review
 https://www.sciencedirect.com/science/article/pii/S2665917423001599
@@ -55,18 +44,32 @@ https://github.com/vlawhern/arl-eegmodels
 
 
 ### Model Architecture
-https://www.frontiersin.org/articles/10.3389/fnhum.2023.1169949/full
-https://www.reddit.com/r/MachineLearning/comments/18bd0lw/d_what_is_the_latest_with_multimodal/
+#### EEG models:
+1. LSTM_CNN (not using now)
+2. STGATE (dependency/package issues)
+3. WaveletCNN (current)
 
-#### New meg model:
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6609925/
+#### Graph Attention Network References
+STGATE (Spatial-Temporal Graph Attention Net): https://www.frontiersin.org/articles/10.3389/fnhum.2023.1169949/full \
+GATv2Conv analysis = https://arxiv.org/pdf/2305.16196.pdf
 
-#### generation module:
+#### MEG model:
+var, lf-cnn: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6609925/
+
+#### Other ideas EEG or MEG:
+- Wavelets -> CNN (original inp and wavelet) + Graph Attention + FC
+- Graph Attention Network + FC
+- CNN + Transfomer, Transformer + CNN
+- CNN + Graph Attention Network
+- Transformer + Graph Attention network
+- CNN (s) + Transformer (t) + Graph Attention Network
+
+#### Generation module:
 https://github.com/facebookresearch/multimodal/tree/main MULTIMODAL lib 
 https://arxiv.org/pdf/2209.08725.pdf: neural wavelet domain diffusion for 3d shape generation
 https://github.com/edward1997104/Wavelet-Generation
 
-GATv2Optim Θ_n^+ 
+
 pass through classifier models and both in embedded space? and make eeg and meg CLIP shaped (dim of last dense layer before output)
 then concat or add? if concat then make last dense dim half of clip size?
 do embedding space alignment with clip space:
@@ -100,26 +103,22 @@ If model will always receive both eeg & meg
 - 
 
 
-
-#### Structure
-STGATE (Spatial-Temporal Graph Attention Net): https://www.frontiersin.org/articles/10.3389/fnhum.2023.1169949/full
-    Transformer encoder
-
-EEG:
-Graph Attention Network + FC
-CNN + Transfomer, Transformer + CNN
-CNN + Graph Attention Network
-Transformer + Graph Attention network
-CNN (s) + Transformer (t) + Graph Attention Network
-
-#### Reference
-GATv2Conv analysis = https://arxiv.org/pdf/2305.16196.pdf
+### Transformer encoder w/ cross attention ?
+https://www.reddit.com/r/MachineLearning/comments/18bd0lw/d_what_is_the_latest_with_multimodal/ :
+- GroundingDINO uses cross-attention, SAM too?
+- maybe ALBEF or X-VLM
 
 #### Future
-Need to consider doing causal embedding/attention to allow for real time decoding
+Need to consider doing causal embedding/attention to allow for real time decoding\
+https://www.nature.com/subjects/brain-machine-interface
 
 ### Data
-https://vscode.dev/github.com/ViCCo-Group/THINGS-data
+https://openneuro.org/search/modality/{meg,eeg}
+
+https://github.com/ViCCo-Group/THINGS-data: https://openneuro.org/datasets/ds004212
+#### new language meg:
+https://openneuro.org/datasets/ds004078
+https://openneuro.org/datasets/ds004483 
 
 #### Database/Data Storage
 https://danmackinlay.name/notebook/data_formats.html
@@ -166,3 +165,6 @@ dwt 1x 63,100 -> 4x 32,50
 16x coef shape:16,25 
 https://github.com/JDAI-CV/CoTNet/tree/master For after simple conv of wavelet model, pass conv to this block before doing classification
 https://github.com/YehLi/ImageNetModel?tab=readme-ov-file More reference
+
+### Devices and Partners?
+https://www.kernel.com/partner

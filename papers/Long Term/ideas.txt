@@ -1,5 +1,0 @@
-For sandbox brain, 
-
-have multi modal model that tracks everything
-    One for words and sentences and ideas
-    One for images, imagined objects - need dynamic tracking and placement

@@ -1,6 +1,6 @@
 #meg_ray.py
 # import argparse
-import torch#, pdb, os
+import torch, os#, pdb, 
 import pandas as pd
 import numpy as np
 from torch import nn
@@ -50,10 +50,10 @@ def main(retrain, rank):
             trainer.restore_model('restart',train.get_checkpoint())
 
     #TODO: Optimize data storage and loading
-    fpath = '/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/MEG_data/'
-    dataset_base = HDF5Dataset(fpath+"meg_data.hdf5",('meg_data','labels'))
-    dataset = ray_dataset(dataset_base)
-    
+    # fpath = os.getcwd()+'/MEG_data/'
+    # dataset_base = HDF5Dataset(fpath+"meg_data.hdf5",('meg_data','labels'))
+    # dataset = ray_dataset(dataset_base)
+    dataset = data.range_tensor(1000,shape=(281,271))
     train_dataset, test_dataset = dataset.train_test_split(0.2)
     train_dataset, val_dataset = train_dataset.train_test_split(0.1875)
     # pdb.set_trace()
@@ -126,7 +126,8 @@ def main(retrain, rank):
         # , reduction_factor=1#assume 2 gpus, 0.5 gpu per trial
         , stop_last_trials=False
     )
-    
+    import json
+    json.dump()
     searchBoHB = TuneBOHB(metric='val_loss', mode='min')
     
     tuner = Tuner(

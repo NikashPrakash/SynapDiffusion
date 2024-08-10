@@ -10,7 +10,7 @@
         "batch_size": 32
     },
     "MEG-Hyper":{
-        "checkpoint":"/scratch/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/checkpoints/meg_h/checkpoints/"
+        "checkpoint":"./checkpoints/meg_h/checkpoints/"
     },
     "Synaptic-Diffusion": {
         "checkpoint": "./checkpoints/syn_d/",
