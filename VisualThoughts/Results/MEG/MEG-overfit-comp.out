@@ -1,0 +1,110 @@
+Checkpoint successfully removed
+Training Epoch 0:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 0:   1%|[34m          [0m| 1/86 [00:04<06:06,  4.31s/it]Training Epoch 0:   1%|[34m          [0m| 1/86 [00:04<06:06,  4.31s/it]
+Train Epoch: 	0, Loss: 	0.1841
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:01, 44.83it/s]
+tr Loss: 0.0662
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 629.21it/s]
+val Loss: 0.0709
+New Val Loss: 0.07086235284805298
+Training Epoch 1:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 1:   1%|[34m          [0m| 1/86 [00:00<00:00, 256.64it/s]
+Train Epoch: 	1, Loss: 	0.1527
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 744.46it/s]
+tr Loss: 0.0403
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 781.06it/s]
+val Loss: 0.0606
+New Val Loss: 0.06061188876628876
+Training Epoch 2:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 2:   1%|[34m          [0m| 1/86 [00:00<00:00, 293.76it/s]
+Train Epoch: 	2, Loss: 	0.1277
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 783.84it/s]
+tr Loss: 0.0128
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 788.55it/s]
+val Loss: 0.0402
+New Val Loss: 0.040249403566122055
+Training Epoch 3:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 3:   1%|[34m          [0m| 1/86 [00:00<00:00, 302.44it/s]
+Train Epoch: 	3, Loss: 	0.0866
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 791.83it/s]
+tr Loss: 0.0299
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 787.37it/s]
+val Loss: 0.0556
+Training Epoch 4:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 4:   1%|[34m          [0m| 1/86 [00:00<00:00, 305.02it/s]
+Train Epoch: 	4, Loss: 	0.0863
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 766.50it/s]
+tr Loss: 0.0274
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 794.23it/s]
+val Loss: 0.0584
+Training Epoch 5:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 5:   1%|[34m          [0m| 1/86 [00:00<00:00, 305.24it/s]
+Train Epoch: 	5, Loss: 	0.1240
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 777.73it/s]
+tr Loss: 0.0084
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 791.38it/s]
+val Loss: 0.0455
+Training Epoch 6:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 6:   1%|[34m          [0m| 1/86 [00:00<00:00, 303.39it/s]
+Train Epoch: 	6, Loss: 	0.0791
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 788.40it/s]
+tr Loss: 0.0021
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 788.40it/s]
+val Loss: 0.0439
+Training Epoch 7:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 7:   1%|[34m          [0m| 1/86 [00:00<00:00, 304.75it/s]
+Train Epoch: 	7, Loss: 	0.0905
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 798.46it/s]
+tr Loss: 0.0029
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 794.83it/s]
+val Loss: 0.0587
+Training Epoch 8:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 8:   1%|[34m          [0m| 1/86 [00:00<00:00, 307.30it/s]
+Train Epoch: 	8, Loss: 	0.0906
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 787.81it/s]
+tr Loss: 0.0041
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 791.68it/s]
+val Loss: 0.0663
+Training Epoch 9:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 9:   1%|[34m          [0m| 1/86 [00:00<00:00, 305.13it/s]
+Train Epoch: 	9, Loss: 	0.0831
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 790.93it/s]
+tr Loss: 0.0044
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 798.46it/s]
+val Loss: 0.0704
+Training Epoch 10:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 10:   1%|[34m          [0m| 1/86 [00:00<00:00, 306.27it/s]
+Train Epoch: 	10, Loss: 	0.0701
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 783.54it/s]
+tr Loss: 0.0041
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 808.31it/s]
+val Loss: 0.0720
+Training Epoch 11:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 11:   1%|[34m          [0m| 1/86 [00:00<00:00, 310.48it/s]
+Train Epoch: 	11, Loss: 	0.0760
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 792.72it/s]
+tr Loss: 0.0031
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 791.68it/s]
+val Loss: 0.0699
+Training Epoch 12:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 12:   1%|[34m          [0m| 1/86 [00:00<00:00, 308.38it/s]
+Train Epoch: 	12, Loss: 	0.0758
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 796.49it/s]
+tr Loss: 0.0020
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 803.97it/s]
+val Loss: 0.0654
+Training Epoch 13:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 13:   1%|[34m          [0m| 1/86 [00:00<00:00, 308.68it/s]
+Train Epoch: 	13, Loss: 	0.0786
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 789.00it/s]
+tr Loss: 0.0016
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 807.06it/s]
+val Loss: 0.0629
+Training Epoch 14:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 14:   1%|[34m          [0m| 1/86 [00:00<00:00, 309.84it/s]
+Train Epoch: 	14, Loss: 	0.0698
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 794.07it/s]
+tr Loss: 0.0012
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 799.68it/s]
+val Loss: 0.0605
+Training Epoch 15:   0%|[34m          [0m| 0/86 [00:00<?, ?it/s]Training Epoch 15:   1%|[34m          [0m| 1/86 [00:00<00:00, 307.21it/s]
+Train Epoch: 	15, Loss: 	0.0720
+Training Metrics:   0%|[32m          [0m| 0/86 [00:00<?, ?it/s]Training Metrics:   1%|[32m          [0m| 1/86 [00:00<00:00, 795.28it/s]
+tr Loss: 0.0009
+Validation Epoch:   0%|[32m          [0m| 0/20 [00:00<?, ?it/s]Validation Epoch:   5%|[32m▌         [0m| 1/20 [00:00<00:00, 795.43it/s]
+val Loss: 0.0580
+Loading from checkpoint ./checkpoints/meg_e_t/epoch=3.checkpoint.pt.
+=> Successfully restored checkpoint (trained for 3 epochs)
+Inference on Test Set:   0%|[32m          [0m| 0/27 [00:00<?, ?it/s]Inference on Test Set:   4%|[32m▎         [0m| 1/27 [00:00<00:00, 775.86it/s]
+/gpfs/accounts/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/meg_trainer.py:205: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
+  cmap=plt.cm.get_cmap("viridis")
+te Loss: 0.0530
+Stats at best epoch:     train_loss  train_accuracy  val_loss  val_accuracy
+0    0.012751          0.8125  0.040249        0.5625
+Global min val loss 1000
+test_acc 0.375, test_loss 0.05300675705075264

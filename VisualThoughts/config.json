@@ -1,0 +1,20 @@
+{
+    "EEG-Encoder": {
+        "checkpoint": "./checkpoints/eeg_e_t/",
+        "learning_rate": 1e-3,
+        "batch_size": 32
+    },
+    "MEG-Encoder": {
+        "checkpoint": "./checkpoints/meg_e_t/",
+        "learning_rate": 1e-3,
+        "batch_size": 32
+    },
+    "MEG-Hyper":{
+        "checkpoint":"./checkpoints/meg_h/checkpoints/"
+    },
+    "Synaptic-Diffusion": {
+        "checkpoint": "./checkpoints/syn_d/",
+        "learning_rate": 1e-3,
+        "batch_size": 32
+    }
+}
