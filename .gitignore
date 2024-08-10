@@ -1,14 +1,2 @@
-EEG_data*
-Things_Images*
-ds003825-1.2.0.sh
-env/
-MEG_e*
-MEG_da*
-__pycache__*
-slurm*
-checkpoints*
-.vscode
-TODO
 .DS_Store
-Combined_data*
-data/
+.vscode
