@@ -1,121 +1,0 @@
-/gpfs/accounts/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/env/lib/python3.10/site-packages/torch_geometric/typing.py:54: UserWarning: An issue occurred while importing 'pyg-lib'. Disabling its usage. Stacktrace: /lib64/libm.so.6: version `GLIBC_2.29' not found (required by /gpfs/accounts/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/env/lib/python3.10/site-packages/libpyg.so)
-  warnings.warn(f"An issue occurred while importing 'pyg-lib'. "
-Checkpoint successfully removed
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]/gpfs/accounts/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/models/DWTDecoder.py:28: UserWarning: Creating a tensor from a list of numpy.ndarrays is extremely slow. Please consider converting the list to a single numpy.ndarray with numpy.array() before converting to a tensor. (Triggered internally at ../torch/csrc/utils/tensor_new.cpp:275.)
-  arr = torch.tensor([x[0][:], x[1][0][:], x[1][1][:], x[1][2][:]])
-r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:05<1:37:45,  5.06s/it]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:05<1:37:46,  5.07s/it]
-Train Epoch: 	0, Loss: 	0.0344
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<02:29,  7.73it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<02:30,  7.69it/s]
-tr Loss: 0.0380
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:25, 10.55it/s]
-val Loss: 0.0391
-New Val Loss: 0.03909499943256378
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:41, 11.39it/s]
-Train Epoch: 	1, Loss: 	0.0338
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:39, 11.65it/s]
-tr Loss: 0.0347
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.76it/s]
-val Loss: 0.0353
-New Val Loss: 0.03531957417726517
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:40, 11.51it/s]
-Train Epoch: 	2, Loss: 	0.0374
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:38, 11.73it/s]
-tr Loss: 0.0339
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.79it/s]
-val Loss: 0.0336
-New Val Loss: 0.03359553962945938
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:40, 11.57it/s]
-Train Epoch: 	3, Loss: 	0.0347
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:52, 10.27it/s]
-tr Loss: 0.0346
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.80it/s]
-val Loss: 0.0341
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:42, 11.33it/s]
-Train Epoch: 	4, Loss: 	0.0335
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:38, 11.72it/s]
-tr Loss: 0.0342
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.83it/s]
-val Loss: 0.0346
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:40, 11.50it/s]
-Train Epoch: 	5, Loss: 	0.0345
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:39, 11.68it/s]
-tr Loss: 0.0342
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.90it/s]
-val Loss: 0.0352
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:41, 11.44it/s]
-Train Epoch: 	6, Loss: 	0.0340
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:41, 11.37it/s]
-tr Loss: 0.0342
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.84it/s]
-val Loss: 0.0341
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:41, 11.45it/s]
-Train Epoch: 	7, Loss: 	0.0339
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:39, 11.64it/s]
-tr Loss: 0.0340
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.81it/s]
-val Loss: 0.0340
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:40, 11.47it/s]
-Train Epoch: 	8, Loss: 	0.0339
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:38, 11.74it/s]
-tr Loss: 0.0344
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.84it/s]
-val Loss: 0.0338
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:40, 11.50it/s]
-Train Epoch: 	9, Loss: 	0.0346
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:39, 11.68it/s]
-tr Loss: 0.0346
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.76it/s]
-val Loss: 0.0333
-New Val Loss: 0.03325464576482773
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:40, 11.52it/s]
-Train Epoch: 	10, Loss: 	0.0351
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:38, 11.74it/s]
-tr Loss: 0.0341
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.80it/s]
-val Loss: 0.0340
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:41, 11.43it/s]
-Train Epoch: 	11, Loss: 	0.0337
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:38, 11.72it/s]
-tr Loss: 0.0334
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.81it/s]
-val Loss: 0.0337
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:50, 10.47it/s]
-Train Epoch: 	12, Loss: 	0.0330
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:48, 10.64it/s]
-tr Loss: 0.0345
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.81it/s]
-val Loss: 0.0344
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:43, 11.23it/s]
-Train Epoch: 	13, Loss: 	0.0341
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:39, 11.60it/s]
-tr Loss: 0.0333
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.89it/s]
-val Loss: 0.0333
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:40, 11.48it/s]
-Train Epoch: 	14, Loss: 	0.0336
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:39, 11.68it/s]
-tr Loss: 0.0344
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.84it/s]
-val Loss: 0.0344
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:41, 11.43it/s]
-Train Epoch: 	15, Loss: 	0.0336
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:39, 11.65it/s]
-tr Loss: 0.0345
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:22, 11.77it/s]
-val Loss: 0.0335
-r0 Training Epoch:   0%|[34m          [0m| 0/1159 [00:00<?, ?it/s]r0 Training Epoch:   0%|[34m          [0m| 1/1159 [00:00<01:41, 11.45it/s]
-Train Epoch: 	16, Loss: 	0.0349
-Training Metrics:   0%|[32m          [0m| 0/1159 [00:00<?, ?it/s]Training Metrics:   0%|[32m          [0m| 1/1159 [00:00<01:38, 11.70it/s]
-tr Loss: 0.0340
-Validation Epoch:   0%|[32m          [0m| 0/268 [00:00<?, ?it/s]Validation Epoch:   0%|[32m          [0m| 1/268 [00:00<00:23, 11.50it/s]
-val Loss: 0.0343
-Loading from checkpoint ./checkpoints/eeg_e_t/epoch=10.checkpoint.pt.
-=> Successfully restored checkpoint (trained for 10 epochs)
-Testing Metrics:   0%|[32m          [0m| 0/357 [00:00<?, ?it/s]Testing Metrics:   0%|[32m          [0m| 1/357 [00:00<00:30, 11.78it/s]
-te Loss: 0.0345
-Stats at best epoch:     train_loss  train_accuracy  val_loss  val_accuracy
-0     0.03458           0.375  0.033255         0.375
-Global min val loss 1000
-test_acc 0.375, test_loss 0.03454335033893585
-/gpfs/accounts/eecs448w24_class_root/eecs448w24_class/shared_data/brainWiz/eeg_trainer.py:128: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
-  cmap=plt.cm.get_cmap("viridis")
