@@ -3,11 +3,17 @@ import torch, h5py
 from torch.utils.data import Dataset
 from torch import float32
 from ray import data
+import pandas as pd
 
 def ray_dataset(dataset_base):
     dataset = data.from_numpy(dataset_base.data.numpy()) #2d data
     dataset = dataset.to_pandas()
     dataset['labels'] = list(dataset_base.labels.numpy()) #2d set of labels
+    return data.from_pandas(dataset)
+
+def ray_data_from_numpy(dataset, labels):
+    dataset = data.from_numpy(dataset).to_pandas()
+    dataset['labels'] = list(labels)
     return data.from_pandas(dataset)
 
 class HDF5Dataset(Dataset):

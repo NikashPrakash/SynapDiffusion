@@ -3,14 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def config(attr):
+def config(path, attr):
     """
     Retrieves the queried attribute value from the config file. Loads the
     config file on first call.
     """
     if not hasattr(config, "config"):
         print(os.getcwd())
-        with open(os.getcwd()+"/config.json") as f:
+        with open(os.getcwd()+path+"/config.json") as f:
             config.config = eval(f.read())
     node = config.config
     for part in attr.split("."):

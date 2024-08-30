@@ -15,7 +15,7 @@ from torch.distributed.fsdp import (
 )
 from ray import train
 from ray.train.torch import get_device, prepare_model, prepare_optimizer, TorchCheckpoint
-from utils import config
+from src.common.utils import config
 
 class Trainer:
     def setup(self, config):

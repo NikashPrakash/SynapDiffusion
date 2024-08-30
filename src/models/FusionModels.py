@@ -3,7 +3,7 @@ from torch import nn
 import torch.nn.functional as F
 import numpy as np
 import pywt
-from models.MEGDecoder import ConvLayer
+from .MEGDecoder import ConvLayer
 
 wavelet_type = 'sym9'
 

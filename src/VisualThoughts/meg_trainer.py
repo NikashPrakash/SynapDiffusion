@@ -23,10 +23,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt, tqdm
 import seaborn as sns
-from utils import config
+from src.common.utils import config
 from training import Trainer, clear_checkpoint
 from models import MEGDecoder
-from dataset import HDF5Dataset
+from common.dataset import HDF5Dataset
 
 
 def setup(local_rank):

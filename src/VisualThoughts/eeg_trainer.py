@@ -16,13 +16,13 @@ from torch.distributed.fsdp import (
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
-from utils import *
+from src.common.utils import *
 import seaborn as sns
-from utils import config
+from src.common.utils import config
 from models.MEGDecoder import *
 from models.EEGDecoder import *
 from models.DWTDecoder import *
-from dataset import DDPDataset
+from common import HDF5Dataset
 import pandas as pd
 
 from training import Trainer, clear_checkpoint
@@ -47,7 +47,7 @@ def main(retrain, local_rank, rank):
 
     # pdb.set_trace()
     
-    dataset = DDPDataset(fpath+"eeg_data.hdf5",('eeg_data','labels'))
+    dataset = HDF5Dataset(fpath+"eeg_data.hdf5",('eeg_data','labels'))
 
     tr_idx, test_idx = train_test_split(range(len(dataset)),test_size=0.2, shuffle=True)
     tr_idx, val_idx = train_test_split(tr_idx, test_size=0.1875, shuffle=True)
@@ -89,7 +89,7 @@ def main(retrain, local_rank, rank):
         )
     #model = STGATE()
     #model = nn.utils.convert_conv2d_weight_memory_format(model, torch.channels_last)
-    model = WaveletCNN()
+    model = DWaveletCNN()
     # model = FSDP(STGATE(),
     #              device_id=torch.cuda.current_device(),
     #              sharding_strategy=sharding_strategy,

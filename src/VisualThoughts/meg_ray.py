@@ -26,10 +26,10 @@ from ray.tune.schedulers.hb_bohb import HyperBandForBOHB
 from ray.tune.search.bohb import TuneBOHB
 from ray.tune.tune_config import TuneConfig
 from ray.tune.tuner import Tuner
-from utils import config
+from src.common.utils import config
 from training_ray import Trainer, clear_checkpoint
 from models import MEGDecoder
-from dataset import HDF5Dataset, ray_dataset
+from common.dataset import HDF5Dataset, ray_dataset
 
 
 def set_seed():
