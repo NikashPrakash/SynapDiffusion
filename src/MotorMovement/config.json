@@ -1,5 +1,8 @@
 {
     "EEG-DWT-Hyper": {
-        "checkpoint":"/Users/nikashp/Documents/SynapseDiffusion/src/MotorMovement/checkpoints/eeg-dwt-hyper/checkpoints/"
+        "checkpoint":"/Users/nikashp/Documents/SynapseDiffusion/src/MotorMovement/checkpoints/eeg-dwt-hyper/"
+    },
+    "resnet18-hyper": {
+        "checkpoint":"/Users/nikashp/Documents/SynapseDiffusion/src/MotorMovement/checkpoints/resnet18-hyper/"
     }
 }

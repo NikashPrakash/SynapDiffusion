@@ -4,7 +4,6 @@ import torch, os, sys#, pdb,
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 import pandas as pd
 import numpy as np
-from torch import nn
 from torch.distributed.fsdp import (
     MixedPrecision,
     ShardingStrategy,
@@ -14,6 +13,7 @@ from torch.distributed.fsdp import (
 #     enable_wrap,
 #     wrap,
 # )
+from typing import Dict
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt#, tqdm
 import seaborn as sns
@@ -29,10 +29,12 @@ from ray.tune.search.bohb import TuneBOHB
 from ray.tune.search.bayesopt import BayesOptSearch
 from ray.tune.tune_config import TuneConfig
 from ray.tune.tuner import Tuner
-from src.models import D_MI_WaveletCNN
+# from src.models import D_MI_WaveletCNN
 from src.common import config
 from src.common import ray_data_from_numpy
 from training_ray import Trainer, clear_checkpoint
+
+from torchvision.models import ResNet
 
 __dirname__ = "/src/MotorMovement"
 
@@ -41,12 +43,15 @@ def set_seed():
     torch.manual_seed(448)
     np.random.seed(448)
 
+def split_channels(batch: Dict[str, np.ndarray]) -> Dict[str, np.ndarray]:
+    batch['data'] = batch['data'].reshape(-1, 3, 3, 160)
+    return batch
 
 def main(retrain, rank):
     set_seed()
     
     if not retrain:
-        clear_checkpoint(config(__dirname__,"EEG-DWT-Hyper.checkpoint"))
+        clear_checkpoint(config(__dirname__,"resnet18-hyper.checkpoint"))
         ray.init(object_store_memory=2*1024**3)
     else:
         ray.init()
@@ -58,7 +63,7 @@ def main(retrain, rank):
     labels = np.load("."+__dirname__+'/data/y_labels.npy') #
     eeg_data = eeg_data[0:len(eeg_data)//8]
     labels = labels[0:len(labels)//8]
-    dataset = ray_data_from_numpy(eeg_data, labels)
+    dataset = ray_data_from_numpy(eeg_data, labels).map_batches(split_channels,batch_format="numpy")
     # dataset = data.range_tensor(1000,shape=(281,271))
     del eeg_data
     del labels
@@ -92,7 +97,7 @@ def main(retrain, rank):
     config_params = {
         "train_loop_config":{
             "dataset_size":train_dataset.count(),
-            "model_class": D_MI_WaveletCNN,
+            "model_class": ResNet,
             "batch_size":64,
             # "hparams": {'architecture':tune.choice(['var-cnn','lf-cnn']), 'n_classes':2},
             "lr": tune.loguniform(1e-5,5e-3),
@@ -167,7 +172,7 @@ def main(retrain, rank):
             , failure_config=FailureConfig(
                 fail_fast=True
             )
-            , storage_path=config(__dirname__,"EEG-DWT-Hyper.checkpoint")
+            , storage_path=config(__dirname__,"resnet18-hyper.checkpoint")
             , checkpoint_config=CheckpointConfig(1,checkpoint_score_attribute="mean_accuracy")
             , stop=stopper
         )
@@ -182,23 +187,23 @@ def main(retrain, rank):
     )
     
     results = tuner.fit()
-    # print(results)
-    best_result = results.get_best_result("val_loss", "min")
-    trainer.restore_model('best',best_result.get_best_checkpoint('val_loss','min'))
+    print(results)
+    # best_result = results.get_best_result("val_loss", "min")
+    # trainer.restore_model('best',best_result.get_best_checkpoint('val_loss','min'))
     
-    test_acc, test_loss, test_pred, test_true = trainer.get_metrics(test_dataset)
-    print("Stats at best epoch: ", pd.DataFrame(trainer.metrics[-1], index=[0]))
-    print(f"Global min val loss {trainer.min_val_loss}")
-    print(f"test_acc {test_acc}, test_loss {test_loss}")
+    # test_acc, test_loss, test_pred, test_true = trainer.get_metrics(test_dataset)
+    # print("Stats at best epoch: ", pd.DataFrame(trainer.metrics[-1], index=[0]))
+    # print(f"Global min val loss {trainer.min_val_loss}")
+    # print(f"test_acc {test_acc}, test_loss {test_loss}")
     
-    val_cm = confusion_matrix(trainer.y_pred.cpu(), trainer.y_true.cpu(), normalize='pred')
-    test_cm = confusion_matrix(test_true.cpu(), test_pred.cpu(), normalize='pred')
-    cmap=plt.cm.get_cmap("viridis")
-    fig, axes = plt.subplots(1, 2, figsize=(30, 7))
-    plt.suptitle("Confusion Matricies")
-    sns.heatmap(val_cm, annot=True,ax=axes[0],cmap=cmap)
-    sns.heatmap(test_cm, annot=True,ax=axes[1],cmap=cmap)
-    fig.savefig(f"MEG Test and Val CM, Post Hyper.png")
+    # val_cm = confusion_matrix(trainer.y_pred.cpu(), trainer.y_true.cpu(), normalize='pred')
+    # test_cm = confusion_matrix(test_true.cpu(), test_pred.cpu(), normalize='pred')
+    # cmap=plt.cm.get_cmap("viridis")
+    # fig, axes = plt.subplots(1, 2, figsize=(30, 7))
+    # plt.suptitle("Confusion Matricies")
+    # sns.heatmap(val_cm, annot=True,ax=axes[0],cmap=cmap)
+    # sns.heatmap(test_cm, annot=True,ax=axes[1],cmap=cmap)
+    # fig.savefig(f"MEG Test and Val CM, Post Hyper.png")
     
 if __name__ == "__main__":
     retrain = False

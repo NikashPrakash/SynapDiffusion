@@ -16,6 +16,7 @@ from torch.distributed.fsdp import (
 from ray import train
 from ray.train.torch import get_device, prepare_model, prepare_optimizer, TorchCheckpoint
 from src.common import config
+from torchvision.models import ResNet,resnet18
 
 __dirname__ = "/src/MotorMovement"
 class Trainer:
@@ -48,6 +49,8 @@ class Trainer:
             self.model = MEGDecoder(config['hparams'], config['params'])
         if issubclass(config['model_class'], D_MI_WaveletCNN):
             self.model = D_MI_WaveletCNN()
+        if issubclass(config['model_class'], ResNet):
+            self.model = resnet18(num_classes=5)
             
         if config['parallel_setup']['sharding_strategy'] != 'CPU':
             self.model = prepare_model(self.model, parallel_strategy='fsdp', parallel_strategy_kwargs=config['parallel_setup'])
@@ -94,6 +97,15 @@ class Trainer:
             y = batch['labels']
             self.optimizer.zero_grad()
             pred = self.model(x)
+            with open('/Users/nikashp/Documents/SynapseDiffusion/src/MotorMovement/debug-1.out','w') as f:
+                f.write(str(pred))
+                f.write('\n')
+                f.write(str(pred.shape))
+                f.write('\n')
+                f.write(str(y))
+                f.write('\n')
+                f.write(str(y.shape))
+
             loss = self.criterion(pred, y)
             loss = secondary_reg(loss, self.model.parameters())
             loss.backward()
