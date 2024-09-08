@@ -8,11 +8,11 @@ from torch.distributed.fsdp import (
     MixedPrecision,
     ShardingStrategy,
 )
-# from torch.distributed.fsdp.wrap import (
-#     size_based_auto_wrap_policy,
-#     enable_wrap,
-#     wrap,
-# )
+from torch.distributed.fsdp.wrap import (
+    size_based_auto_wrap_policy,
+    enable_wrap,
+    wrap,
+)
 from typing import Dict
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt#, tqdm
@@ -39,7 +39,7 @@ from torchvision.models import ResNet
 __dirname__ = "/src/MotorMovement"
 
 def set_seed():
-    # torch.cuda.manual_seed_all(448)
+    torch.cuda.manual_seed_all(448)
     torch.manual_seed(448)
     np.random.seed(448)
 
@@ -59,10 +59,10 @@ def main(retrain, rank):
             trainer.restore_model('restart',train.get_checkpoint())
 
     #TODO: optimize loadingS
-    eeg_data = np.load("."+__dirname__+'/data/X_eeg.npy')
-    labels = np.load("."+__dirname__+'/data/y_labels.npy') #
-    eeg_data = eeg_data[0:len(eeg_data)//8]
-    labels = labels[0:len(labels)//8]
+    eeg_data = np.load(os.getcwd() +'/data/X_eeg.npy')
+    labels = np.load(os.getcwd() +'/data/X_eeg.npy') #
+    eeg_data = eeg_data[0:len(eeg_data)//16]
+    labels = labels[0:len(labels)//16]
     dataset = ray_data_from_numpy(eeg_data, labels).map_batches(split_channels,batch_format="numpy")
     # dataset = data.range_tensor(1000,shape=(281,271))
     del eeg_data
@@ -92,7 +92,7 @@ def main(retrain, rank):
     #             "mixed_precision":amp
     #         }
     parallel = {
-        'sharding_strategy':"CPU"
+        'sharding_strategy':"GPU"
     }
     config_params = {
         "train_loop_config":{
@@ -132,8 +132,7 @@ def main(retrain, rank):
 
     #Trainable for Ray Tune
     ray_trainer = TorchTrainer(
-        train_loop_per_worker=trainer.train
-        # , scaling_config=ScalingConfig(num_workers=1,use_gpu=True,resources_per_worker={"GPU": 1})
+        train_loop_per_worker=trainer.train, scaling_config=ScalingConfig(num_workers=8,use_gpu=True,resources_per_worker={"GPU": 1/8})
         , datasets={"train": train_dataset,"val":val_dataset}
     )
     
@@ -181,7 +180,7 @@ def main(retrain, rank):
             , search_alg=search
             , num_samples=5
             , reuse_actors=True
-            #, max_concurrent_trials=4
+            , max_concurrent_trials=2
         )
         , param_space=config_params
     )

@@ -97,7 +97,7 @@ class Trainer:
             y = batch['labels']
             self.optimizer.zero_grad()
             pred = self.model(x)
-            with open('/Users/nikashp/Documents/SynapseDiffusion/src/MotorMovement/debug-1.out','w') as f:
+            with open('/mnt/c/Users/kirca_t5ih59c/Desktop/SynapseDiffusion/src/MotorMovement/debug-1.out','w') as f:
                 f.write(str(pred))
                 f.write('\n')
                 f.write(str(pred.shape))
