@@ -70,8 +70,8 @@ def main(retrain, rank):
     if retrain:
         clear_checkpoint(checkpoint_path)
         # Load EEG data and labels
-        eeg_data = np.load(os.getcwd() + '/data/X_eeg.npy') / 8
-        labels = np.load(os.getcwd() + '/data/y_labels.npy') / 8  # Ensure the correct labels are used
+        eeg_data = np.load(os.getcwd() + '/data/X_eeg.npy')
+        labels = np.load(os.getcwd() + '/data/y_labels.npy') 
         
         # Slice data (optional)
         eeg_data = eeg_data[0:len(eeg_data)]
@@ -98,7 +98,7 @@ def main(retrain, rank):
         test_labels = torch.tensor(test_labels, dtype=torch.long)
 
         # Create DataLoaders
-        batch_size = 64
+        batch_size = 32
         train_dataset = TensorDataset(train_data, train_labels)
         val_dataset = TensorDataset(val_data, val_labels)
         test_dataset = TensorDataset(test_data, test_labels)
@@ -111,7 +111,8 @@ def main(retrain, rank):
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.SGD(resnet.parameters(), lr=0.001, momentum=0.9)
         
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        #device = torch.device("cuda" if torch.cuda.is_available() else "cpu") TODO FIGURE OUT WHY GPU ACCELERATION ISNT WORKING
+        device = "cpu"
         resnet = resnet.to(device)
 
         for epoch in range(7):
